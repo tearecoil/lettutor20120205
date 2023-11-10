@@ -11,6 +11,7 @@ import 'package:lettutor20120205/detail-courses-widgets/courses_info.dart';
 import 'package:lettutor20120205/homescreens-widgets/tutor_profile.dart';
 import 'package:lettutor20120205/intro-screens/login.dart';
 import 'package:lettutor20120205/intro-screens/menu.dart';
+import 'package:lettutor20120205/intro-screens/signup.dart';
 import 'package:lettutor20120205/video-call/video_call.dart';
 
 class MyApp extends StatelessWidget {
@@ -25,6 +26,8 @@ class MyApp extends StatelessWidget {
           switch (settings.name) {
             case "/login":
               return MaterialPageRoute(builder: (context) => MainLogin());
+            case "/signup":
+              return MaterialPageRoute(builder: (context) => SignUpPage());
             case "/home":
               return MaterialPageRoute(builder: (context) => const MainMenu());
             case "/tutorpro":

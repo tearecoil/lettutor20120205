@@ -47,16 +47,14 @@ class _MainLoginState extends State<MainLogin> {
                       color: Colors.black)),
               const SizedBox(height: 20),
 
-              // username textfield
               MyTextField(
                 controller: usernameController,
-                hintText: 'Username',
+                hintText: 'Username - eg: abc@gmail.com',
                 obscureText: false,
               ),
 
               const SizedBox(height: 10),
 
-              // password textfield
               MyTextField(
                 controller: passwordController,
                 hintText: 'Password',
@@ -134,8 +132,6 @@ class _MainLoginState extends State<MainLogin> {
               ),
 
               const SizedBox(height: 50),
-
-              // not a member? register now
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -144,13 +140,24 @@ class _MainLoginState extends State<MainLogin> {
                     style: TextStyle(color: Colors.grey[700]),
                   ),
                   const SizedBox(width: 4),
-                  const Text(
-                    'Sign up',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  GestureDetector(
+                      child: Text(
+                        "Sign up",
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.popAndPushNamed(context, "/signup");
+                      }),
+                  // const Text(
+                  //   'Sign up',
+                  //   style: TextStyle(
+                  //     color: Colors.blue,
+                  //     fontWeight: FontWeight.bold,
+                  //   ),
+                  // ),
                 ],
               )
             ],
