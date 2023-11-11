@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor20120205/components/my_button.dart';
 import 'package:lettutor20120205/components/my_textfield.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -13,8 +14,8 @@ class _SignUpPageState extends State<SignUpPage> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmpassController = TextEditingController();
-
-  void signupCheck() {
+  Future<void> signupCheck() async {
+    SharedPreferences sharedpref = await SharedPreferences.getInstance();
     if (usernameController.text.isEmpty ||
         passwordController.text.isEmpty ||
         confirmpassController.text.isEmpty) {
@@ -92,6 +93,8 @@ class _SignUpPageState extends State<SignUpPage> {
             elevation: 0,
           ),
         );
+        sharedpref.setString('username', usernameController.text);
+        sharedpref.setString('password', passwordController.text);
         Navigator.popAndPushNamed(context, "/login");
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
