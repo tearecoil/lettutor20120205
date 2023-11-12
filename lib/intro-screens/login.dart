@@ -190,10 +190,21 @@ class _MainLoginState extends State<MainLogin> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
-                      'Forgot Password?',
-                      style: TextStyle(color: Colors.grey[600]),
-                    ),
+                    GestureDetector(
+                        child: Text(
+                          "Forgot password?",
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.popAndPushNamed(context, "/fgpass");
+                        }),
+                    // Text(
+                    //   'Forgot Password?',
+                    //   style: TextStyle(color: Colors.grey[600]),
+                    // ),
                   ],
                 ),
               ),
