@@ -1,12 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lettutor20120205/components/rating_bar.dart';
 
 class Tutor extends StatelessWidget {
   final String name;
   final String avatar;
   final String quotes;
+  final double rating;
+  final int rating_count;
+  final String language;
+  final String skill;
 
-  Tutor({required this.name, required this.avatar, required this.quotes});
+  Tutor(
+      {required this.name,
+      required this.avatar,
+      required this.quotes,
+      required this.rating,
+      required this.rating_count,
+      required this.language,
+      required this.skill});
+
+  String ratingCount() {
+    return " (" + rating_count.toString() + ")";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +54,7 @@ class Tutor extends StatelessWidget {
                             Container(
                                 margin: EdgeInsets.only(right: 10),
                                 child: Image.asset(
-                                  "assets/images/ava.png",
+                                  avatar,
                                   width: 100,
                                   height: 100,
                                 )),
@@ -54,11 +70,25 @@ class Tutor extends StatelessWidget {
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ),
-                                Image.asset(
-                                  "assets/images/newrate.png",
-                                  height: 100,
-                                  width: 100,
+                                Row(
+                                  children: [
+                                    RatingBar(
+                                      rating: rating,
+                                    ),
+                                    Text(
+                                      ratingCount(),
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
                                 ),
+
+                                // Image.asset(
+                                //   "assets/images/newrate.png",
+                                //   height: 100,
+                                //   width: 100,
+                                // ),
                                 Row(
                                   children: [
                                     Container(
@@ -69,8 +99,8 @@ class Tutor extends StatelessWidget {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(15)),
                                       ),
-                                      child: const Text(
-                                        "Language",
+                                      child: Text(
+                                        language,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             color: Colors.black),
@@ -84,8 +114,8 @@ class Tutor extends StatelessWidget {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(15)),
                                       ),
-                                      child: const Text(
-                                        "Skills",
+                                      child: Text(
+                                        skill,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             color: Colors.black),

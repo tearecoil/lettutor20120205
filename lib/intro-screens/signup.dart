@@ -14,7 +14,9 @@ class _SignUpPageState extends State<SignUpPage> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmpassController = TextEditingController();
+
   Future<void> signupCheck() async {
+    String username = usernameController.text;
     SharedPreferences sharedpref = await SharedPreferences.getInstance();
     if (usernameController.text.isEmpty ||
         passwordController.text.isEmpty ||
@@ -56,47 +58,7 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
       );
     } else {
-      if (confirmpassController.text.trim() == passwordController.text.trim()) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Container(
-              padding: EdgeInsets.all(16),
-              height: 90,
-              decoration: BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "YESSSS!!",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    "Sign up successfully",
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.white,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            ),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          ),
-        );
-        sharedpref.setString('username', usernameController.text);
-        sharedpref.setString('password', passwordController.text);
-        Navigator.popAndPushNamed(context, "/login");
-      } else {
+      if (username.length < 10) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Container(
@@ -117,7 +79,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                   Text(
-                    "Password and Confirm aren't the same",
+                    "Username must be a valid Gmail",
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.white,
@@ -133,6 +95,129 @@ class _SignUpPageState extends State<SignUpPage> {
             elevation: 0,
           ),
         );
+      } else {
+        String checkMail =
+            username.substring(username.length - 10, username.length);
+        if (checkMail == "@gmail.com") {
+          if (confirmpassController.text.trim() ==
+              passwordController.text.trim()) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Container(
+                  padding: EdgeInsets.all(16),
+                  height: 90,
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "YESSSS!!",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        //checkMail,
+                        "Sign up successfully",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.white,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+              ),
+            );
+            sharedpref.setString('username', usernameController.text);
+            sharedpref.setString('password', passwordController.text);
+            Navigator.popAndPushNamed(context, "/login");
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Container(
+                  padding: EdgeInsets.all(16),
+                  height: 90,
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Sign Up Failed!!",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        "Password and Confirm aren't the same",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.white,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+              ),
+            );
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Container(
+                padding: EdgeInsets.all(16),
+                height: 90,
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Sign Up Failed!!",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      //checkMail,
+                      "Username must be a valid Gmail",
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.white,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+            ),
+          );
+        }
       }
     }
   }
