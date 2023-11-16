@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor20120205/components/rating_bar.dart';
+import '../components/tutor_list.dart';
+import 'package:lettutor20120205/homescreens-widgets/tutor_profile.dart';
 
 class Tutor extends StatelessWidget {
   final String name;
@@ -39,7 +41,21 @@ class Tutor extends StatelessWidget {
           elevation: 1,
           child: InkWell(
               onTap: () {
-                Navigator.pushNamed(context, "/tutorpro");
+                Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => TutorProfile(
+                        tutor: Tutor(
+                      name: this.name,
+                      avatar: this.avatar,
+                      quotes: this.quotes,
+                      rating: this.rating,
+                      rating_count: this.rating_count,
+                      language: this.language,
+                      skill: this.skill,
+                    )),
+                  ),
+                );
               },
               child: Container(
                 child: Column(
@@ -145,3 +161,15 @@ class Tutor extends StatelessWidget {
     );
   }
 }
+
+Tutor ab = Tutor(
+  name: "Kiryu Kazuma",
+  avatar: "assets/images/ava1.png",
+  quotes: "4th chairman of Tojo Clan",
+  rating: 4.0,
+  rating_count: 13,
+  language: "Japanese",
+  skill: "Dragon",
+);
+
+// TutorList 

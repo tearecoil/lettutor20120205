@@ -18,7 +18,6 @@ import 'package:lettutor20120205/video-call/video_call.dart';
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,9 +32,8 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(builder: (context) => ForgotPassword());
             case "/home":
               return MaterialPageRoute(builder: (context) => const MainMenu());
-            case "/tutorpro":
-              return MaterialPageRoute(
-                  builder: (context) => const TutorProfile());
+            // case "/tutorpro":
+            //   return MaterialPageRoute(builder: (context) => TutorProfile());
             case "/couover":
               return MaterialPageRoute(
                   builder: (context) => const CourseOverview());
