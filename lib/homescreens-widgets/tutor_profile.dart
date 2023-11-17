@@ -66,8 +66,8 @@ class _TutorProfileState extends State<TutorProfile> {
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.grey, fontSize: 10),
               ),
-              const Text(
-                "Japan",
+              Text(
+                widget.tutor.nationality.toString(),
                 textAlign: TextAlign.center,
               ),
               Row(
@@ -210,7 +210,6 @@ class _TutorProfileState extends State<TutorProfile> {
                 ),
               ),
               ProfileBox(text: widget.tutor.quotes),
-              //const Text("Hello, I'm Ash Ketchup"),
               //const SizedBox(height: 50),
               const Padding(
                 padding: const EdgeInsets.only(left: 25),
@@ -224,21 +223,55 @@ class _TutorProfileState extends State<TutorProfile> {
               const Padding(
                 padding: const EdgeInsets.only(left: 25),
                 child: Text(
-                  "Experience",
+                  "Language",
                   style: TextStyle(color: Colors.grey),
                 ),
               ),
-              const ProfileBox(text: "Two time finalist of Pokemon Tournament"),
+              Row(
+                children: [
+                  SizedBox(width: 25),
+                  Container(
+                    margin: EdgeInsets.only(top: 5, right: 8),
+                    padding: EdgeInsets.all(5),
+                    decoration: const BoxDecoration(
+                      color: Colors.lightBlue,
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                    ),
+                    child: Text(
+                      widget.tutor.language,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.black),
+                    ),
+                  ),
+                ],
+              ),
+              //const ProfileBox(text: "Two time finalist of Pokemon Tournament"),
               //const Text("Two time finalist of Pokemon Tournament"),
               const Padding(
                 padding: const EdgeInsets.only(left: 25),
                 child: Text(
-                  "Interests",
+                  "Specialities",
                   style: TextStyle(color: Colors.grey),
                 ),
               ),
-              const ProfileBox(text: "Training Pokemon"),
-              //const Text("Training Pokemon"),
+              Row(
+                children: [
+                  SizedBox(width: 25),
+                  Container(
+                    margin: EdgeInsets.only(top: 5, right: 8),
+                    padding: EdgeInsets.all(5),
+                    decoration: const BoxDecoration(
+                      color: Colors.lightBlue,
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                    ),
+                    child: Text(
+                      widget.tutor.skill,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.black),
+                    ),
+                  ),
+                ],
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

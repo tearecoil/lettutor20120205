@@ -12,6 +12,7 @@ class Tutor extends StatelessWidget {
   final int rating_count;
   final String language;
   final String skill;
+  final String nationality;
 
   Tutor(
       {required this.name,
@@ -20,7 +21,8 @@ class Tutor extends StatelessWidget {
       required this.rating,
       required this.rating_count,
       required this.language,
-      required this.skill});
+      required this.skill,
+      required this.nationality});
 
   String ratingCount() {
     return " (" + rating_count.toString() + ")";
@@ -53,6 +55,7 @@ class Tutor extends StatelessWidget {
                       rating_count: this.rating_count,
                       language: this.language,
                       skill: this.skill,
+                      nationality: this.nationality,
                     )),
                   ),
                 );
@@ -79,12 +82,33 @@ class Tutor extends StatelessWidget {
                               children: [
                                 Container(
                                   margin: EdgeInsets.only(bottom: 0),
-                                  child: Text(
-                                    name,
-                                    style: const TextStyle(
-                                        fontSize: 23,
-                                        fontWeight: FontWeight.bold),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        name,
+                                        style: const TextStyle(
+                                            fontSize: 23,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        " (" + nationality + ")",
+                                        style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.grey,
+                                            fontStyle: FontStyle.italic,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
                                   ),
+                                  // child: Text(
+                                  //   name ,
+                                  //   style: const TextStyle(
+                                  //       fontSize: 23,
+                                  //       fontWeight: FontWeight.bold),
+                                  // ),
                                 ),
                                 Row(
                                   children: [
@@ -99,12 +123,6 @@ class Tutor extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-
-                                // Image.asset(
-                                //   "assets/images/newrate.png",
-                                //   height: 100,
-                                //   width: 100,
-                                // ),
                                 Row(
                                   children: [
                                     Container(
@@ -162,14 +180,14 @@ class Tutor extends StatelessWidget {
   }
 }
 
-Tutor ab = Tutor(
-  name: "Kiryu Kazuma",
-  avatar: "assets/images/ava1.png",
-  quotes: "4th chairman of Tojo Clan",
-  rating: 4.0,
-  rating_count: 13,
-  language: "Japanese",
-  skill: "Dragon",
-);
+// Tutor ab = Tutor(
+//   name: "Kiryu Kazuma",
+//   avatar: "assets/images/ava1.png",
+//   quotes: "4th chairman of Tojo Clan",
+//   rating: 4.0,
+//   rating_count: 13,
+//   language: "Japanese",
+//   skill: "Dragon",
+// );
 
 // TutorList 

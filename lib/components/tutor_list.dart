@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lettutor20120205/components/tutor.dart';
 
 class TutorList {
-  final List<Widget> tutorlist = [
+  final List<Tutor> tutorlist = [
     Tutor(
       name: "Kiryu Kazuma",
       avatar: "assets/images/ava1.png",
@@ -11,6 +11,7 @@ class TutorList {
       rating_count: 13,
       language: "Japanese",
       skill: "Dragon",
+      nationality: "Japan",
     ),
     Tutor(
       name: "Joryu",
@@ -20,6 +21,7 @@ class TutorList {
       rating_count: 3,
       language: "Japanese",
       skill: "Agent",
+      nationality: "Japan",
     ),
     Tutor(
       name: "Kihei Hanawa",
@@ -29,6 +31,7 @@ class TutorList {
       rating_count: 1,
       language: "Japanese",
       skill: "Agent",
+      nationality: "Japan",
     ),
     Tutor(
       name: "Taiga Saejima",
@@ -38,6 +41,7 @@ class TutorList {
       rating_count: 18,
       language: "Japanese",
       skill: "18-counts",
+      nationality: "Japan",
     ),
     Tutor(
       name: "Daigo Dojima",
@@ -47,6 +51,7 @@ class TutorList {
       rating_count: 30000,
       language: "Japanese",
       skill: "Charisma",
+      nationality: "Japan",
     ),
     Tutor(
       name: "Ichiban Kasuga",
@@ -56,6 +61,7 @@ class TutorList {
       rating_count: 10,
       language: "Japanese",
       skill: "Hero",
+      nationality: "Japan",
     ),
     Tutor(
       name: "Goro Majima",
@@ -65,6 +71,7 @@ class TutorList {
       rating_count: 99,
       language: "Japanese",
       skill: "Mad Dog",
+      nationality: "Japan",
     ),
   ];
 }
