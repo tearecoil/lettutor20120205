@@ -8,7 +8,8 @@ import 'package:lettutor20120205/detail-courses-widgets/ChaptersScreen/chap5.dar
 import 'package:lettutor20120205/detail-courses-widgets/ChaptersScreen/chap6.dart';
 import 'package:lettutor20120205/detail-courses-widgets/ChaptersScreen/chap7.dart';
 import 'package:lettutor20120205/detail-courses-widgets/courses_info.dart';
-import 'package:lettutor20120205/homescreens-widgets/tutor_profile.dart';
+import 'package:lettutor20120205/tutor_pages/reviews.dart';
+import 'package:lettutor20120205/tutor_pages/tutor_profile.dart';
 import 'package:lettutor20120205/intro-screens/forgot_password.dart';
 import 'package:lettutor20120205/intro-screens/login.dart';
 import 'package:lettutor20120205/intro-screens/menu.dart';
@@ -32,6 +33,8 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(builder: (context) => ForgotPassword());
             case "/home":
               return MaterialPageRoute(builder: (context) => const MainMenu());
+            // case "/reviews":
+            //   return MaterialPageRoute(builder: (context) => Reviews());
             // case "/tutorpro":
             //   return MaterialPageRoute(builder: (context) => TutorProfile());
             case "/couover":

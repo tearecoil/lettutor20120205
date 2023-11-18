@@ -12,6 +12,7 @@ class TutorList {
       language: "Japanese",
       skill: "Dragon",
       nationality: "Japan",
+      favorite: false,
     ),
     Tutor(
       name: "Joryu",
@@ -22,6 +23,7 @@ class TutorList {
       language: "Japanese",
       skill: "Agent",
       nationality: "Japan",
+      favorite: false,
     ),
     Tutor(
       name: "Kihei Hanawa",
@@ -32,6 +34,7 @@ class TutorList {
       language: "Japanese",
       skill: "Agent",
       nationality: "Japan",
+      favorite: false,
     ),
     Tutor(
       name: "Taiga Saejima",
@@ -42,6 +45,7 @@ class TutorList {
       language: "Japanese",
       skill: "18-counts",
       nationality: "Japan",
+      favorite: false,
     ),
     Tutor(
       name: "Daigo Dojima",
@@ -52,6 +56,7 @@ class TutorList {
       language: "Japanese",
       skill: "Charisma",
       nationality: "Japan",
+      favorite: false,
     ),
     Tutor(
       name: "Ichiban Kasuga",
@@ -62,6 +67,7 @@ class TutorList {
       language: "Japanese",
       skill: "Hero",
       nationality: "Japan",
+      favorite: false,
     ),
     Tutor(
       name: "Goro Majima",
@@ -72,6 +78,7 @@ class TutorList {
       language: "Japanese",
       skill: "Mad Dog",
       nationality: "Japan",
+      favorite: false,
     ),
   ];
 }

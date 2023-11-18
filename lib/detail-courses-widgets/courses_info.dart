@@ -12,7 +12,7 @@ class CourseOverview extends StatefulWidget {
 class _CourseOverviewState extends State<CourseOverview> {
   @override
   Widget build(BuildContext context) {
-    List<Widget> chapterList = [
+    List<ChapterCard> chapterList = [
       ChapterCard(
         name: "What is a Pokemon?",
         chapterNumber: 1,

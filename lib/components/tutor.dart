@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor20120205/components/rating_bar.dart';
 import '../components/tutor_list.dart';
-import 'package:lettutor20120205/homescreens-widgets/tutor_profile.dart';
+import 'package:lettutor20120205/tutor_pages/tutor_profile.dart';
 
 class Tutor extends StatelessWidget {
   final String name;
@@ -13,6 +13,7 @@ class Tutor extends StatelessWidget {
   final String language;
   final String skill;
   final String nationality;
+  bool favorite = false;
 
   Tutor(
       {required this.name,
@@ -22,7 +23,8 @@ class Tutor extends StatelessWidget {
       required this.rating_count,
       required this.language,
       required this.skill,
-      required this.nationality});
+      required this.nationality,
+      required this.favorite});
 
   String ratingCount() {
     return " (" + rating_count.toString() + ")";
@@ -56,6 +58,7 @@ class Tutor extends StatelessWidget {
                       language: this.language,
                       skill: this.skill,
                       nationality: this.nationality,
+                      favorite: favorite,
                     )),
                   ),
                 );
@@ -161,7 +164,91 @@ class Tutor extends StatelessWidget {
                             )
                           ],
                         ),
-                        Icon(Icons.thumb_up_sharp)
+                        IconButton(
+                          onPressed: () {
+                            favorite = !favorite;
+                            if (favorite == false) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Container(
+                                    padding: EdgeInsets.all(16),
+                                    height: 90,
+                                    decoration: BoxDecoration(
+                                      color: Colors.red,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(20)),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Remove from Favorite",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        Text(
+                                          "You can recheck the list",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.white,
+                                          ),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  behavior: SnackBarBehavior.floating,
+                                  backgroundColor: Colors.transparent,
+                                  elevation: 0,
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Container(
+                                    padding: EdgeInsets.all(16),
+                                    height: 90,
+                                    decoration: BoxDecoration(
+                                      color: Colors.green,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(20)),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Add to Favorite",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        Text(
+                                          "You can recheck the list",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.white,
+                                          ),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  behavior: SnackBarBehavior.floating,
+                                  backgroundColor: Colors.transparent,
+                                  elevation: 0,
+                                ),
+                              );
+                            }
+                          },
+                          icon: Icon(Icons.favorite),
+                        ),
                       ],
                     ),
                     Container(

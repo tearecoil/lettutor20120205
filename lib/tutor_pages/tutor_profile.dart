@@ -3,6 +3,7 @@ import 'package:lettutor20120205/components/course_list.dart';
 import 'package:lettutor20120205/components/profile_box.dart';
 import 'package:lettutor20120205/components/rating_bar.dart';
 import 'package:lettutor20120205/components/tutor.dart';
+import 'package:lettutor20120205/tutor_pages/reviews.dart';
 
 class TutorProfile extends StatefulWidget {
   const TutorProfile({
@@ -81,48 +82,6 @@ class _TutorProfileState extends State<TutorProfile> {
                               padding: EdgeInsets.all(16),
                               height: 90,
                               decoration: BoxDecoration(
-                                color: Colors.green,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20)),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Added to Favorite",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  Text(
-                                    "You can check your Favorite list now",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.white,
-                                    ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            behavior: SnackBarBehavior.floating,
-                            backgroundColor: Colors.transparent,
-                            elevation: 0,
-                          ),
-                        );
-                      },
-                      icon: Icon(Icons.thumb_up_sharp),
-                      label: Text("Favorite")),
-                  TextButton.icon(
-                      onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Container(
-                              padding: EdgeInsets.all(16),
-                              height: 90,
-                              decoration: BoxDecoration(
                                 color: Colors.red,
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20)),
@@ -159,41 +118,21 @@ class _TutorProfileState extends State<TutorProfile> {
                       label: Text("Report")),
                   TextButton.icon(
                       onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Container(
-                              padding: EdgeInsets.all(16),
-                              height: 90,
-                              decoration: BoxDecoration(
-                                color: Colors.green,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20)),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Review",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  Text(
-                                    "Todo",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.white,
-                                    ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            behavior: SnackBarBehavior.floating,
-                            backgroundColor: Colors.transparent,
-                            elevation: 0,
+                        Navigator.push<void>(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) => Reviews(
+                                tutor: Tutor(
+                              name: widget.tutor.name,
+                              avatar: widget.tutor.avatar,
+                              quotes: widget.tutor.quotes,
+                              rating: widget.tutor.rating,
+                              rating_count: widget.tutor.rating_count,
+                              language: widget.tutor.language,
+                              skill: widget.tutor.skill,
+                              nationality: widget.tutor.nationality,
+                              favorite: widget.tutor.favorite,
+                            )),
                           ),
                         );
                       },

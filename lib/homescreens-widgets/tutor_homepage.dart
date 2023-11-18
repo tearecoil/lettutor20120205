@@ -24,10 +24,19 @@ class _TutorHomePageState extends State<TutorHomePage> {
     for (var i = 0; i < tutorlist.length; ++i) {
       temp.add(tutorlist[i].skill);
     }
+    temp.add("Show Favorite");
     return temp.toSet().toList();
   }
 
   late List<String> getSpecial = GetSpecial();
+  List<Tutor> FavTutor() {
+    List<Tutor> tempFav = [];
+    for (var i = 0; i < tutorlist.length; ++i) {
+      if (tutorlist[i].favorite == true) tempFav.add(tutorlist[i]);
+    }
+    return tempFav.toSet().toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -183,12 +192,16 @@ class _TutorHomePageState extends State<TutorHomePage> {
             backgroundColor: Colors.lightBlue,
             label: Text(text),
             onPressed: () {
-              setState(() => tutorlist = resettutorlist);
-              final SearchBySpecial = TutorList().tutorlist.where((tutor) {
-                final tutorSpecial = tutor.skill;
-                return tutorSpecial.contains(text);
-              }).toList();
-              setState(() => tutorlist = SearchBySpecial);
+              if (text == "Show Favorite") {
+                setState(() => tutorlist = FavTutor());
+              } else {
+                setState(() => tutorlist = resettutorlist);
+                final SearchBySpecial = TutorList().tutorlist.where((tutor) {
+                  final tutorSpecial = tutor.skill;
+                  return tutorSpecial.contains(text);
+                }).toList();
+                setState(() => tutorlist = SearchBySpecial);
+              }
             },
           ),
         ],
