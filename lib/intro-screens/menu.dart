@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lettutor20120205/homescreens-widgets/course_page.dart';
 import 'package:lettutor20120205/homescreens-widgets/my_courses_page.dart';
 import 'package:lettutor20120205/homescreens-widgets/schedule_page.dart';
@@ -42,6 +43,12 @@ class _MainMenuState extends State<MainMenu> {
 
   int current = 0;
   PageController pageController = PageController();
+  Future<void> leadtoProfile() async {
+    SharedPreferences sharedpref = await SharedPreferences.getInstance();
+    String getLink = sharedpref.getString('accountType') ?? "123";
+    Navigator.pushNamed(context, getLink);
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -49,23 +56,42 @@ class _MainMenuState extends State<MainMenu> {
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
-              title: Text('LETTUTOR', style: TextStyle(color: Colors.blue)),
-              centerTitle: true,
-              actions: <Widget>[
-                IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, "/profile");
-                  },
-                  icon: Image.asset(
-                    'assets/images/my_ava.jpg',
-                    width: 100,
-                    height: 100,
+            title: Text('LETTUTOR', style: TextStyle(color: Colors.blue)),
+            centerTitle: true,
+            actions: <Widget>[
+              Container(
+                height: 50,
+                width: 50,
+                margin: EdgeInsets.only(right: 16),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/my_ava.jpg"),
+                    fit: BoxFit.cover,
                   ),
+                  borderRadius: BorderRadius.circular(50),
                 ),
-              ],
-              backgroundColor: Colors.white,
-              leading: Image.asset('assets/images/logo-ltt.png',
-                  width: 1200, height: 1200)),
+                child: GestureDetector(onTap: () => leadtoProfile()),
+              ),
+              // IconButton(
+              //   onPressed: () {
+              //     Navigator.pushNamed(context, "/profile");
+              //   },
+              //   icon: Image.asset(
+              //     'assets/images/my_ava.jpg',
+              //     width: 100,
+              //     height: 100,
+              //   ),
+              // ),
+            ],
+            backgroundColor: Colors.white,
+            leading: Container(
+              width: 25,
+              height: 25,
+              child: Image.asset(
+                'assets/images/logo-ltt.png',
+              ),
+            ),
+          ),
           body: Container(
             width: double.infinity,
             margin: const EdgeInsets.all(5),

@@ -140,6 +140,11 @@ class _SignUpPageState extends State<SignUpPage> {
             );
             sharedpref.setString('username', usernameController.text);
             sharedpref.setString('password', passwordController.text);
+            sharedpref.setString('accountType', "/studentprofile");
+            sharedpref.setString('name', "");
+            sharedpref.setString('aboutMe', "");
+            sharedpref.setString('avatar', "assets/images/my_ava.jpg");
+            sharedpref.setString('nation', "VietNam");
             Navigator.popAndPushNamed(context, "/login");
           } else {
             ScaffoldMessenger.of(context).showSnackBar(

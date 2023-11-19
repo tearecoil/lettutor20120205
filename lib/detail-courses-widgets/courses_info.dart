@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor20120205/components/chapter_card.dart';
+import 'package:lettutor20120205/components/course_card.dart';
+import 'package:lettutor20120205/detail-courses-widgets/chapter_page.dart';
 //import 'package:lettutor20120205/components/chapter_list.dart';
 
 class CourseOverview extends StatefulWidget {
-  const CourseOverview({super.key});
-
+  const CourseOverview({
+    Key? key,
+    required this.courseinput,
+  });
+  final CourseCard courseinput;
   @override
   State<CourseOverview> createState() => _CourseOverviewState();
 }
@@ -12,64 +17,6 @@ class CourseOverview extends StatefulWidget {
 class _CourseOverviewState extends State<CourseOverview> {
   @override
   Widget build(BuildContext context) {
-    List<ChapterCard> chapterList = [
-      ChapterCard(
-        name: "What is a Pokemon?",
-        chapterNumber: 1,
-        tag: "Basic info of a Pokemon",
-        onTap: () {
-          Navigator.pushNamed(context, "/chap1");
-        },
-      ),
-      ChapterCard(
-        name: "What is a Pokeball?",
-        chapterNumber: 2,
-        tag: "A usefull ball? What will it do?",
-        onTap: () {
-          Navigator.pushNamed(context, "/chap2");
-        },
-      ),
-      ChapterCard(
-        name: "Catching a Pokemon",
-        chapterNumber: 3,
-        tag: "A friend? A pet? Whatever you name it",
-        onTap: () {
-          Navigator.pushNamed(context, "/chap3");
-        },
-      ),
-      ChapterCard(
-        name: "Pokemon's rank and how it will affect?",
-        chapterNumber: 4,
-        tag: "Can't catch them all",
-        onTap: () {
-          Navigator.pushNamed(context, "/chap4");
-        },
-      ),
-      ChapterCard(
-        name: "Duel",
-        chapterNumber: 5,
-        tag: "Something interesting",
-        onTap: () {
-          Navigator.pushNamed(context, "/chap5");
-        },
-      ),
-      ChapterCard(
-        name: "How to use EXP and items from winning?",
-        chapterNumber: 6,
-        tag: "Unless you lose",
-        onTap: () {
-          Navigator.pushNamed(context, "/chap6");
-        },
-      ),
-      ChapterCard(
-        name: "Low HP Pokemon?",
-        chapterNumber: 7,
-        tag: "Now we can catch them",
-        onTap: () {
-          Navigator.pushNamed(context, "/chap7");
-        },
-      ),
-    ];
     var size = MediaQuery.of(context).size;
     return Scaffold(
       body: Column(
@@ -82,7 +29,7 @@ class _CourseOverviewState extends State<CourseOverview> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/images/tutor_pic.png"),
+                    image: AssetImage(widget.courseinput.source),
                     fit: BoxFit.fitWidth,
                   ),
                   borderRadius: BorderRadius.only(
@@ -103,18 +50,10 @@ class _CourseOverviewState extends State<CourseOverview> {
                             child: Column(
                               children: <Widget>[
                                 Text(
-                                  "Pokemon 101",
+                                  widget.courseinput.title,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 60,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Text(
-                                  "by Teacher K",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 32,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -193,7 +132,7 @@ class _CourseOverviewState extends State<CourseOverview> {
                 children: [
                   Flexible(
                     child: Text(
-                      "Some basic stategies to catch normal Pokemons",
+                      widget.courseinput.overview,
                       style: TextStyle(
                         fontSize: 18,
                       ),
@@ -236,9 +175,29 @@ class _CourseOverviewState extends State<CourseOverview> {
           SizedBox(
             height: 220,
             child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: chapterList.length,
-                itemBuilder: (context, index) => chapterList[index]),
+              scrollDirection: Axis.horizontal,
+              itemCount: widget.courseinput.lesson,
+              itemBuilder: (context, index) => ChapterCard(
+                name: widget.courseinput.chapter[index],
+                tag: widget.courseinput.tag[index],
+                chapterNumber: index + 1,
+                backgroundava: widget.courseinput.source,
+                onTap: () {
+                  Navigator.push<void>(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => ChapterPage(
+                          chapterinput: ChapterCard(
+                              name: widget.courseinput.chapter[index],
+                              tag: widget.courseinput.tag[index],
+                              chapterNumber: index,
+                              backgroundava: widget.courseinput.source,
+                              onTap: () {})),
+                    ),
+                  );
+                },
+              ),
+            ),
           ),
           SizedBox(
             height: 50,
@@ -278,7 +237,7 @@ class _CourseOverviewState extends State<CourseOverview> {
                 children: [
                   Flexible(
                     child: Text(
-                      "Newbies",
+                      widget.courseinput.level,
                       style: TextStyle(
                         fontSize: 18,
                       ),

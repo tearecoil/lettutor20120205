@@ -40,10 +40,22 @@ class _TutorProfileState extends State<TutorProfile> {
                 ),
               ),
               const SizedBox(height: 50),
-              Image.asset(
-                widget.tutor.avatar,
-                width: 100,
-                height: 100,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 100,
+                    width: 100,
+                    margin: EdgeInsets.only(right: 16),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(widget.tutor.avatar),
+                        fit: BoxFit.cover,
+                      ),
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                  ),
+                ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -126,6 +138,7 @@ class _TutorProfileState extends State<TutorProfile> {
                               name: widget.tutor.name,
                               avatar: widget.tutor.avatar,
                               quotes: widget.tutor.quotes,
+                              education: widget.tutor.education,
                               rating: widget.tutor.rating,
                               rating_count: widget.tutor.rating_count,
                               language: widget.tutor.language,
@@ -141,76 +154,16 @@ class _TutorProfileState extends State<TutorProfile> {
                 ],
               ),
               const SizedBox(height: 50),
-              const Padding(
-                padding: const EdgeInsets.only(left: 25),
-                child: Text(
-                  "About me",
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ),
-              ProfileBox(text: widget.tutor.quotes),
-              //const SizedBox(height: 50),
-              const Padding(
-                padding: const EdgeInsets.only(left: 25),
-                child: Text(
-                  "Education",
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ),
-              const ProfileBox(text: "I'm a master in PokemonGo"),
-              //const Text("I'm a master in PokemonGo"),
-              const Padding(
-                padding: const EdgeInsets.only(left: 25),
-                child: Text(
-                  "Language",
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ),
-              Row(
-                children: [
-                  SizedBox(width: 25),
-                  Container(
-                    margin: EdgeInsets.only(top: 5, right: 8),
-                    padding: EdgeInsets.all(5),
-                    decoration: const BoxDecoration(
-                      color: Colors.lightBlue,
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                    ),
-                    child: Text(
-                      widget.tutor.language,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.black),
-                    ),
-                  ),
-                ],
-              ),
-              //const ProfileBox(text: "Two time finalist of Pokemon Tournament"),
-              //const Text("Two time finalist of Pokemon Tournament"),
-              const Padding(
-                padding: const EdgeInsets.only(left: 25),
-                child: Text(
-                  "Specialities",
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ),
-              Row(
-                children: [
-                  SizedBox(width: 25),
-                  Container(
-                    margin: EdgeInsets.only(top: 5, right: 8),
-                    padding: EdgeInsets.all(5),
-                    decoration: const BoxDecoration(
-                      color: Colors.lightBlue,
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                    ),
-                    child: Text(
-                      widget.tutor.skill,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.black),
-                    ),
-                  ),
-                ],
-              ),
+              ProfileBox(text: widget.tutor.quotes, sectionName: "About me"),
+              SizedBox(height: 5),
+              ProfileBox(
+                  text: widget.tutor.education, sectionName: "Education"),
+              SizedBox(height: 5),
+              ProfileBox(text: widget.tutor.language, sectionName: "Language"),
+              SizedBox(height: 5),
+              ProfileBox(text: widget.tutor.skill, sectionName: "Skill"),
+              SizedBox(height: 5),
+              SizedBox(height: 25),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

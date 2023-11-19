@@ -8,6 +8,7 @@ class Tutor extends StatelessWidget {
   final String name;
   final String avatar;
   final String quotes;
+  final String education;
   final double rating;
   final int rating_count;
   final String language;
@@ -19,6 +20,7 @@ class Tutor extends StatelessWidget {
       {required this.name,
       required this.avatar,
       required this.quotes,
+      required this.education,
       required this.rating,
       required this.rating_count,
       required this.language,
@@ -53,6 +55,7 @@ class Tutor extends StatelessWidget {
                       name: this.name,
                       avatar: this.avatar,
                       quotes: this.quotes,
+                      education: this.education,
                       rating: this.rating,
                       rating_count: this.rating_count,
                       language: this.language,

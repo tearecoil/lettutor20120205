@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor20120205/components/chapter_card.dart';
 
-class Chap2 extends StatefulWidget {
-  const Chap2({super.key});
+class ChapterPage extends StatefulWidget {
+  const ChapterPage({
+    Key? key,
+    required this.chapterinput,
+  });
+  final ChapterCard chapterinput;
 
   @override
-  State<Chap2> createState() => _Chap2State();
+  State<ChapterPage> createState() => _ChapterPageState();
 }
 
-class _Chap2State extends State<Chap2> {
+class _ChapterPageState extends State<ChapterPage> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -22,7 +27,7 @@ class _Chap2State extends State<Chap2> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/images/tutor_pic.png"),
+                    image: AssetImage(widget.chapterinput.backgroundava),
                     fit: BoxFit.fitWidth,
                   ),
                   borderRadius: BorderRadius.only(
@@ -43,7 +48,7 @@ class _Chap2State extends State<Chap2> {
                             child: Column(
                               children: <Widget>[
                                 Text(
-                                  "Chapter 2",
+                                  "Chapter ${widget.chapterinput.chapterNumber + 1}",
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 60,
@@ -51,7 +56,7 @@ class _Chap2State extends State<Chap2> {
                                   ),
                                 ),
                                 Text(
-                                  "What is a Pokeball?",
+                                  widget.chapterinput.name,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 32,

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
-class ProfileBox extends StatelessWidget {
+class MyProfileBox extends StatelessWidget {
   final String text;
   final String sectionName;
-  const ProfileBox({
+  final void Function()? onpress;
+  const MyProfileBox({
     super.key,
     required this.text,
     required this.sectionName,
+    required this.onpress,
   });
 
   @override
@@ -28,13 +30,13 @@ class ProfileBox extends StatelessWidget {
                 sectionName,
                 style: TextStyle(color: Colors.grey[500]),
               ),
-              // IconButton(
-              //   onPressed: () {},
-              //   icon: Icon(
-              //     Icons.settings,
-              //     color: Colors.grey[400],
-              //   ),
-              // ),
+              IconButton(
+                onPressed: onpress,
+                icon: Icon(
+                  Icons.settings,
+                  color: Colors.grey[400],
+                ),
+              ),
             ],
           ),
           Text(text),

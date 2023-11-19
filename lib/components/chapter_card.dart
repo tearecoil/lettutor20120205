@@ -5,12 +5,15 @@ class ChapterCard extends StatelessWidget {
   final String tag;
   final int chapterNumber;
   final Function()? onTap;
-  const ChapterCard(
-      {super.key,
-      required this.name,
-      required this.tag,
-      required this.chapterNumber,
-      required this.onTap});
+  final String backgroundava;
+  const ChapterCard({
+    super.key,
+    required this.name,
+    required this.tag,
+    required this.chapterNumber,
+    required this.onTap,
+    required this.backgroundava,
+  });
 
   @override
   Widget build(BuildContext context) {
