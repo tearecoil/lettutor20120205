@@ -16,7 +16,7 @@ class SchedulePage extends StatefulWidget {
 }
 
 List<Meeting> meeting = <Meeting>[];
-late int totalhours;
+int? totalhours;
 
 class _SchedulePageState extends State<SchedulePage> {
   @override
