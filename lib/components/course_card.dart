@@ -3,6 +3,7 @@ import 'package:lettutor20120205/components/chapter_card.dart';
 import 'package:lettutor20120205/detail-courses-widgets/courses_info.dart';
 
 class CourseCard extends StatelessWidget {
+  final int index;
   final String title;
   final String source;
   final String level;
@@ -10,8 +11,11 @@ class CourseCard extends StatelessWidget {
   final String overview;
   final List<String> chapter;
   final List<String> tag;
+  final int hours;
+  final DateTime nextCourse;
 
   CourseCard({
+    required this.index,
     required this.title,
     required this.source,
     required this.level,
@@ -19,6 +23,8 @@ class CourseCard extends StatelessWidget {
     required this.overview,
     required this.chapter,
     required this.tag,
+    required this.hours,
+    required this.nextCourse,
   });
 // class CourseCard extends StatelessWidget {
 //   // const CourseCard({
@@ -56,6 +62,7 @@ class CourseCard extends StatelessWidget {
           MaterialPageRoute<void>(
             builder: (BuildContext context) => CourseOverview(
                 courseinput: CourseCard(
+              index: this.index,
               title: this.title,
               source: this.source,
               lesson: this.lesson,
@@ -63,6 +70,8 @@ class CourseCard extends StatelessWidget {
               overview: this.overview,
               chapter: this.chapter,
               tag: this.tag,
+              hours: this.hours,
+              nextCourse: this.nextCourse,
             )),
           ),
         );

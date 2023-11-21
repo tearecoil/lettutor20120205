@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:lettutor20120205/components/course_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lettutor20120205/homescreens-widgets/course_page.dart';
 import 'package:lettutor20120205/homescreens-widgets/my_courses_page.dart';
@@ -50,6 +51,21 @@ class _MainMenuState extends State<MainMenu> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    setCourse();
+  }
+
+  void setCourse() async {
+    SharedPreferences sharedpref = await SharedPreferences.getInstance();
+    List<String> temp = [];
+    for (var course in CourseList().Course_List) {
+      temp.add("False");
+    }
+    sharedpref.setStringList('schedule', temp);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
         length: 3,
@@ -64,12 +80,19 @@ class _MainMenuState extends State<MainMenu> {
                 width: 50,
                 margin: EdgeInsets.only(right: 16),
                 decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/my_ava.jpg"),
-                    fit: BoxFit.cover,
-                  ),
-                  borderRadius: BorderRadius.circular(50),
-                ),
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/my_ava.jpg"),
+                      fit: BoxFit.cover,
+                    ),
+                    borderRadius: BorderRadius.circular(50),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3),
+                      )
+                    ]),
                 child: GestureDetector(onTap: () => leadtoProfile()),
               ),
               // IconButton(

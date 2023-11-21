@@ -4,6 +4,7 @@ import 'package:lettutor20120205/components/course_card.dart';
 class CourseList {
   final List<CourseCard> Course_List = [
     CourseCard(
+      index: 0,
       lesson: 5,
       title: "Tojo Clan",
       source: "assets/images/tojo.jpg",
@@ -23,8 +24,11 @@ class CourseList {
         "Lots of Dragon and the Dojima one",
         "Kamurocho 3K Plan and result "
       ],
+      hours: 5,
+      nextCourse: DateTime.now().add(const Duration(days: 1)),
     ),
     CourseCard(
+      index: 1,
       lesson: 5,
       title: "Omi Alliance",
       source: "assets/images/omi.jpg",
@@ -44,8 +48,11 @@ class CourseList {
         "All the Infamous Leaders",
         "Kamurocho 3K Plan and result "
       ],
+      hours: 4,
+      nextCourse: DateTime.now().add(const Duration(days: 2)),
     ),
     CourseCard(
+      index: 2,
       lesson: 4,
       title: "Yomei Alliance",
       source: "assets/images/yomei.jpg",
@@ -63,8 +70,11 @@ class CourseList {
         "We keep the secret of...",
         "Not also a battleship",
       ],
+      hours: 4,
+      nextCourse: DateTime.now().add(const Duration(days: 3)),
     ),
     CourseCard(
+      index: 3,
       lesson: 1,
       title: "Daidoji Faction",
       source: "assets/images/daidoji.jpg",
@@ -72,8 +82,11 @@ class CourseList {
       overview: "Basic Information of Daidoji Faction",
       chapter: ["The Secret Clan"],
       tag: ["Erase your name and get a new life"],
+      hours: 1,
+      nextCourse: DateTime.now().add(const Duration(days: 4)),
     ),
     CourseCard(
+      index: 4,
       lesson: 4,
       title: "Seiryu Clan",
       source: "assets/images/seiryu.jpg",
@@ -91,6 +104,8 @@ class CourseList {
         "1 of 3 Yokohama Power Leaders",
         "Balance in all things",
       ],
+      hours: 3,
+      nextCourse: DateTime.now().add(const Duration(days: 5)),
     ),
   ];
 }
