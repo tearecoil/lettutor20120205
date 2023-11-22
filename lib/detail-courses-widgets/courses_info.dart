@@ -28,10 +28,14 @@ class _CourseOverviewState extends State<CourseOverview> {
     SharedPreferences sharedpref = await SharedPreferences.getInstance();
     List<String>? flag = sharedpref.getStringList('schedule') ?? [];
     if (flag[widget.courseinput.index] == "False") {
-      couFlag = false;
+      setState(() {
+        couFlag = false;
+      });
       print("$couFlag");
     } else {
-      couFlag = true;
+      setState(() {
+        couFlag = true;
+      });
       print("$couFlag");
     }
   }
@@ -359,17 +363,6 @@ class _CourseOverviewState extends State<CourseOverview> {
                           ),
                           ElevatedButton(
                               onPressed: () {
-                                // if (couFlag == false) {
-                                //   setCourseState();
-                                //   // Meeting temp = Meeting(
-                                //   //     widget.courseinput.title,
-                                //   //     widget.courseinput.nextCourse,
-                                //   //     widget.courseinput.nextCourse.add(
-                                //   //         Duration(
-                                //   //             hours: widget.courseinput.hours)),
-                                //   //     widget.courseinput.hours);
-                                //   // ListMeeting().listmeet.add(temp);
-                                // } else {}
                                 setCourseState();
                                 setState(() {
                                   if (couFlag == false) {
@@ -377,18 +370,14 @@ class _CourseOverviewState extends State<CourseOverview> {
                                   } else {
                                     couFlag = false;
                                   }
-                                  ListMeeting().listmeet.removeWhere((temp) =>
-                                      temp.eventName ==
-                                      widget.courseinput.title);
                                 });
                               },
-                              child: couFlag ?? false
+                              child: couFlag == true
                                   ? Text("Remove")
                                   : Text("Add"),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: couFlag ?? false
-                                    ? Colors.red
-                                    : Colors.green,
+                                backgroundColor:
+                                    couFlag == true ? Colors.red : Colors.green,
                               )),
                         ],
                       ),
