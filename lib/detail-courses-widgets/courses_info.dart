@@ -31,12 +31,12 @@ class _CourseOverviewState extends State<CourseOverview> {
       setState(() {
         couFlag = false;
       });
-      print("$couFlag");
+      //print("$couFlag");
     } else {
       setState(() {
         couFlag = true;
       });
-      print("$couFlag");
+      //print("$couFlag");
     }
   }
 
@@ -46,11 +46,11 @@ class _CourseOverviewState extends State<CourseOverview> {
     if (flag[widget.courseinput.index] == "False") {
       flag[widget.courseinput.index] = "True";
       sharedpref.setStringList('schedule', flag);
-      print("$couFlag");
+      //print("$couFlag");
     } else {
       flag[widget.courseinput.index] = "False";
       sharedpref.setStringList('schedule', flag);
-      print("$couFlag");
+      //print("$couFlag");
     }
   }
 

@@ -16,23 +16,41 @@ class SchedulePage extends StatefulWidget {
 }
 
 List<Meeting> meeting = <Meeting>[];
+List<bool> state = [] ?? [false];
 int? totalhours;
 
 class _SchedulePageState extends State<SchedulePage> {
   @override
   void initState() {
+    print(2);
+    state = [];
     super.initState();
+    getStateList();
     getTotalHours();
   }
 
+  void getStateList() {
+    print(3);
+    for (int i = 0; i < CourseList().Course_List.length; i++) {
+      state.add(false);
+    }
+  }
+
   void getTotalHours() async {
+    print(4);
     int hrs_temp = 0;
     SharedPreferences sharedpref = await SharedPreferences.getInstance();
     List<String>? temp = sharedpref.getStringList('schedule') ?? [];
     for (int i = 0; i < CourseList().Course_List.length; i++) {
-      hrs_temp = hrs_temp + CourseList().Course_List[i].hours;
+      if (temp[i] == "True") {
+        hrs_temp = hrs_temp + CourseList().Course_List[i].hours;
+        state[i] = true;
+      }
+      //print("$i - ${state[i]}");
     }
     totalhours = hrs_temp;
+    print(5);
+    //print("-----------------");
     // for (int i = 0; i < CourseList().Course_List.length; i++) {
     //   if (temp[i] == "True") {
     //     print("$i");
@@ -92,19 +110,25 @@ class _SchedulePageState extends State<SchedulePage> {
 }
 
 List<Appointment> getAppointments() {
+  //CalendarDataSourceAction.addResource;
   List<Appointment> meetings = <Appointment>[];
   for (int i = 0; i < CourseList().Course_List.length; i++) {
-    String subject = CourseList().Course_List[i].title;
-    DateTime startTime = CourseList().Course_List[i].nextCourse;
-    DateTime endTime =
-        startTime.add(Duration(hours: CourseList().Course_List[i].hours));
+    print(6);
+    //print("$i - ${state[i]}");
+    if (state[i] == true) {
+      //print(2);
+      String subject = CourseList().Course_List[i].title;
+      DateTime startTime = CourseList().Course_List[i].nextCourse;
+      DateTime endTime =
+          startTime.add(Duration(hours: CourseList().Course_List[i].hours));
 
-    meetings.add(Appointment(
-      startTime: startTime,
-      endTime: endTime,
-      subject: subject,
-      color: Colors.lightBlue,
-    ));
+      meetings.add(Appointment(
+        startTime: startTime,
+        endTime: endTime,
+        subject: subject,
+        color: Colors.lightBlue,
+      ));
+    }
   }
   return meetings;
 }

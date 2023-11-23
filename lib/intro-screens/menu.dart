@@ -201,6 +201,8 @@ class _MainMenuState extends State<MainMenu> {
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
                       if (index == 0) return screens[current];
+                      // else
+                      //   return screens[index];
                     },
                   ),
                 ),
