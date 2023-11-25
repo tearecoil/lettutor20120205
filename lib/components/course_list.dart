@@ -24,8 +24,10 @@ class CourseList {
         "Lots of Dragon and the Dojima one",
         "Kamurocho 3K Plan and result "
       ],
-      hours: 5,
-      nextCourse: DateTime.now().add(const Duration(days: 1)),
+      hours: 2,
+      startHour: 6,
+      startMinute: '30',
+      //nextCourse: DateTime.now().add(const Duration(days: 1)),
     ),
     CourseCard(
       index: 1,
@@ -48,8 +50,10 @@ class CourseList {
         "All the Infamous Leaders",
         "Kamurocho 3K Plan and result "
       ],
-      hours: 4,
-      nextCourse: DateTime.now().add(const Duration(days: 2)),
+      hours: 2,
+      startHour: 9,
+      startMinute: '00',
+      //nextCourse: DateTime.now().add(const Duration(days: 2)),
     ),
     CourseCard(
       index: 2,
@@ -70,8 +74,10 @@ class CourseList {
         "We keep the secret of...",
         "Not also a battleship",
       ],
-      hours: 4,
-      nextCourse: DateTime.now().add(const Duration(days: 3)),
+      hours: 2,
+      startHour: 11,
+      startMinute: '11',
+      //nextCourse: DateTime.now().add(const Duration(days: 3)),
     ),
     CourseCard(
       index: 3,
@@ -83,7 +89,9 @@ class CourseList {
       chapter: ["The Secret Clan"],
       tag: ["Erase your name and get a new life"],
       hours: 1,
-      nextCourse: DateTime.now().add(const Duration(days: 4)),
+      startHour: 14,
+      startMinute: '30',
+      //nextCourse: DateTime.now().add(const Duration(days: 4)),
     ),
     CourseCard(
       index: 4,
@@ -105,7 +113,9 @@ class CourseList {
         "Balance in all things",
       ],
       hours: 3,
-      nextCourse: DateTime.now().add(const Duration(days: 5)),
+      startHour: 18,
+      startMinute: '30',
+      //nextCourse: DateTime.now().add(const Duration(days: 5)),
     ),
   ];
 }

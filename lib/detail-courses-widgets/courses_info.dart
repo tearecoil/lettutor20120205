@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor20120205/components/chapter_card.dart';
-import 'package:lettutor20120205/components/event_add.dart';
 import 'package:lettutor20120205/components/course_card.dart';
 import 'package:lettutor20120205/detail-courses-widgets/chapter_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -337,7 +336,7 @@ class _CourseOverviewState extends State<CourseOverview> {
               ),
             ),
             SizedBox(
-              height: 50,
+              height: 55,
               child: Container(
                 margin: const EdgeInsets.only(top: 20),
                 child: Row(
@@ -352,33 +351,12 @@ class _CourseOverviewState extends State<CourseOverview> {
                             color: Colors.red,
                           ),
                           Text(
-                            "Next Course",
+                            "Time",
                             style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(
-                            width: 50,
-                          ),
-                          ElevatedButton(
-                              onPressed: () {
-                                setCourseState();
-                                setState(() {
-                                  if (couFlag == false) {
-                                    couFlag = true;
-                                  } else {
-                                    couFlag = false;
-                                  }
-                                });
-                              },
-                              child: couFlag == true
-                                  ? Text("Remove")
-                                  : Text("Add"),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    couFlag == true ? Colors.red : Colors.green,
-                              )),
                         ],
                       ),
                     )
@@ -395,7 +373,7 @@ class _CourseOverviewState extends State<CourseOverview> {
                   children: [
                     Flexible(
                       child: Text(
-                        "${widget.courseinput.nextCourse.year}-${widget.courseinput.nextCourse.month}-${widget.courseinput.nextCourse.day}  ${widget.courseinput.nextCourse.hour}:${widget.courseinput.nextCourse.minute}",
+                        '${widget.courseinput.startHour}:${widget.courseinput.startMinute} - ${widget.courseinput.startHour + widget.courseinput.hours}:${widget.courseinput.startMinute}',
                         style: TextStyle(
                           fontSize: 18,
                         ),

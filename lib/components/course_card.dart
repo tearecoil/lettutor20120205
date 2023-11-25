@@ -12,7 +12,9 @@ class CourseCard extends StatelessWidget {
   final List<String> chapter;
   final List<String> tag;
   final int hours;
-  final DateTime nextCourse;
+  final int startHour;
+  final String startMinute;
+  //final DateTime nextCourse;
 
   CourseCard({
     required this.index,
@@ -24,7 +26,9 @@ class CourseCard extends StatelessWidget {
     required this.chapter,
     required this.tag,
     required this.hours,
-    required this.nextCourse,
+    required this.startHour,
+    required this.startMinute,
+    //required this.nextCourse,
   });
 // class CourseCard extends StatelessWidget {
 //   // const CourseCard({
@@ -71,7 +75,9 @@ class CourseCard extends StatelessWidget {
               chapter: this.chapter,
               tag: this.tag,
               hours: this.hours,
-              nextCourse: this.nextCourse,
+              startHour: this.startHour,
+              startMinute: this.startMinute,
+              //nextCourse: this.nextCourse,
             )),
           ),
         );
