@@ -44,7 +44,7 @@ class _SchedulePageState extends State<SchedulePage> {
     for (var course in CourseList().Course_List) {
       CourseName.add(course.title);
     }
-    print(CourseName);
+    // print(CourseName);
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
@@ -237,7 +237,6 @@ class _SchedulePageState extends State<SchedulePage> {
                           ),
                         );
                       },
-                      physics: NeverScrollableScrollPhysics(),
                     );
                   }),
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lettutor20120205/components/rating_bar.dart';
 
 DateTime now = DateTime.now();
 String convertedDateTime =
@@ -7,10 +8,14 @@ String convertedDateTime =
 
 class HistoryCard extends StatelessWidget {
   final String name;
-
-  HistoryCard({
-    required this.name,
-  });
+  final String ava;
+  final String couname;
+  final String coupic;
+  HistoryCard(
+      {required this.name,
+      required this.ava,
+      required this.couname,
+      required this.coupic});
 
   @override
   Widget build(BuildContext context) {
@@ -26,142 +31,179 @@ class HistoryCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(6),
         ),
         elevation: 1,
-        child: Column(
-          children: [
-            Container(
-              child: Column(
+        child: InkWell(
+          onTap: () {
+            // Navigator.push<void>(
+            //   context,
+            //   MaterialPageRoute<void>(
+            //     builder: (BuildContext context) => TutorProfile(
+            //         tutor: Tutor(
+            //       name: this.name,
+            //       avatar: this.avatar,
+            //       quotes: this.quotes,
+            //       education: this.education,
+            //       rating: this.rating,
+            //       rating_count: this.rating_count,
+            //       language: this.language,
+            //       skill: this.skill,
+            //       nationality: this.nationality,
+            //       favorite: favorite,
+            //     )),
+            //   ),
+            // );
+          },
+          child: Column(
+            children: [
+              Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Column(
+                              children: [
+                                Text(convertedDateTime,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold)),
+                                Text("0 sec ago",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                            Container(
+                                margin: EdgeInsets.only(right: 10),
+                                child: Image.asset(
+                                  ava,
+                                  width: 100,
+                                  height: 100,
+                                )),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(bottom: 0),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        name,
+                                        style: const TextStyle(
+                                            fontSize: 23,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                        Container(
+                            child: Column(
+                          children: [
+                            SizedBox(
+                              height: 25,
+                            ),
+                            Image.asset(
+                              coupic,
+                              width: 50,
+                              height: 50,
+                            ),
+                            Text(
+                              couname,
+                              style: const TextStyle(
+                                  fontSize: 23, fontWeight: FontWeight.bold),
+                            ),
+                            // Text(
+                            //   "VietNam",
+                            //   style: const TextStyle(
+                            //       fontSize: 12, fontWeight: FontWeight.w600),
+                            // ),
+                          ],
+                        )),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
+              ),
+              Row(),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
+                  Container(
+                      height: 50,
+                      color: Colors.white,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            children: [
-                              Text(convertedDateTime,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold)),
-                              Text("0 sec ago",
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                          Container(
-                              margin: EdgeInsets.only(right: 10),
-                              child: Image.asset(
-                                "assets/images/ava.png",
-                                width: 100,
-                                height: 100,
-                              )),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(bottom: 0),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "Teacher K",
-                                      style: const TextStyle(
-                                          fontSize: 23,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                          Padding(padding: EdgeInsets.only(left: 5)),
+                          Text(
+                            "Lession Review",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 25),
                           )
                         ],
-                      ),
-                      Container(
-                          child: Column(
+                      )),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                      height: 30,
+                      color: Colors.white,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(
-                            height: 25,
-                          ),
-                          Image.asset(
-                            "assets/images/tutor_pic.png",
-                            width: 50,
-                            height: 50,
-                          ),
+                          Padding(padding: EdgeInsets.only(left: 10)),
                           Text(
-                            name,
-                            style: const TextStyle(
-                                fontSize: 23, fontWeight: FontWeight.bold),
-                          ),
-                          // Text(
-                          //   "VietNam",
-                          //   style: const TextStyle(
-                          //       fontSize: 12, fontWeight: FontWeight.w600),
-                          // ),
+                            "No reviews yet",
+                            style: TextStyle(fontSize: 18),
+                          )
                         ],
                       )),
-                    ],
-                  ),
-                  const SizedBox(
+                  SizedBox(
                     height: 10,
+                  ),
+                  Container(
+                    height: 30,
+                    color: Colors.white,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Padding(padding: EdgeInsets.only(left: 10)),
+                            GestureDetector(
+                                child: Text(
+                                  "Add a rating",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.blue),
+                                ),
+                                onTap: () {}),
+                          ],
+                        ),
+
+                        // SizedBox(width: 25),
+                        RatingBar(
+                          rating: 0,
+                          size: 20,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
-            ),
-            Row(),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                    height: 50,
-                    color: Colors.white,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(padding: EdgeInsets.only(left: 5)),
-                        Text(
-                          "Lession Review",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 25),
-                        )
-                      ],
-                    )),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                    height: 30,
-                    color: Colors.white,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(padding: EdgeInsets.only(left: 10)),
-                        Text(
-                          "No reviews yet",
-                          style: TextStyle(fontSize: 18),
-                        )
-                      ],
-                    )),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                    height: 30,
-                    color: Colors.white,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(padding: EdgeInsets.only(left: 10)),
-                        Text(
-                          "Add a rating",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 18, color: Colors.blue),
-                        ),
-                      ],
-                    )),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
