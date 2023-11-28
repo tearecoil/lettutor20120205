@@ -149,6 +149,28 @@ class _MyTutorProfileState extends State<MyTutorProfile> {
                     color: Colors.black,
                   ),
                 ),
+                actions: [
+                  Padding(
+                    padding: EdgeInsets.only(right: 10),
+                    child: PopupMenuButton(
+                      itemBuilder: (context) => [
+                        PopupMenuItem(
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(right: 10),
+                                child: Text("Log Out"),
+                              )
+                            ],
+                          ),
+                          onTap: () {
+                            Navigator.popAndPushNamed(context, "/login");
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 50),
               Row(

@@ -132,6 +132,28 @@ class _MyStudentProfileState extends State<MyStudentProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        // appBar: AppBar(
+        //   title: Text("My Profile"),
+        //   actions: [
+        //     Padding(
+        //       padding: EdgeInsets.only(right: 10),
+        //       child: PopupMenuButton(
+        //         itemBuilder: (context) => [
+        //           PopupMenuItem(
+        //             child: Row(
+        //               children: [
+        //                 Padding(
+        //                   padding: EdgeInsets.only(right: 10),
+        //                   child: Text("Log Out"),
+        //                 )
+        //               ],
+        //             ),
+        //           )
+        //         ],
+        //       ),
+        //     ),
+        //   ],
+        // ),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Column(
@@ -149,6 +171,28 @@ class _MyStudentProfileState extends State<MyStudentProfile> {
                     color: Colors.black,
                   ),
                 ),
+                actions: [
+                  Padding(
+                    padding: EdgeInsets.only(right: 10),
+                    child: PopupMenuButton(
+                      itemBuilder: (context) => [
+                        PopupMenuItem(
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(right: 10),
+                                child: Text("Log Out"),
+                              )
+                            ],
+                          ),
+                          onTap: () {
+                            Navigator.popAndPushNamed(context, "/login");
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 50),
               Row(
