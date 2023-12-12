@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lettutor20120205/components/my_button.dart';
 import 'package:lettutor20120205/components/my_textfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:lettutor20120205/service-api/auth-services.dart';
 
 class MainLogin extends StatefulWidget {
   const MainLogin({super.key});
@@ -59,6 +60,16 @@ class _MainLoginState extends State<MainLogin> {
         ),
       );
     } else {
+      await AuthService.loginWithEmailAndPassword(
+        email: username,
+        password: password,
+        onSuccess: (user) async {
+          Future.delayed(const Duration(seconds: 1), () {
+            Navigator.popAndPushNamed(context, "/home");
+          });
+        },
+      );
+
       if (username == savedUsername && password == savedPassword) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
