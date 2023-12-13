@@ -61,91 +61,129 @@ class _MainLoginState extends State<MainLogin> {
       );
     } else {
       await AuthService.loginWithEmailAndPassword(
-        email: username,
-        password: password,
-        onSuccess: (user) async {
-          Future.delayed(const Duration(seconds: 1), () {
-            Navigator.popAndPushNamed(context, "/home");
+          email: username,
+          password: password,
+          onSuccess: (user) async {
+            Future.delayed(const Duration(seconds: 1), () {
+              Navigator.popAndPushNamed(context, "/home");
+            });
           });
-        },
-      );
+      // onError: (user) async {
+      //   print("Fail");
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     SnackBar(
+      //       content: Container(
+      //         padding: EdgeInsets.all(16),
+      //         height: 90,
+      //         decoration: BoxDecoration(
+      //           color: Colors.green,
+      //           borderRadius: BorderRadius.all(Radius.circular(20)),
+      //         ),
+      //         child: Column(
+      //           crossAxisAlignment: CrossAxisAlignment.start,
+      //           children: [
+      //             Text(
+      //               "Log in successfully",
+      //               style: TextStyle(
+      //                 fontSize: 18,
+      //                 color: Colors.white,
+      //               ),
+      //             ),
+      //             Text(
+      //               "Welcome to LetTutor",
+      //               style: TextStyle(
+      //                 fontSize: 12,
+      //                 color: Colors.white,
+      //               ),
+      //               maxLines: 2,
+      //               overflow: TextOverflow.ellipsis,
+      //             ),
+      //           ],
+      //         ),
+      //       ),
+      //       behavior: SnackBarBehavior.floating,
+      //       backgroundColor: Colors.transparent,
+      //       elevation: 0,
+      //     ),
+      //   );
+      // });
 
-      if (username == savedUsername && password == savedPassword) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Container(
-              padding: EdgeInsets.all(16),
-              height: 90,
-              decoration: BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Log in successfully",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    "Welcome to LetTutor",
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.white,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            ),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          ),
-        );
-        Navigator.popAndPushNamed(context, "/home");
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Container(
-              padding: EdgeInsets.all(16),
-              height: 90,
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Log in Failed!!",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    "Username / Password is incorrect",
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.white,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            ),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          ),
-        );
-      }
+      // if (username == savedUsername && password == savedPassword) {
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     SnackBar(
+      //       content: Container(
+      //         padding: EdgeInsets.all(16),
+      //         height: 90,
+      //         decoration: BoxDecoration(
+      //           color: Colors.green,
+      //           borderRadius: BorderRadius.all(Radius.circular(20)),
+      //         ),
+      //         child: Column(
+      //           crossAxisAlignment: CrossAxisAlignment.start,
+      //           children: [
+      //             Text(
+      //               "Log in successfully",
+      //               style: TextStyle(
+      //                 fontSize: 18,
+      //                 color: Colors.white,
+      //               ),
+      //             ),
+      //             Text(
+      //               "Welcome to LetTutor",
+      //               style: TextStyle(
+      //                 fontSize: 12,
+      //                 color: Colors.white,
+      //               ),
+      //               maxLines: 2,
+      //               overflow: TextOverflow.ellipsis,
+      //             ),
+      //           ],
+      //         ),
+      //       ),
+      //       behavior: SnackBarBehavior.floating,
+      //       backgroundColor: Colors.transparent,
+      //       elevation: 0,
+      //     ),
+      //   );
+      //   Navigator.popAndPushNamed(context, "/home");
+      // } else {
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     SnackBar(
+      //       content: Container(
+      //         padding: EdgeInsets.all(16),
+      //         height: 90,
+      //         decoration: BoxDecoration(
+      //           color: Colors.red,
+      //           borderRadius: BorderRadius.all(Radius.circular(20)),
+      //         ),
+      //         child: Column(
+      //           crossAxisAlignment: CrossAxisAlignment.start,
+      //           children: [
+      //             Text(
+      //               "Log in Failed!!",
+      //               style: TextStyle(
+      //                 fontSize: 18,
+      //                 color: Colors.white,
+      //               ),
+      //             ),
+      //             Text(
+      //               "Username / Password is incorrect",
+      //               style: TextStyle(
+      //                 fontSize: 12,
+      //                 color: Colors.white,
+      //               ),
+      //               maxLines: 2,
+      //               overflow: TextOverflow.ellipsis,
+      //             ),
+      //           ],
+      //         ),
+      //       ),
+      //       behavior: SnackBarBehavior.floating,
+      //       backgroundColor: Colors.transparent,
+      //       elevation: 0,
+      //     ),
+      //   );
+      // }
     }
   }
 

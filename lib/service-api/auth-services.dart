@@ -29,7 +29,36 @@ class AuthService {
       final user = User.fromJson(data['user']);
       await onSuccess(user);
     } on DioException catch (e) {
-      throw e;
+      //throw e;
+    }
+  }
+
+  static Future<void> registerWithEmailAndPassword({
+    required String email,
+    required String password,
+    required Function() onSuccess,
+    required Function(String) onError,
+  }) async {
+    try {
+      final response = await DioService().post(
+        '/auth/register',
+        data: {
+          'email': email,
+          'password': password,
+          'source': 'null',
+        },
+      );
+
+      final data = response.data;
+
+      print(data);
+      if (response.statusCode != 201) {
+        throw Exception(data['message']);
+      }
+
+      await onSuccess();
+    } on DioException catch (e) {
+      //onError(e.response?.data['message']);
     }
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor20120205/components/my_button.dart';
 import 'package:lettutor20120205/components/my_textfield.dart';
+import 'package:lettutor20120205/service-api/auth-services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -17,10 +18,12 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Future<void> signupCheck() async {
     String username = usernameController.text;
+    String password = passwordController.text;
     SharedPreferences sharedpref = await SharedPreferences.getInstance();
-    if (usernameController.text.isEmpty ||
-        passwordController.text.isEmpty ||
-        confirmpassController.text.isEmpty) {
+    // if (usernameController.text.isEmpty ||
+    //     passwordController.text.isEmpty ||
+    //     confirmpassController.text.isEmpty)
+    if (usernameController.text.isEmpty || passwordController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Container(
@@ -58,173 +61,199 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
       );
     } else {
-      if (username.length < 10) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Container(
-              padding: EdgeInsets.all(16),
-              height: 90,
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Sign Up Failed!!",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    "Username must be a valid Gmail",
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.white,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            ),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          ),
-        );
-      } else {
-        String checkMail =
-            username.substring(username.length - 10, username.length);
-        if (checkMail == "@gmail.com") {
-          if (confirmpassController.text.trim() ==
-              passwordController.text.trim()) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Container(
-                  padding: EdgeInsets.all(16),
-                  height: 90,
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "YESSSS!!",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(
-                        //checkMail,
-                        "Sign up successfully",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.white,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-              ),
-            );
-            sharedpref.setString('username', usernameController.text);
-            sharedpref.setString('password', passwordController.text);
-            sharedpref.setString('accountType', "/studentprofile");
-            sharedpref.setString('name', "");
-            sharedpref.setString('aboutMe', "");
-            sharedpref.setString('avatar', "assets/images/my_ava.jpg");
-            sharedpref.setString('nation', "VietNam");
-            Navigator.popAndPushNamed(context, "/login");
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Container(
-                  padding: EdgeInsets.all(16),
-                  height: 90,
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Sign Up Failed!!",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(
-                        "Password and Confirm aren't the same",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.white,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-              ),
-            );
-          }
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Container(
-                padding: EdgeInsets.all(16),
-                height: 90,
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Sign Up Failed!!",
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Text(
-                      //checkMail,
-                      "Username must be a valid Gmail",
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.white,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-            ),
-          );
-        }
-      }
+      print("ok 1");
+      await AuthService.registerWithEmailAndPassword(
+        email: username,
+        password: password,
+        onSuccess: () async {
+          // authProvider.logIn(user, token);
+
+          // final prefs = await SharedPreferences.getInstance();
+          // await prefs.setString(
+          //   'refresh_token',
+          //   authProvider.token!.refresh!.token!,
+          // );
+
+          // setState(() {
+          //   _isAuthenticating = false;
+          //   _isAuthenticated = true;
+          // });
+
+          Navigator.popAndPushNamed(context, "/login");
+        },
+        onError: (message) => ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error Register: $message')),
+        ),
+      );
     }
+    // } else {
+    //   if (username.length < 10) {
+    //     ScaffoldMessenger.of(context).showSnackBar(
+    //       SnackBar(
+    //         content: Container(
+    //           padding: EdgeInsets.all(16),
+    //           height: 90,
+    //           decoration: BoxDecoration(
+    //             color: Colors.red,
+    //             borderRadius: BorderRadius.all(Radius.circular(20)),
+    //           ),
+    //           child: Column(
+    //             crossAxisAlignment: CrossAxisAlignment.start,
+    //             children: [
+    //               Text(
+    //                 "Sign Up Failed!!",
+    //                 style: TextStyle(
+    //                   fontSize: 18,
+    //                   color: Colors.white,
+    //                 ),
+    //               ),
+    //               Text(
+    //                 "Username must be a valid Gmail",
+    //                 style: TextStyle(
+    //                   fontSize: 12,
+    //                   color: Colors.white,
+    //                 ),
+    //                 maxLines: 2,
+    //                 overflow: TextOverflow.ellipsis,
+    //               ),
+    //             ],
+    //           ),
+    //         ),
+    //         behavior: SnackBarBehavior.floating,
+    //         backgroundColor: Colors.transparent,
+    //         elevation: 0,
+    //       ),
+    //     );
+    //   } else {
+    //     String checkMail =
+    //         username.substring(username.length - 10, username.length);
+    //     if (checkMail == "@gmail.com") {
+    //       if (confirmpassController.text.trim() ==
+    //           passwordController.text.trim()) {
+    //         ScaffoldMessenger.of(context).showSnackBar(
+    //           SnackBar(
+    //             content: Container(
+    //               padding: EdgeInsets.all(16),
+    //               height: 90,
+    //               decoration: BoxDecoration(
+    //                 color: Colors.green,
+    //                 borderRadius: BorderRadius.all(Radius.circular(20)),
+    //               ),
+    //               child: Column(
+    //                 crossAxisAlignment: CrossAxisAlignment.start,
+    //                 children: [
+    //                   Text(
+    //                     "YESSSS!!",
+    //                     style: TextStyle(
+    //                       fontSize: 18,
+    //                       color: Colors.white,
+    //                     ),
+    //                   ),
+    //                   Text(
+    //                     //checkMail,
+    //                     "Sign up successfully",
+    //                     style: TextStyle(
+    //                       fontSize: 12,
+    //                       color: Colors.white,
+    //                     ),
+    //                     maxLines: 2,
+    //                     overflow: TextOverflow.ellipsis,
+    //                   ),
+    //                 ],
+    //               ),
+    //             ),
+    //             behavior: SnackBarBehavior.floating,
+    //             backgroundColor: Colors.transparent,
+    //             elevation: 0,
+    //           ),
+    //         );
+    //         sharedpref.setString('username', usernameController.text);
+    //         sharedpref.setString('password', passwordController.text);
+    //         sharedpref.setString('accountType', "/studentprofile");
+    //         sharedpref.setString('name', "");
+    //         sharedpref.setString('aboutMe', "");
+    //         sharedpref.setString('avatar', "assets/images/my_ava.jpg");
+    //         sharedpref.setString('nation', "VietNam");
+    //         Navigator.popAndPushNamed(context, "/login");
+    //       } else {
+    //         ScaffoldMessenger.of(context).showSnackBar(
+    //           SnackBar(
+    //             content: Container(
+    //               padding: EdgeInsets.all(16),
+    //               height: 90,
+    //               decoration: BoxDecoration(
+    //                 color: Colors.red,
+    //                 borderRadius: BorderRadius.all(Radius.circular(20)),
+    //               ),
+    //               child: Column(
+    //                 crossAxisAlignment: CrossAxisAlignment.start,
+    //                 children: [
+    //                   Text(
+    //                     "Sign Up Failed!!",
+    //                     style: TextStyle(
+    //                       fontSize: 18,
+    //                       color: Colors.white,
+    //                     ),
+    //                   ),
+    //                   Text(
+    //                     "Password and Confirm aren't the same",
+    //                     style: TextStyle(
+    //                       fontSize: 12,
+    //                       color: Colors.white,
+    //                     ),
+    //                     maxLines: 2,
+    //                     overflow: TextOverflow.ellipsis,
+    //                   ),
+    //                 ],
+    //               ),
+    //             ),
+    //             behavior: SnackBarBehavior.floating,
+    //             backgroundColor: Colors.transparent,
+    //             elevation: 0,
+    //           ),
+    //         );
+    //       }
+    //     } else {
+    //       ScaffoldMessenger.of(context).showSnackBar(
+    //         SnackBar(
+    //           content: Container(
+    //             padding: EdgeInsets.all(16),
+    //             height: 90,
+    //             decoration: BoxDecoration(
+    //               color: Colors.red,
+    //               borderRadius: BorderRadius.all(Radius.circular(20)),
+    //             ),
+    //             child: Column(
+    //               crossAxisAlignment: CrossAxisAlignment.start,
+    //               children: [
+    //                 Text(
+    //                   "Sign Up Failed!!",
+    //                   style: TextStyle(
+    //                     fontSize: 18,
+    //                     color: Colors.white,
+    //                   ),
+    //                 ),
+    //                 Text(
+    //                   //checkMail,
+    //                   "Username must be a valid Gmail",
+    //                   style: TextStyle(
+    //                     fontSize: 12,
+    //                     color: Colors.white,
+    //                   ),
+    //                   maxLines: 2,
+    //                   overflow: TextOverflow.ellipsis,
+    //                 ),
+    //               ],
+    //             ),
+    //           ),
+    //           behavior: SnackBarBehavior.floating,
+    //           backgroundColor: Colors.transparent,
+    //           elevation: 0,
+    //         ),
+    //       );
+    //     }
+    //   }
+    // }
   }
 
   @override
