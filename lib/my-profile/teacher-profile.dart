@@ -129,6 +129,13 @@ class _MyTutorProfileState extends State<MyTutorProfile> {
     Navigator.popAndPushNamed(context, "/studentprofile");
   }
 
+  Future<void> pressLogOut() async {
+    SharedPreferences sharedpref = await SharedPreferences.getInstance();
+    sharedpref.setString('email', '');
+    sharedpref.setString('password', '');
+    Navigator.popAndPushNamed(context, "/login");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -164,7 +171,8 @@ class _MyTutorProfileState extends State<MyTutorProfile> {
                             ],
                           ),
                           onTap: () {
-                            Navigator.popAndPushNamed(context, "/login");
+                            pressLogOut();
+                            //Navigator.popAndPushNamed(context, "/login");
                           },
                         )
                       ],

@@ -19,11 +19,13 @@ class _SignUpPageState extends State<SignUpPage> {
   Future<void> signupCheck() async {
     String username = usernameController.text;
     String password = passwordController.text;
+    String confpass = confirmpassController.text;
     SharedPreferences sharedpref = await SharedPreferences.getInstance();
-    // if (usernameController.text.isEmpty ||
-    //     passwordController.text.isEmpty ||
-    //     confirmpassController.text.isEmpty)
-    if (usernameController.text.isEmpty || passwordController.text.isEmpty) {
+    if (usernameController.text.isEmpty ||
+        passwordController.text.isEmpty ||
+        confirmpassController.text.isEmpty)
+    // if (usernameController.text.isEmpty || passwordController.text.isEmpty)
+    {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Container(
@@ -61,30 +63,127 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
       );
     } else {
-      print("ok 1");
-      await AuthService.registerWithEmailAndPassword(
-        email: username,
-        password: password,
-        onSuccess: () async {
-          // authProvider.logIn(user, token);
-
-          // final prefs = await SharedPreferences.getInstance();
-          // await prefs.setString(
-          //   'refresh_token',
-          //   authProvider.token!.refresh!.token!,
-          // );
-
-          // setState(() {
-          //   _isAuthenticating = false;
-          //   _isAuthenticated = true;
-          // });
-
-          Navigator.popAndPushNamed(context, "/login");
-        },
-        onError: (message) => ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error Register: $message')),
-        ),
-      );
+      if (password.length < 6) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Container(
+              padding: EdgeInsets.all(16),
+              height: 90,
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Sign up failed",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    "Password and Confirm must 6 characters at least. Please reload the app",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.white,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+        );
+      } else {
+        if (confpass.trim() == password.trim()) {
+          await AuthService.registerWithEmailAndPassword(
+            email: username,
+            password: password,
+            onSuccess: () async {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Container(
+                    padding: EdgeInsets.all(16),
+                    height: 90,
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Sign up successfully",
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          //checkMail,
+                          "Heading to login",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.white,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                  behavior: SnackBarBehavior.floating,
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                ),
+              );
+              Navigator.popAndPushNamed(context, "/login");
+            },
+            onError: (message) => ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Container(
+                  padding: EdgeInsets.all(16),
+                  height: 90,
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Sign up failed",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        "Please reload the app",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.white,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+              ),
+            ),
+          );
+        }
+      }
     }
     // } else {
     //   if (username.length < 10) {

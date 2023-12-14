@@ -15,11 +15,68 @@ class _MainLoginState extends State<MainLogin> {
   // text editing controllers
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+  void initState() {
+    super.initState();
+    instantLogin();
+  }
+
+  Future<void> instantLogin() async {
+    SharedPreferences sharedpref = await SharedPreferences.getInstance();
+    String savedUsername = sharedpref.getString('email') ?? "";
+    String savedPassword = sharedpref.getString('password') ?? "";
+    print(savedUsername);
+    print(savedPassword);
+    if (savedUsername != "" && savedPassword != "") {
+      await AuthService.loginWithEmailAndPassword(
+          email: savedUsername,
+          password: savedPassword,
+          onSuccess: (user) async {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Container(
+                  padding: EdgeInsets.all(16),
+                  height: 90,
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Auto log in with saved information",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        "Welcome to LetTutor",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.white,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+              ),
+            );
+            sharedpref.setString('email', savedUsername);
+            sharedpref.setString('password', savedPassword);
+            Navigator.popAndPushNamed(context, "/home");
+          },
+          onError: () {});
+    }
+  }
 
   Future<void> checkLogin() async {
     SharedPreferences sharedpref = await SharedPreferences.getInstance();
-    String? savedUsername = sharedpref.getString('username');
-    String? savedPassword = sharedpref.getString('password');
     String username = usernameController.text;
     String password = passwordController.text;
     if (username.isEmpty || password.isEmpty) {
@@ -61,13 +118,86 @@ class _MainLoginState extends State<MainLogin> {
       );
     } else {
       await AuthService.loginWithEmailAndPassword(
-          email: username,
-          password: password,
-          onSuccess: (user) async {
-            Future.delayed(const Duration(seconds: 1), () {
-              Navigator.popAndPushNamed(context, "/home");
-            });
-          });
+        email: username,
+        password: password,
+        onSuccess: (user) async {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Container(
+                padding: EdgeInsets.all(16),
+                height: 90,
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Log in successfully",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      "Welcome to LetTutor",
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.white,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+            ),
+          );
+          sharedpref.setString('email', username);
+          sharedpref.setString('password', password);
+          Navigator.popAndPushNamed(context, "/home");
+        },
+        onError: () => ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Container(
+              padding: EdgeInsets.all(16),
+              height: 90,
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Log in failed",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    "Check your username and password again",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.white,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+        ),
+      );
       // onError: (user) async {
       //   print("Fail");
       //   ScaffoldMessenger.of(context).showSnackBar(
@@ -109,43 +239,7 @@ class _MainLoginState extends State<MainLogin> {
       // });
 
       // if (username == savedUsername && password == savedPassword) {
-      //   ScaffoldMessenger.of(context).showSnackBar(
-      //     SnackBar(
-      //       content: Container(
-      //         padding: EdgeInsets.all(16),
-      //         height: 90,
-      //         decoration: BoxDecoration(
-      //           color: Colors.green,
-      //           borderRadius: BorderRadius.all(Radius.circular(20)),
-      //         ),
-      //         child: Column(
-      //           crossAxisAlignment: CrossAxisAlignment.start,
-      //           children: [
-      //             Text(
-      //               "Log in successfully",
-      //               style: TextStyle(
-      //                 fontSize: 18,
-      //                 color: Colors.white,
-      //               ),
-      //             ),
-      //             Text(
-      //               "Welcome to LetTutor",
-      //               style: TextStyle(
-      //                 fontSize: 12,
-      //                 color: Colors.white,
-      //               ),
-      //               maxLines: 2,
-      //               overflow: TextOverflow.ellipsis,
-      //             ),
-      //           ],
-      //         ),
-      //       ),
-      //       behavior: SnackBarBehavior.floating,
-      //       backgroundColor: Colors.transparent,
-      //       elevation: 0,
-      //     ),
-      //   );
-      //   Navigator.popAndPushNamed(context, "/home");
+
       // } else {
       //   ScaffoldMessenger.of(context).showSnackBar(
       //     SnackBar(

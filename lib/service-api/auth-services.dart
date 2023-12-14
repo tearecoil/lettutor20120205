@@ -8,6 +8,7 @@ class AuthService {
     required String email,
     required String password,
     required Function(User) onSuccess,
+    required Function() onError,
   }) async {
     try {
       final response = await DioService().post(
