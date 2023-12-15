@@ -165,7 +165,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       ),
                       Text(
-                        "Please reload the app",
+                        message,
                         style: TextStyle(
                           fontSize: 12,
                           color: Colors.white,

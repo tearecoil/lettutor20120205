@@ -3,6 +3,7 @@ import 'package:lettutor20120205/components/my_button.dart';
 import 'package:lettutor20120205/components/my_textfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lettutor20120205/service-api/auth-services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class MainLogin extends StatefulWidget {
   const MainLogin({super.key});
@@ -26,52 +27,93 @@ class _MainLoginState extends State<MainLogin> {
     String savedPassword = sharedpref.getString('password') ?? "";
     print(savedUsername);
     print(savedPassword);
-    if (savedUsername != "" && savedPassword != "") {
-      await AuthService.loginWithEmailAndPassword(
-          email: savedUsername,
-          password: savedPassword,
-          onSuccess: (user) async {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Container(
-                  padding: EdgeInsets.all(16),
-                  height: 90,
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Auto log in with saved information",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(
-                        "Welcome to LetTutor",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.white,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
+    if (savedPassword == '@ut0l0g1n') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Container(
+            padding: EdgeInsets.all(16),
+            height: 90,
+            decoration: BoxDecoration(
+              color: Colors.green,
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Auto log in with saved Gmail sign in",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
                   ),
                 ),
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-              ),
-            );
-            sharedpref.setString('email', savedUsername);
-            sharedpref.setString('password', savedPassword);
-            Navigator.popAndPushNamed(context, "/home");
-          },
-          onError: () {});
+                Text(
+                  "Welcome to LetTutor",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.white,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+      );
+      sharedpref.setString('password', savedPassword);
+      Navigator.popAndPushNamed(context, "/home");
+    } else {
+      if (savedUsername != "" && savedPassword != "") {
+        await AuthService.loginWithEmailAndPassword(
+            email: savedUsername,
+            password: savedPassword,
+            onSuccess: (user) async {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Container(
+                    padding: EdgeInsets.all(16),
+                    height: 90,
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Auto log in with saved information",
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          "Welcome to LetTutor",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.white,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                  behavior: SnackBarBehavior.floating,
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                ),
+              );
+              sharedpref.setString('email', savedUsername);
+              sharedpref.setString('password', savedPassword);
+              Navigator.popAndPushNamed(context, "/home");
+            },
+            onError: () {});
+      }
     }
   }
 
@@ -281,6 +323,35 @@ class _MainLoginState extends State<MainLogin> {
     }
   }
 
+  void GoogleLogin() async {
+    SharedPreferences sharedpref = await SharedPreferences.getInstance();
+    final GoogleSignInAccount? googleUser = await GoogleSignIn(
+      scopes: [
+        'email',
+        'https://www.googleapis.com/auth/contacts.readonly',
+      ],
+    ).signIn();
+
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    final String? accessToken = googleAuth?.accessToken;
+
+    if (accessToken != null) {
+      await AuthService.loginByGoogle(
+        accessToken: accessToken,
+        onSuccess: () async {
+          //sharedpref.setString('email', username);
+          sharedpref.setString('password', '@ut0l0g1n');
+          Navigator.popAndPushNamed(context, "/home");
+        },
+        onError: (message) => ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error Login by Google: $message')),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -397,11 +468,15 @@ class _MainLoginState extends State<MainLogin> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        GoogleLogin();
+                      },
                       icon: Image.asset('assets/images/ic-facebook.png')),
                   SizedBox(width: 25),
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        GoogleLogin();
+                      },
                       icon: Image.asset('assets/images/ic-google.png'))
                 ],
               ),

@@ -59,30 +59,35 @@ class AuthService {
 
       await onSuccess();
     } on DioException catch (e) {
-      //onError(e.response?.data['message']);
+      onError(e.response?.data['message']);
     }
   }
 
-  // static loginByGoogle({
-  //   required String accessToken,
-  //   required Function(User, Tokens) onSuccess,
-  // }) async {
-  //   final response = await DioService().post(
-  //     '/auth/google',
-  //     data: {
-  //       'access_token': accessToken,
-  //     },
-  //   );
+  static loginByGoogle({
+    required String accessToken,
+    required Function() onSuccess,
+    required Function(String) onError,
+  }) async {
+    try {
+      final response = await DioService().post(
+        '/auth/google',
+        data: {
+          'access_token': accessToken,
+        },
+      );
 
-  //   final data = json.decode(response.data);
-  //   if (response.statusCode != 200) {
-  //     throw Exception(data['message']);
-  //   }
+      final data = response.data;
+      if (response.statusCode != 200) {
+        throw Exception(data['message']);
+      }
 
-  //   final user = User.fromJson(data['user']);
-  //   final tokens = Tokens.fromJson(data['tokens']);
-  //   await onSuccess(user, tokens);
-  // }
+      //final user = User.fromJson(data['user']);
+      print(data);
+      await onSuccess();
+    } on DioException catch (e) {
+      onError(e.response?.data['message']);
+    }
+  }
 
   // static loginByFacebook({
   //   required String accessToken,
