@@ -21,13 +21,15 @@ class AuthService {
 
       final data = response.data;
 
-      print(data);
+      //print(data);
 
       if (response.statusCode != 200) {
         throw Exception(data['message']);
       }
 
       final user = User.fromJson(data['user']);
+      UserLogged = user;
+      print(UserLogged.name);
       await onSuccess(user);
     } on DioException catch (e) {
       //throw e;
@@ -63,6 +65,34 @@ class AuthService {
     }
   }
 
+  static Future<void> forgotPassword({
+    required String email,
+    required Function() onSuccess,
+    required Function(String) onError,
+  }) async {
+    try {
+      final response = await DioService().post(
+        '/user/forgotPassword',
+        data: {
+          'email': email,
+        },
+      );
+
+      final data = response.data;
+
+      print(data);
+
+      if (response.statusCode != 200) {
+        throw Exception(data['message']);
+      }
+
+      await onSuccess();
+    } on DioException catch (e) {
+      onError(e.response?.data['message']);
+      //throw e;
+    }
+  }
+
   static loginByGoogle({
     required String accessToken,
     required Function() onSuccess,
@@ -81,7 +111,11 @@ class AuthService {
         throw Exception(data['message']);
       }
 
-      //final user = User.fromJson(data['user']);
+      final user = User.fromJson(data['user']);
+      UserLogged = user;
+      UserLogged.avatar =
+          "https://sandbox.api.lettutor.com/avatar/cb9e7deb-3382-48db-b07c-90acf52f541cavatar1686550060378.jpg";
+      //print(UserLogged.name);
       print(data);
       await onSuccess();
     } on DioException catch (e) {

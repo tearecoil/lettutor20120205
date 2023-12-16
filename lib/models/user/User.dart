@@ -79,3 +79,5 @@ class User {
     return data;
   }
 }
+
+late User UserLogged;

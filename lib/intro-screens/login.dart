@@ -27,93 +27,53 @@ class _MainLoginState extends State<MainLogin> {
     String savedPassword = sharedpref.getString('password') ?? "";
     print(savedUsername);
     print(savedPassword);
-    if (savedPassword == '@ut0l0g1n') {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Container(
-            padding: EdgeInsets.all(16),
-            height: 90,
-            decoration: BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Auto log in with saved Gmail sign in",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
+    if (savedUsername != "" && savedPassword != "") {
+      await AuthService.loginWithEmailAndPassword(
+          email: savedUsername,
+          password: savedPassword,
+          onSuccess: (user) async {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Container(
+                  padding: EdgeInsets.all(16),
+                  height: 90,
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
                   ),
-                ),
-                Text(
-                  "Welcome to LetTutor",
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.white,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
-          ),
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-      );
-      sharedpref.setString('password', savedPassword);
-      Navigator.popAndPushNamed(context, "/home");
-    } else {
-      if (savedUsername != "" && savedPassword != "") {
-        await AuthService.loginWithEmailAndPassword(
-            email: savedUsername,
-            password: savedPassword,
-            onSuccess: (user) async {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Container(
-                    padding: EdgeInsets.all(16),
-                    height: 90,
-                    decoration: BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Auto log in with saved information",
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                          ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Auto log in with saved information",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
                         ),
-                        Text(
-                          "Welcome to LetTutor",
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.white,
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        "Welcome to LetTutor",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.white,
                         ),
-                      ],
-                    ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ),
-                  behavior: SnackBarBehavior.floating,
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
                 ),
-              );
-              sharedpref.setString('email', savedUsername);
-              sharedpref.setString('password', savedPassword);
-              Navigator.popAndPushNamed(context, "/home");
-            },
-            onError: () {});
-      }
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+              ),
+            );
+            sharedpref.setString('email', savedUsername);
+            sharedpref.setString('password', savedPassword);
+            sharedpref.setString('accountType', "/studentprofile");
+            Navigator.popAndPushNamed(context, "/home");
+          },
+          onError: () {});
     }
   }
 
@@ -201,6 +161,7 @@ class _MainLoginState extends State<MainLogin> {
           );
           sharedpref.setString('email', username);
           sharedpref.setString('password', password);
+          sharedpref.setString('accountType', "/studentprofile");
           Navigator.popAndPushNamed(context, "/home");
         },
         onError: () => ScaffoldMessenger.of(context).showSnackBar(
@@ -342,7 +303,6 @@ class _MainLoginState extends State<MainLogin> {
         accessToken: accessToken,
         onSuccess: () async {
           //sharedpref.setString('email', username);
-          sharedpref.setString('password', '@ut0l0g1n');
           Navigator.popAndPushNamed(context, "/home");
         },
         onError: (message) => ScaffoldMessenger.of(context).showSnackBar(
@@ -467,12 +427,7 @@ class _MainLoginState extends State<MainLogin> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                      onPressed: () {
-                        GoogleLogin();
-                      },
-                      icon: Image.asset('assets/images/ic-facebook.png')),
-                  SizedBox(width: 25),
+                  //SizedBox(width: 25),
                   IconButton(
                       onPressed: () {
                         GoogleLogin();

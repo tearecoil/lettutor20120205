@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor20120205/components/my_button.dart';
 import 'package:lettutor20120205/components/my_textfield.dart';
+import 'package:lettutor20120205/service-api/auth-services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -22,7 +23,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     String username = usernameController.text;
     String password = passwordController.text;
     String repass = confirmpassController.text;
-    if (username.isEmpty || password.isEmpty || repass.isEmpty) {
+    if (username.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Container(
@@ -60,8 +61,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         ),
       );
     } else {
-      if (username == savedUsername) {
-        if (password == repass) {
+      await AuthService.forgotPassword(
+        email: username,
+        onSuccess: () async {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Container(
@@ -75,14 +77,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Reset password successfully",
+                      "Please check your email",
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.white,
                       ),
                     ),
                     Text(
-                      "Back to login",
+                      "Check spam if you don't see the reset mail",
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.white,
@@ -98,51 +100,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               elevation: 0,
             ),
           );
-          sharedpref.remove('username');
-          sharedpref.remove('password');
-          sharedpref.setString('username', username);
-          sharedpref.setString('password', password);
           Navigator.popAndPushNamed(context, "/login");
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Container(
-                padding: EdgeInsets.all(16),
-                height: 90,
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Fail to reset password!!",
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Text(
-                      "Password and Confirm password aren't the same",
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.white,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-            ),
-          );
-        }
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
+        },
+        onError: (message) => ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Container(
               padding: EdgeInsets.all(16),
@@ -155,14 +115,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Fail to reset password!!",
+                    "Fail to reset password",
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.white,
                     ),
                   ),
                   Text(
-                    "Wrong username",
+                    message,
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.white,
@@ -177,9 +137,167 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
-        );
-      }
+        ),
+      );
     }
+    // if (username.isEmpty || password.isEmpty || repass.isEmpty) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(
+    //       content: Container(
+    //         padding: EdgeInsets.all(16),
+    //         height: 90,
+    //         decoration: BoxDecoration(
+    //           color: Colors.red,
+    //           borderRadius: BorderRadius.all(Radius.circular(20)),
+    //         ),
+    //         child: Column(
+    //           crossAxisAlignment: CrossAxisAlignment.start,
+    //           children: [
+    //             Text(
+    //               "Fail to reset password!!",
+    //               style: TextStyle(
+    //                 fontSize: 18,
+    //                 color: Colors.white,
+    //               ),
+    //             ),
+    //             Text(
+    //               "User's email / Password / Confirm password can't be blank",
+    //               style: TextStyle(
+    //                 fontSize: 12,
+    //                 color: Colors.white,
+    //               ),
+    //               maxLines: 2,
+    //               overflow: TextOverflow.ellipsis,
+    //             ),
+    //           ],
+    //         ),
+    //       ),
+    //       behavior: SnackBarBehavior.floating,
+    //       backgroundColor: Colors.transparent,
+    //       elevation: 0,
+    //     ),
+    //   );
+    // } else {
+    //   if (username == savedUsername) {
+    //     if (password == repass) {
+    //       ScaffoldMessenger.of(context).showSnackBar(
+    //         SnackBar(
+    //           content: Container(
+    //             padding: EdgeInsets.all(16),
+    //             height: 90,
+    //             decoration: BoxDecoration(
+    //               color: Colors.green,
+    //               borderRadius: BorderRadius.all(Radius.circular(20)),
+    //             ),
+    //             child: Column(
+    //               crossAxisAlignment: CrossAxisAlignment.start,
+    //               children: [
+    //                 Text(
+    //                   "Reset password successfully",
+    //                   style: TextStyle(
+    //                     fontSize: 18,
+    //                     color: Colors.white,
+    //                   ),
+    //                 ),
+    //                 Text(
+    //                   "Back to login",
+    //                   style: TextStyle(
+    //                     fontSize: 12,
+    //                     color: Colors.white,
+    //                   ),
+    //                   maxLines: 2,
+    //                   overflow: TextOverflow.ellipsis,
+    //                 ),
+    //               ],
+    //             ),
+    //           ),
+    //           behavior: SnackBarBehavior.floating,
+    //           backgroundColor: Colors.transparent,
+    //           elevation: 0,
+    //         ),
+    //       );
+    //       sharedpref.remove('username');
+    //       sharedpref.remove('password');
+    //       sharedpref.setString('username', username);
+    //       sharedpref.setString('password', password);
+    //       Navigator.popAndPushNamed(context, "/login");
+    //     } else {
+    //       ScaffoldMessenger.of(context).showSnackBar(
+    //         SnackBar(
+    //           content: Container(
+    //             padding: EdgeInsets.all(16),
+    //             height: 90,
+    //             decoration: BoxDecoration(
+    //               color: Colors.red,
+    //               borderRadius: BorderRadius.all(Radius.circular(20)),
+    //             ),
+    //             child: Column(
+    //               crossAxisAlignment: CrossAxisAlignment.start,
+    //               children: [
+    //                 Text(
+    //                   "Fail to reset password!!",
+    //                   style: TextStyle(
+    //                     fontSize: 18,
+    //                     color: Colors.white,
+    //                   ),
+    //                 ),
+    //                 Text(
+    //                   "Password and Confirm password aren't the same",
+    //                   style: TextStyle(
+    //                     fontSize: 12,
+    //                     color: Colors.white,
+    //                   ),
+    //                   maxLines: 2,
+    //                   overflow: TextOverflow.ellipsis,
+    //                 ),
+    //               ],
+    //             ),
+    //           ),
+    //           behavior: SnackBarBehavior.floating,
+    //           backgroundColor: Colors.transparent,
+    //           elevation: 0,
+    //         ),
+    //       );
+    //     }
+    //   } else {
+    //     ScaffoldMessenger.of(context).showSnackBar(
+    //       SnackBar(
+    //         content: Container(
+    //           padding: EdgeInsets.all(16),
+    //           height: 90,
+    //           decoration: BoxDecoration(
+    //             color: Colors.red,
+    //             borderRadius: BorderRadius.all(Radius.circular(20)),
+    //           ),
+    //           child: Column(
+    //             crossAxisAlignment: CrossAxisAlignment.start,
+    //             children: [
+    //               Text(
+    //                 "Fail to reset password!!",
+    //                 style: TextStyle(
+    //                   fontSize: 18,
+    //                   color: Colors.white,
+    //                 ),
+    //               ),
+    //               Text(
+    //                 "Wrong username",
+    //                 style: TextStyle(
+    //                   fontSize: 12,
+    //                   color: Colors.white,
+    //                 ),
+    //                 maxLines: 2,
+    //                 overflow: TextOverflow.ellipsis,
+    //               ),
+    //             ],
+    //           ),
+    //         ),
+    //         behavior: SnackBarBehavior.floating,
+    //         backgroundColor: Colors.transparent,
+    //         elevation: 0,
+    //       ),
+    //     );
+    //   }
+    // }
   }
 
   @override
@@ -216,20 +334,20 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 hintText: 'Insert your username',
                 obscureText: false,
               ),
-              const SizedBox(height: 10),
-              MyTextField(
-                controller: passwordController,
-                hintText: 'Insert New Password',
-                obscureText: true,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              MyTextField(
-                controller: confirmpassController,
-                hintText: 'Confirm your password',
-                obscureText: true,
-              ),
+              // const SizedBox(height: 10),
+              // MyTextField(
+              //   controller: passwordController,
+              //   hintText: 'Insert New Password',
+              //   obscureText: true,
+              // ),
+              // const SizedBox(
+              //   height: 10,
+              // ),
+              // MyTextField(
+              //   controller: confirmpassController,
+              //   hintText: 'Confirm your password',
+              //   obscureText: true,
+              // ),
               const SizedBox(height: 25),
               MyButton(
                 text: "RESET PASSWORD",
