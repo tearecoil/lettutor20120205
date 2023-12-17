@@ -1,3 +1,7 @@
+import 'package:lettutor20120205/models/user/learn_topic.dart';
+import 'package:lettutor20120205/models/user/test_preparation.dart';
+import 'package:lettutor20120205/models/user/wallet.dart';
+
 class User {
   String? id;
   String? email;
@@ -9,9 +13,12 @@ class User {
   String? language;
   String? birthday;
   bool? isActivated;
+  Wallet? walletInfo;
   List<String>? coursesId;
   String? requireNote;
   String? level;
+  List<LearnTopic>? learnTopics;
+  List<TestPreparation>? testPreparations;
   bool? isPhoneActivated;
   int? timezone;
   String? studySchedule;
@@ -28,9 +35,12 @@ class User {
     this.language,
     this.birthday,
     this.isActivated,
+    this.walletInfo,
     this.coursesId,
     this.requireNote,
     this.level,
+    this.learnTopics,
+    this.testPreparations,
     this.isPhoneActivated,
     this.timezone,
     this.studySchedule,
@@ -48,9 +58,18 @@ class User {
     language = json['language'];
     birthday = json['birthday'];
     isActivated = json['isActivated'];
+    walletInfo =
+        json['walletInfo'] != null ? Wallet.fromJson(json['walletInfo']) : null;
     coursesId = json['courses']?.cast<String>();
     requireNote = json['requireNote'];
     level = json['level'];
+    learnTopics = json['learnTopics']
+        ?.map<LearnTopic>((learnTopic) => LearnTopic.fromJson(learnTopic))
+        .toList();
+    testPreparations = json['testPreparations']
+        ?.map<TestPreparation>(
+            (testPreparation) => TestPreparation.fromJson(testPreparation))
+        .toList();
     isPhoneActivated = json['isPhoneActivated'];
     timezone = json['timezone'];
     studySchedule = json['studySchedule'];
@@ -69,9 +88,15 @@ class User {
     data['language'] = language;
     data['birthday'] = birthday;
     data['isActivated'] = isActivated;
+    data['walletInfo'] = walletInfo?.toJson();
     data['courses'] = coursesId;
     data['requireNote'] = requireNote;
     data['level'] = level;
+    data['learnTopics'] =
+        learnTopics?.map((learnTopic) => learnTopic.toJson()).toList();
+    data['testPreparations'] = testPreparations
+        ?.map((testPreparation) => testPreparation.toJson())
+        .toList();
     data['isPhoneActivated'] = isPhoneActivated;
     data['timezone'] = timezone;
     data['studySchedule'] = studySchedule;

@@ -71,6 +71,7 @@ class _MainLoginState extends State<MainLogin> {
             sharedpref.setString('email', savedUsername);
             sharedpref.setString('password', savedPassword);
             sharedpref.setString('accountType', "/studentprofile");
+
             Navigator.popAndPushNamed(context, "/home");
           },
           onError: () {});
@@ -286,29 +287,66 @@ class _MainLoginState extends State<MainLogin> {
 
   void GoogleLogin() async {
     SharedPreferences sharedpref = await SharedPreferences.getInstance();
+    sharedpref.clear();
     final GoogleSignInAccount? googleUser = await GoogleSignIn(
       scopes: [
         'email',
         'https://www.googleapis.com/auth/contacts.readonly',
       ],
     ).signIn();
-
     final GoogleSignInAuthentication? googleAuth =
         await googleUser?.authentication;
-
     final String? accessToken = googleAuth?.accessToken;
 
     if (accessToken != null) {
       await AuthService.loginByGoogle(
         accessToken: accessToken,
         onSuccess: () async {
-          //sharedpref.setString('email', username);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Container(
+                padding: EdgeInsets.all(16),
+                height: 90,
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Log in successfully",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      "Welcome to LetTutor",
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.white,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+            ),
+          );
+          sharedpref.setString('accountType', "/studentprofile");
           Navigator.popAndPushNamed(context, "/home");
         },
         onError: (message) => ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error Login by Google: $message')),
         ),
       );
+    } else {
+      print("6");
     }
   }
 

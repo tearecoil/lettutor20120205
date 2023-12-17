@@ -5,8 +5,10 @@ import 'package:lettutor20120205/components/my_profile_box.dart';
 import 'package:lettutor20120205/components/profile_box.dart';
 import 'package:lettutor20120205/components/rating_bar.dart';
 import 'package:lettutor20120205/components/tutor.dart';
+import 'package:lettutor20120205/service-api/user-services.dart';
 import 'package:lettutor20120205/tutor_pages/reviews.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:lettutor20120205/models/user/User.dart';
 
 class MyStudentProfile extends StatefulWidget {
   const MyStudentProfile({
@@ -19,53 +21,34 @@ class MyStudentProfile extends StatefulWidget {
 
 class _MyStudentProfileState extends State<MyStudentProfile> {
   String? name;
+  String? email;
+  String? avatar_link;
+  String? country;
+  String? phone;
+  List<String>? roles;
+  String? language;
+  String? birthday;
+  String? role;
   String? bio;
-  String? avatar;
-  String? nation;
-  String? username;
+  String? level;
   @override
   void initState() {
     super.initState();
-    loadUsername();
-    loadName();
-    loadAboutMe();
-    loadAvatar();
-    loadNation();
+    loadInfo();
   }
 
-  void loadUsername() async {
-    SharedPreferences sharedpref = await SharedPreferences.getInstance();
-    setState(() {
-      username = sharedpref.getString('username') ?? "Insert name here";
-    });
-  }
-
-  void loadName() async {
-    SharedPreferences sharedpref = await SharedPreferences.getInstance();
-    setState(() {
-      name = sharedpref.getString('name') ?? "Insert name here";
-    });
-  }
-
-  void loadAboutMe() async {
-    SharedPreferences sharedpref = await SharedPreferences.getInstance();
-    setState(() {
-      bio = sharedpref.getString('aboutMe') ?? "Insert bio here";
-    });
-  }
-
-  void loadAvatar() async {
-    SharedPreferences sharedpref = await SharedPreferences.getInstance();
-    setState(() {
-      avatar = sharedpref.getString('avatar') ?? "";
-    });
-  }
-
-  void loadNation() async {
-    SharedPreferences sharedpref = await SharedPreferences.getInstance();
-    setState(() {
-      nation = sharedpref.getString('nation') ?? "";
-    });
+  void loadInfo() async {
+    name = UserLogged.name;
+    email = UserLogged.email;
+    avatar_link = UserLogged.avatar;
+    country = UserLogged.country;
+    phone = UserLogged.phone;
+    roles = UserLogged.roles;
+    language = UserLogged.language;
+    birthday = UserLogged.birthday;
+    bio = UserLogged.requireNote;
+    level = UserLogged.level;
+    role = roles?.first;
   }
 
   Future<void> setField(String field) async {
@@ -109,18 +92,38 @@ class _MyStudentProfileState extends State<MyStudentProfile> {
     );
     if (newValue.trim().length > 0) {
       SharedPreferences sharedpref = await SharedPreferences.getInstance();
-      Navigator.popAndPushNamed(context, "/studentprofile");
-      sharedpref.setString(field, newValue);
+      // Navigator.popAndPushNamed(context, "/studentprofile");
+      // sharedpref.setString(field, newValue);
       if (field == 'name') {
-        loadName();
+        name = newValue;
       } else if (field == 'aboutMe') {
-        loadAboutMe();
-      } else if (field == 'avatar') {
-        loadAvatar();
+        bio = newValue;
+      } else if (field == 'birthday') {
+        birthday = newValue;
+      } else if (field == 'language') {
+        language = newValue;
       } else {
-        loadNation();
+        level = newValue;
       }
     }
+
+    await UserService.updateInfo(
+      updateUser: User(
+        name: name,
+        requireNote: bio,
+        birthday: birthday,
+        language: language,
+        level: level,
+        avatar: avatar_link,
+      ),
+      onSuccess: (user) {
+        UserLogged = user ?? UserLogged;
+        Navigator.popAndPushNamed(context, "/studentprofile");
+      },
+      onError: (message) {
+        print(message);
+      },
+    );
   }
 
   Future<void> setTutor() async {
@@ -131,8 +134,7 @@ class _MyStudentProfileState extends State<MyStudentProfile> {
 
   Future<void> pressLogOut() async {
     SharedPreferences sharedpref = await SharedPreferences.getInstance();
-    sharedpref.setString('email', '');
-    sharedpref.setString('password', '');
+    sharedpref.clear();
     Navigator.popAndPushNamed(context, "/login");
   }
 
@@ -210,28 +212,34 @@ class _MyStudentProfileState extends State<MyStudentProfile> {
                     height: 100,
                     width: 100,
                     //margin: EdgeInsets.only(right: 16),
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(avatar ?? ""),
-                        fit: BoxFit.cover,
-                      ),
-                      borderRadius: BorderRadius.circular(100),
-                    ),
+                    child: Image.network(avatar_link ?? ""),
+                    // decoration: BoxDecoration(
+                    //   image: DecorationImage(
+                    //     image: AssetImage(avatar ?? ""),
+                    //     fit: BoxFit.cover,
+                    //   ),
+                    //   borderRadius: BorderRadius.circular(100),
+                    // ),
                   ),
                 ],
               ),
               Text(
-                username ?? "",
+                name ?? "",
                 textAlign: TextAlign.center,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
-              const Text(
-                "Student",
+              Text(
+                email ?? "",
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.grey, fontSize: 10),
               ),
               Text(
-                nation ?? "",
+                role ?? "",
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.grey, fontSize: 10),
+              ),
+              Text(
+                country ?? "",
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 50),
@@ -241,9 +249,24 @@ class _MyStudentProfileState extends State<MyStudentProfile> {
                   onpress: () => setField('name')),
               SizedBox(height: 5),
               MyProfileBox(
-                  text: bio ?? "Default Bio",
+                  text: bio ?? "Null",
                   sectionName: "About me",
                   onpress: () => setField('aboutMe')),
+              SizedBox(height: 5),
+              MyProfileBox(
+                  text: birthday ?? "Null",
+                  sectionName: "Birthday",
+                  onpress: () => setField('birthday')),
+              SizedBox(height: 5),
+              MyProfileBox(
+                  text: language ?? "Null",
+                  sectionName: "Language",
+                  onpress: () => setField('language')),
+              SizedBox(height: 5),
+              MyProfileBox(
+                  text: level ?? "BEGINNER",
+                  sectionName: "Level",
+                  onpress: () => setField('level')),
               SizedBox(height: 25),
               MyButton(
                 text: "Become a Tutor",
