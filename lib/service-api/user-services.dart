@@ -18,6 +18,7 @@ class UserService {
           'language': updateUser?.language,
           'level': updateUser?.level,
           'avatar': updateUser?.avatar,
+          'country': updateUser?.country,
         },
       );
 

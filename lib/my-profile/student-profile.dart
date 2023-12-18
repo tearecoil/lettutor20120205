@@ -31,10 +31,21 @@ class _MyStudentProfileState extends State<MyStudentProfile> {
   String? role;
   String? bio;
   String? level;
+  List<String> CurrentLevel = [
+    "BEGINNER",
+    "HIGHER_BEGINNER",
+    "PRE_INTERMEDIATE",
+    "INTERMEDIATE",
+    "UPPER_INTERMEDIATE",
+    "ADVANCED",
+    "PROFICIENCY",
+  ];
+  late String chosen;
   @override
   void initState() {
     super.initState();
     loadInfo();
+    chosen = level ?? "BEGINNER";
   }
 
   void loadInfo() async {
@@ -51,6 +62,57 @@ class _MyStudentProfileState extends State<MyStudentProfile> {
     role = roles?.first;
   }
 
+  Future<void> setLevel(String field) async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+            return AlertDialog(
+              title: Text('Choose your current level'),
+              content: DropdownButton<String>(
+                value: chosen,
+                onChanged: (value) {
+                  setState(() {
+                    chosen = value.toString();
+                  });
+                },
+                items: CurrentLevel.map((value) {
+                  return DropdownMenuItem(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+              actions: [
+                ElevatedButton(
+                    onPressed: () {
+                      UserService.updateInfo(
+                        updateUser: User(
+                          name: name,
+                          requireNote: bio,
+                          birthday: birthday,
+                          language: language,
+                          level: chosen,
+                          avatar: avatar_link,
+                        ),
+                        onSuccess: (user) {
+                          UserLogged = user ?? UserLogged;
+                          Navigator.popAndPushNamed(context, "/studentprofile");
+                        },
+                        onError: (message) {
+                          print(message);
+                        },
+                      );
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("Submit"))
+              ],
+            );
+          });
+        });
+  }
+
   Future<void> setField(String field) async {
     String newValue = "";
     await showDialog(
@@ -58,14 +120,14 @@ class _MyStudentProfileState extends State<MyStudentProfile> {
       builder: (context) => AlertDialog(
         backgroundColor: Colors.grey[900],
         title: Text(
-          "Edit name",
+          "Edit field",
           style: const TextStyle(color: Colors.white),
         ),
         content: TextField(
           autofocus: true,
           style: TextStyle(color: Colors.white),
           decoration: InputDecoration(
-            hintText: "Enter new name",
+            hintText: "Enter new value",
             hintStyle: TextStyle(color: Colors.grey),
           ),
           onChanged: (value) {
@@ -102,6 +164,8 @@ class _MyStudentProfileState extends State<MyStudentProfile> {
         birthday = newValue;
       } else if (field == 'language') {
         language = newValue;
+      } else if (field == 'country') {
+        country = newValue;
       } else {
         level = newValue;
       }
@@ -115,6 +179,7 @@ class _MyStudentProfileState extends State<MyStudentProfile> {
         language: language,
         level: level,
         avatar: avatar_link,
+        country: country,
       ),
       onSuccess: (user) {
         UserLogged = user ?? UserLogged;
@@ -141,28 +206,6 @@ class _MyStudentProfileState extends State<MyStudentProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: AppBar(
-        //   title: Text("My Profile"),
-        //   actions: [
-        //     Padding(
-        //       padding: EdgeInsets.only(right: 10),
-        //       child: PopupMenuButton(
-        //         itemBuilder: (context) => [
-        //           PopupMenuItem(
-        //             child: Row(
-        //               children: [
-        //                 Padding(
-        //                   padding: EdgeInsets.only(right: 10),
-        //                   child: Text("Log Out"),
-        //                 )
-        //               ],
-        //             ),
-        //           )
-        //         ],
-        //       ),
-        //     ),
-        //   ],
-        // ),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Column(
@@ -238,10 +281,27 @@ class _MyStudentProfileState extends State<MyStudentProfile> {
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.grey, fontSize: 10),
               ),
-              Text(
-                country ?? "",
-                textAlign: TextAlign.center,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                      child: Text(
+                        country ?? "COUNTRY NOT DEFINED, CLICK TO EDIT",
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 10,
+                          decoration: TextDecoration.underline,
+                          decorationThickness: 0.2,
+                        ),
+                      ),
+                      onTap: () => setField('country')),
+                ],
               ),
+              // Text(
+              //   country ?? "",
+              //   textAlign: TextAlign.center,
+              // ),
               const SizedBox(height: 50),
               MyProfileBox(
                   text: name ?? "Default Name",
@@ -266,7 +326,7 @@ class _MyStudentProfileState extends State<MyStudentProfile> {
               MyProfileBox(
                   text: level ?? "BEGINNER",
                   sectionName: "Level",
-                  onpress: () => setField('level')),
+                  onpress: () => setLevel('level')),
               SizedBox(height: 25),
               MyButton(
                 text: "Become a Tutor",
