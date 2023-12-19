@@ -6,6 +6,7 @@ import 'package:lettutor20120205/components/tag.dart';
 import 'package:lettutor20120205/components/tutor.dart';
 import 'package:lettutor20120205/models/tutor/tutor_api.dart';
 import 'package:lettutor20120205/service-api/tutor-services.dart';
+import 'package:lettutor20120205/tutor_pages/view_tutor_profile.dart';
 import '../components/tutor_list.dart';
 
 class TutorHomePage extends StatefulWidget {
@@ -53,7 +54,7 @@ class _TutorHomePageState extends State<TutorHomePage> {
     getTutors();
   }
 
-  void _handleNameChange(String value) {
+  void searchbyName(String value) {
     setState(() {
       listtutor = _tutors!
           .where((tutor) =>
@@ -68,7 +69,7 @@ class _TutorHomePageState extends State<TutorHomePage> {
         perPage: 10,
         onSuccess: (tutors) {
           _tutors = tutors.toList();
-          print(_tutors);
+          // print(_tutors);
           setState(() {});
         },
         onError: (message) {});
@@ -154,7 +155,7 @@ class _TutorHomePageState extends State<TutorHomePage> {
                       borderSide: const BorderSide(color: Colors.blue),
                     ),
                   ),
-                  onChanged: _handleNameChange,
+                  onChanged: searchbyName,
                 ),
               ),
               Container(
@@ -224,24 +225,16 @@ class _TutorHomePageState extends State<TutorHomePage> {
                           elevation: 1,
                           child: InkWell(
                               onTap: () {
-                                // Navigator.push<void>(
-                                //   context,
-                                //   MaterialPageRoute<void>(
-                                //     builder: (BuildContext context) => TutorProfile(
-                                //         tutor: Tutor(
-                                //       name: this.name,
-                                //       avatar: this.avatar,
-                                //       quotes: this.quotes,
-                                //       education: this.education,
-                                //       rating: this.rating,
-                                //       rating_count: this.rating_count,
-                                //       language: this.language,
-                                //       skill: this.skill,
-                                //       nationality: this.nationality,
-                                //       favorite: favorite,
-                                //     )),
-                                //   ),
-                                // );
+                                Navigator.push<void>(
+                                  context,
+                                  MaterialPageRoute<void>(
+                                    builder: (BuildContext context) =>
+                                        ViewProfile(
+                                      id: listtutor[index].userId ??
+                                          "4d54d3d7-d2a9-42e5-97a2-5ed38af5789a",
+                                    ),
+                                  ),
+                                );
                               },
                               child: Container(
                                 child: Column(
@@ -511,72 +504,3 @@ class _TutorHomePageState extends State<TutorHomePage> {
         ],
       );
 }
- 
-
-
-// var tutorlistbeta = TutorList().tutorlist;
-// var tutorlistbeta1 = [
-//   Tutor(
-//     name: "Kiryu Kazuma",
-//     avatar: "assets/images/ava1.png",
-//     quotes: "4th chairman of Tojo Clan",
-//     rating: 4.0,
-//     rating_count: 13,
-//     language: "Japanese",
-//     skill: "Dragon",
-//   ),
-//   Tutor(
-//     name: "Joryu",
-//     avatar: "assets/images/ava3.jpg",
-//     quotes: "Daidoji Faction's Agent",
-//     rating: 5.0,
-//     rating_count: 3,
-//     language: "Japanese",
-//     skill: "Agent",
-//   ),
-//   Tutor(
-//     name: "Kihei Hanawa",
-//     avatar: "assets/images/ava4.png",
-//     quotes: "Daidoji Faction's Agent",
-//     rating: 4.6,
-//     rating_count: 1,
-//     language: "Japanese",
-//     skill: "Agent",
-//   ),
-//   Tutor(
-//     name: "Taiga Saejima",
-//     avatar: "assets/images/ava5.png",
-//     quotes: "Saejima Family Patriarch",
-//     rating: 0,
-//     rating_count: 18,
-//     language: "Japanese",
-//     skill: "18-counts",
-//   ),
-//   Tutor(
-//     name: "Daigo Dojima",
-//     avatar: "assets/images/ava6.png",
-//     quotes: "6th chairman of Tojo Clan",
-//     rating: 5,
-//     rating_count: 30000,
-//     language: "Japanese",
-//     skill: "Charisma",
-//   ),
-//   Tutor(
-//     name: "Ichiban Kasuga",
-//     avatar: "assets/images/ava7.png",
-//     quotes: "Hero - Former Arakawa Family Member",
-//     rating: 2.3,
-//     rating_count: 10,
-//     language: "Japanese",
-//     skill: "Hero",
-//   ),
-//   Tutor(
-//     name: "Goro Majima",
-//     avatar: "assets/images/ava2.jpg",
-//     quotes: "Majima Family Patriarch",
-//     rating: 3.1,
-//     rating_count: 99,
-//     language: "Japanese",
-//     skill: "Mad Dog",
-//   ),
-// ];

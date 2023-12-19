@@ -1,5 +1,6 @@
 import 'package:lettutor20120205/models/user/learn_topic.dart';
 import 'package:lettutor20120205/models/user/test_preparation.dart';
+import 'package:lettutor20120205/models/user/user_course.dart';
 import 'package:lettutor20120205/models/user/wallet.dart';
 
 class User {
@@ -23,6 +24,7 @@ class User {
   int? timezone;
   String? studySchedule;
   bool? canSendMessage;
+  List<UserCourse>? courses;
 
   User({
     this.id,
@@ -45,6 +47,7 @@ class User {
     this.timezone,
     this.studySchedule,
     this.canSendMessage,
+    this.courses,
   });
 
   User.fromJson(Map<String, dynamic> json) {
@@ -74,6 +77,9 @@ class User {
     timezone = json['timezone'];
     studySchedule = json['studySchedule'];
     canSendMessage = json['canSendMessage'];
+    courses = json['courses']
+        ?.map<UserCourse>((userCourse) => UserCourse.fromJson(userCourse))
+        .toList();
   }
 
   Map<String, dynamic> toJson() {
@@ -101,6 +107,8 @@ class User {
     data['timezone'] = timezone;
     data['studySchedule'] = studySchedule;
     data['canSendMessage'] = canSendMessage;
+    data['courses'] =
+        courses?.map((userCourse) => userCourse.toJson()).toList();
     return data;
   }
 }

@@ -11,7 +11,7 @@ class RatingBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> _starlist = [];
-
+    String count = ratingCount.toString();
     int realNum = rating.floor();
     int partNum = ((rating - realNum) * 10).ceil();
 
@@ -52,8 +52,16 @@ class RatingBar extends StatelessWidget {
       }
     }
     return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: _starlist,
+      children: [
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: _starlist,
+        ),
+        Text(
+          " (" + count + ")",
+          style: TextStyle(color: Colors.grey),
+        )
+      ],
     );
   }
 }

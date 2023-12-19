@@ -4,7 +4,7 @@ import 'package:lettutor20120205/detail-courses-widgets/courses_info.dart';
 import 'package:lettutor20120205/my-profile/student-profile.dart';
 import 'package:lettutor20120205/my-profile/teacher-profile.dart';
 import 'package:lettutor20120205/tutor_pages/reviews.dart';
-import 'package:lettutor20120205/tutor_pages/tutor_profile.dart';
+// import 'package:lettutor20120205/tutor_pages/view_tutor_profile.dart';
 import 'package:lettutor20120205/intro-screens/forgot_password.dart';
 import 'package:lettutor20120205/intro-screens/login.dart';
 import 'package:lettutor20120205/intro-screens/menu.dart';

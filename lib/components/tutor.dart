@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor20120205/components/rating_bar.dart';
 import '../components/tutor_list.dart';
-import 'package:lettutor20120205/tutor_pages/tutor_profile.dart';
+// import 'package:lettutor20120205/tutor_pages/view_tutor_profile.dart';
 
 class Tutor extends StatelessWidget {
   final String name;
@@ -47,24 +47,24 @@ class Tutor extends StatelessWidget {
           elevation: 1,
           child: InkWell(
               onTap: () {
-                Navigator.push<void>(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (BuildContext context) => TutorProfile(
-                        tutor: Tutor(
-                      name: this.name,
-                      avatar: this.avatar,
-                      quotes: this.quotes,
-                      education: this.education,
-                      rating: this.rating,
-                      rating_count: this.rating_count,
-                      language: this.language,
-                      skill: this.skill,
-                      nationality: this.nationality,
-                      favorite: favorite,
-                    )),
-                  ),
-                );
+                // Navigator.push<void>(
+                //   context,
+                //   MaterialPageRoute<void>(
+                //     builder: (BuildContext context) => TutorProfile(
+                //         tutor: Tutor(
+                //       name: this.name,
+                //       avatar: this.avatar,
+                //       quotes: this.quotes,
+                //       education: this.education,
+                //       rating: this.rating,
+                //       rating_count: this.rating_count,
+                //       language: this.language,
+                //       skill: this.skill,
+                //       nationality: this.nationality,
+                //       favorite: favorite,
+                //     )),
+                //   ),
+                // );
               },
               child: Container(
                 child: Column(
