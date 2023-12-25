@@ -89,7 +89,7 @@ class TutorService {
     }
   }
 
-  static Future<void> handleFavorite({
+  static Future<void> addFavorite({
     required String userId,
     required Function() onSuccess,
     required Function(String) onError,

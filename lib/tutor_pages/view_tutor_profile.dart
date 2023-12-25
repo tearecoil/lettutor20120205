@@ -34,6 +34,28 @@ class _ViewProfileState extends State<ViewProfile> {
     setState(() {});
   }
 
+  bool checkFavorite(TutorInfo checkTutor) {
+    if (checkTutor.isFavorite == true) {
+      print("1");
+      return true;
+    } else {
+      print("0");
+      return false;
+    }
+  }
+
+  void addFavorite(String userId) async {
+    await TutorService.addFavorite(
+      userId: userId,
+      onSuccess: () {
+        setState(() {
+          tutor?.isFavorite = !(tutor?.isFavorite ?? false);
+        });
+      },
+      onError: (message) {},
+    );
+  }
+
   void getTutorInfo() async {
     await TutorService.getTutorInformation(
         tutorID: widget.id,
@@ -127,48 +149,94 @@ class _ViewProfileState extends State<ViewProfile> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton.icon(
-                          onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Container(
-                                  padding: EdgeInsets.all(16),
-                                  height: 90,
-                                  decoration: BoxDecoration(
-                                    color: Colors.red,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20)),
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Added to Favorite!!",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                        ),
+                        onPressed: () {
+                          addFavorite(tutor!.user!.id!);
+                          !checkFavorite(tutor!)
+                              ? ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    duration: Duration(seconds: 2),
+                                    content: Container(
+                                      padding: EdgeInsets.all(16),
+                                      height: 90,
+                                      decoration: BoxDecoration(
+                                        color: Colors.green,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20)),
                                       ),
-                                      Text(
-                                        "You can check your Favorite list",
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.white,
-                                        ),
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Added to Favorite",
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          Text(
+                                            "Reload this page to view your favorite list",
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.white,
+                                            ),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
                                       ),
-                                    ],
+                                    ),
+                                    behavior: SnackBarBehavior.floating,
+                                    backgroundColor: Colors.transparent,
+                                    elevation: 0,
                                   ),
-                                ),
-                                behavior: SnackBarBehavior.floating,
-                                backgroundColor: Colors.transparent,
-                                elevation: 0,
-                              ),
-                            );
-                          },
-                          icon: Icon(Icons.thumb_up),
-                          label: Text("Favorite")),
+                                )
+                              : ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    duration: Duration(seconds: 2),
+                                    content: Container(
+                                      padding: EdgeInsets.all(16),
+                                      height: 90,
+                                      decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20)),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Removed to Favorite",
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          Text(
+                                            "Reload this page to view your favorite list",
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.white,
+                                            ),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    behavior: SnackBarBehavior.floating,
+                                    backgroundColor: Colors.transparent,
+                                    elevation: 0,
+                                  ),
+                                );
+                        },
+                        icon: Icon(!checkFavorite(tutor!)
+                            ? Icons.favorite
+                            : Icons.favorite_border),
+                        label: Text(
+                            !checkFavorite(tutor!) ? "Favorite" : "Unfavorite"),
+                      ),
                       TextButton.icon(
                           onPressed: () {
                             ScaffoldMessenger.of(context).showSnackBar(

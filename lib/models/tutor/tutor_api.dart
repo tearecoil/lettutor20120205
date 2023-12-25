@@ -45,6 +45,7 @@ class Tutor_api {
   bool? isNative;
   int? price;
   bool? isOnline;
+  bool? isFavoriteTutor;
 
   Tutor_api({
     this.level,
@@ -91,6 +92,7 @@ class Tutor_api {
     this.isNative,
     this.price,
     this.isOnline,
+    this.isFavoriteTutor,
   });
 
   Tutor_api.fromJson(Map<String, dynamic> json) {
@@ -143,6 +145,7 @@ class Tutor_api {
     isNative = json['isNative'];
     price = json['price'];
     isOnline = json['isOnline'];
+    isFavoriteTutor = json['isFavoriteTutor'];
   }
 
   Map<String, dynamic> toJson() {
@@ -193,6 +196,7 @@ class Tutor_api {
     data['isNative'] = isNative;
     data['price'] = price;
     data['isOnline'] = isOnline;
+    data['isFavoriteTutor'] = isFavoriteTutor;
     return data;
   }
 }

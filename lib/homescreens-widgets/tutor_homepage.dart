@@ -9,6 +9,7 @@ import 'package:lettutor20120205/models/course-topic/speciality.dart';
 import 'package:lettutor20120205/models/course-topic/speciality.dart';
 import 'package:lettutor20120205/models/data/data_service.dart';
 import 'package:lettutor20120205/models/tutor/tutor_api.dart';
+import 'package:lettutor20120205/models/tutor/tutor_info.dart';
 import 'package:lettutor20120205/service-api/tutor-services.dart';
 import 'package:lettutor20120205/tutor_pages/view_tutor_profile.dart';
 import '../components/tutor_list.dart';
@@ -32,19 +33,6 @@ class _TutorHomePageState extends State<TutorHomePage> {
   List<Tutor_api> resetlisttutor = [];
   List<Tutor> tutorlist = TutorList().tutorlist.toList();
   List<Tutor> resettutorlist = TutorList().tutorlist.toList();
-  List<String> getSpecial = [
-    "business english",
-    "conversational english",
-    "english for kids",
-    "ielts",
-    "starters",
-    "movers",
-    "flyers",
-    "ket",
-    "pet",
-    "toefl",
-    "toeic"
-  ];
   List<Tutor> FavTutor() {
     List<Tutor> tempFav = [];
     for (var i = 0; i < tutorlist.length; ++i) {
@@ -98,6 +86,27 @@ class _TutorHomePageState extends State<TutorHomePage> {
     // print('Speciality');
     // print(getSpeciality?[0].name!);
     setState(() {});
+  }
+
+  bool checkFavorite(String userId, int index) {
+    if (_tutors?[index].isFavoriteTutor == true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void addFavorite(String userId, int index) async {
+    await TutorService.addFavorite(
+      userId: userId,
+      onSuccess: () {
+        setState(() {
+          _tutors![index].isFavoriteTutor =
+              !(_tutors![index].isFavoriteTutor ?? false);
+        });
+      },
+      onError: (message) {},
+    );
   }
 
   @override
@@ -363,92 +372,125 @@ class _TutorHomePageState extends State<TutorHomePage> {
                                         ),
                                         IconButton(
                                           onPressed: () {
-                                            // favorite = !favorite;
-                                            // if (favorite == false) {
-                                            //   ScaffoldMessenger.of(context)
-                                            //       .showSnackBar(
-                                            //     SnackBar(
-                                            //       content: Container(
-                                            //         padding: EdgeInsets.all(16),
-                                            //         height: 90,
-                                            //         decoration: BoxDecoration(
-                                            //           color: Colors.red,
-                                            //           borderRadius: BorderRadius.all(
-                                            //               Radius.circular(20)),
-                                            //         ),
-                                            //         child: Column(
-                                            //           crossAxisAlignment:
-                                            //               CrossAxisAlignment.start,
-                                            //           children: [
-                                            //             Text(
-                                            //               "Remove from Favorite",
-                                            //               style: TextStyle(
-                                            //                 fontSize: 18,
-                                            //                 color: Colors.white,
-                                            //               ),
-                                            //             ),
-                                            //             Text(
-                                            //               "You can recheck the list",
-                                            //               style: TextStyle(
-                                            //                 fontSize: 12,
-                                            //                 color: Colors.white,
-                                            //               ),
-                                            //               maxLines: 2,
-                                            //               overflow:
-                                            //                   TextOverflow.ellipsis,
-                                            //             ),
-                                            //           ],
-                                            //         ),
-                                            //       ),
-                                            //       behavior: SnackBarBehavior.floating,
-                                            //       backgroundColor: Colors.transparent,
-                                            //       elevation: 0,
-                                            //     ),
-                                            //   );
-                                            // } else {
-                                            //   ScaffoldMessenger.of(context)
-                                            //       .showSnackBar(
-                                            //     SnackBar(
-                                            //       content: Container(
-                                            //         padding: EdgeInsets.all(16),
-                                            //         height: 90,
-                                            //         decoration: BoxDecoration(
-                                            //           color: Colors.green,
-                                            //           borderRadius: BorderRadius.all(
-                                            //               Radius.circular(20)),
-                                            //         ),
-                                            //         child: Column(
-                                            //           crossAxisAlignment:
-                                            //               CrossAxisAlignment.start,
-                                            //           children: [
-                                            //             Text(
-                                            //               "Add to Favorite",
-                                            //               style: TextStyle(
-                                            //                 fontSize: 18,
-                                            //                 color: Colors.white,
-                                            //               ),
-                                            //             ),
-                                            //             Text(
-                                            //               "You can recheck the list",
-                                            //               style: TextStyle(
-                                            //                 fontSize: 12,
-                                            //                 color: Colors.white,
-                                            //               ),
-                                            //               maxLines: 2,
-                                            //               overflow:
-                                            //                   TextOverflow.ellipsis,
-                                            //             ),
-                                            //           ],
-                                            //         ),
-                                            //       ),
-                                            //       behavior: SnackBarBehavior.floating,
-                                            //       backgroundColor: Colors.transparent,
-                                            //       elevation: 0,
-                                            //     ),
-                                            //   );
-                                            // }
+                                            addFavorite(
+                                                _tutors?[index].userId ?? '',
+                                                index);
+                                            !checkFavorite(
+                                                    _tutors?[index].userId ??
+                                                        '',
+                                                    index)
+                                                ? ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                    SnackBar(
+                                                      duration:
+                                                          Duration(seconds: 2),
+                                                      content: Container(
+                                                        padding:
+                                                            EdgeInsets.all(16),
+                                                        height: 90,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: Colors.green,
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          20)),
+                                                        ),
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              "Added to Favorite",
+                                                              style: TextStyle(
+                                                                fontSize: 18,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              "Reload this page to view your favorite list",
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                              maxLines: 2,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      behavior: SnackBarBehavior
+                                                          .floating,
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                      elevation: 0,
+                                                    ),
+                                                  )
+                                                : ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                    SnackBar(
+                                                      duration:
+                                                          Duration(seconds: 2),
+                                                      content: Container(
+                                                        padding:
+                                                            EdgeInsets.all(16),
+                                                        height: 90,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: Colors.red,
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          20)),
+                                                        ),
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              "Removed to Favorite",
+                                                              style: TextStyle(
+                                                                fontSize: 18,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              "Reload this page to view your favorite list",
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                              maxLines: 2,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      behavior: SnackBarBehavior
+                                                          .floating,
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                      elevation: 0,
+                                                    ),
+                                                  );
                                           },
-                                          icon: Icon(Icons.favorite),
+                                          icon: Icon(checkFavorite(
+                                                  _tutors?[index].userId ?? '',
+                                                  index)
+                                              ? Icons.favorite
+                                              : Icons.favorite_border),
                                         ),
                                       ],
                                     ),
