@@ -1,5 +1,5 @@
-import 'package:lettutor20120205/models/user/learn_topic.dart';
-import 'package:lettutor20120205/models/user/test_preparation.dart';
+import 'package:lettutor20120205/models/course-topic/learn_topic.dart';
+import 'package:lettutor20120205/models/course-topic/test_preparation.dart';
 import 'package:lettutor20120205/models/user/user_course.dart';
 import 'package:lettutor20120205/models/user/wallet.dart';
 

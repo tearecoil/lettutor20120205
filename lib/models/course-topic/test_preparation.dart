@@ -1,6 +1,13 @@
-class TestPreparation {
+import 'package:lettutor20120205/models/course-topic/speciality.dart';
+
+class TestPreparation implements Speciality {
+  @override
   int? id;
+
+  @override
   String? key;
+
+  @override
   String? name;
 
   TestPreparation({

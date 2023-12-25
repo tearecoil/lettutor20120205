@@ -4,6 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:lettutor20120205/components/rating_bar.dart';
 import 'package:lettutor20120205/components/tag.dart';
 import 'package:lettutor20120205/components/tutor.dart';
+import 'package:lettutor20120205/models/course-topic/speciality.dart';
+import 'package:lettutor20120205/models/course-topic/speciality.dart';
+import 'package:lettutor20120205/models/course-topic/speciality.dart';
+import 'package:lettutor20120205/models/data/data_service.dart';
 import 'package:lettutor20120205/models/tutor/tutor_api.dart';
 import 'package:lettutor20120205/service-api/tutor-services.dart';
 import 'package:lettutor20120205/tutor_pages/view_tutor_profile.dart';
@@ -22,6 +26,7 @@ String convertedDateTime =
 
 class _TutorHomePageState extends State<TutorHomePage> {
   List<Tutor_api>? _tutors;
+  List<Speciality>? getSpeciality;
   final searchCon = TextEditingController();
   List<Tutor_api> listtutor = [];
   List<Tutor_api> resetlisttutor = [];
@@ -54,22 +59,24 @@ class _TutorHomePageState extends State<TutorHomePage> {
     getTutors();
   }
 
-  void searchbyName(String value) {
-    setState(() {
-      listtutor = _tutors!
-          .where((tutor) =>
-              tutor.name!.toLowerCase().contains(value.toLowerCase()))
-          .toList();
-    });
+  void searchbyName(String value) async {
+    await TutorService.getTutorwithFilters(
+        page: 1,
+        perPage: 10,
+        search: value,
+        onSuccess: (tutors) {
+          _tutors = tutors.toList();
+          setState(() {});
+        },
+        onError: (message) {});
   }
 
   void getTutors() async {
-    await TutorService.getListTutorWithPagination(
+    await TutorService.getTutorwithFilters(
         page: 1,
         perPage: 10,
         onSuccess: (tutors) {
           _tutors = tutors.toList();
-          // print(_tutors);
           setState(() {});
         },
         onError: (message) {});
@@ -77,6 +84,20 @@ class _TutorHomePageState extends State<TutorHomePage> {
       listtutor = _tutors ?? [];
       resetlisttutor = _tutors ?? [];
     });
+
+    await DataService.getTestPreparation(
+        onSuccess: (testPreparations) async {
+          await DataService.getTopic(
+              onSuccess: (topics) {
+                getSpeciality = [...testPreparations, ...topics];
+              },
+              onError: (message) {});
+        },
+        onError: (message) {});
+
+    // print('Speciality');
+    // print(getSpeciality?[0].name!);
+    setState(() {});
   }
 
   @override
@@ -135,11 +156,6 @@ class _TutorHomePageState extends State<TutorHomePage> {
                               fontWeight: FontWeight.bold,
                               color: Colors.black)),
                     ),
-                    IconButton(
-                        onPressed: () {
-                          setState(() => listtutor = resetlisttutor);
-                        },
-                        icon: Icon(Icons.refresh))
                   ],
                 ),
               ),
@@ -173,7 +189,7 @@ class _TutorHomePageState extends State<TutorHomePage> {
                     ),
                     IconButton(
                         onPressed: () {
-                          setState(() => listtutor = resetlisttutor);
+                          getTutors();
                         },
                         icon: Icon(Icons.refresh))
                   ],
@@ -183,9 +199,9 @@ class _TutorHomePageState extends State<TutorHomePage> {
                 height: 40,
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: getSpecial.length,
+                    itemCount: getSpeciality?.length,
                     itemBuilder: (BuildContext context, int index) =>
-                        buildSpecial(getSpecial[index])),
+                        buildSpecial(getSpeciality![index])),
               ),
               Container(
                 margin:
@@ -208,7 +224,7 @@ class _TutorHomePageState extends State<TutorHomePage> {
               Container(
                 margin: EdgeInsets.only(left: 15, right: 15),
                 child: ListView.builder(
-                  itemCount: listtutor.length,
+                  itemCount: _tutors?.length,
                   itemBuilder: (context, index) {
                     return Container(
                       decoration: BoxDecoration(
@@ -230,7 +246,7 @@ class _TutorHomePageState extends State<TutorHomePage> {
                                   MaterialPageRoute<void>(
                                     builder: (BuildContext context) =>
                                         ViewProfile(
-                                      id: listtutor[index].userId ??
+                                      id: _tutors?[index].userId ??
                                           "4d54d3d7-d2a9-42e5-97a2-5ed38af5789a",
                                     ),
                                   ),
@@ -254,7 +270,7 @@ class _TutorHomePageState extends State<TutorHomePage> {
                                               child: CircleAvatar(
                                                 radius: 45,
                                                 backgroundImage: NetworkImage(
-                                                    listtutor[index].avatar ??
+                                                    _tutors?[index].avatar ??
                                                         "https://sandbox.api.lettutor.com/avatar/cb9e7deb-3382-48db-b07c-90acf52f541cavatar1686550060378.jpg"),
                                                 onBackgroundImageError: (exception,
                                                         stackTrace) =>
@@ -274,7 +290,7 @@ class _TutorHomePageState extends State<TutorHomePage> {
                                                   child: Row(
                                                     children: [
                                                       Text(
-                                                        listtutor[index].name ??
+                                                        _tutors?[index].name ??
                                                             'NO NAME',
                                                         style: const TextStyle(
                                                             fontSize: 23,
@@ -287,7 +303,7 @@ class _TutorHomePageState extends State<TutorHomePage> {
                                                       ),
                                                       Text(
                                                         " (" +
-                                                            (listtutor[index]
+                                                            (_tutors?[index]
                                                                     .country ??
                                                                 'DEFAULT') +
                                                             ")",
@@ -313,7 +329,7 @@ class _TutorHomePageState extends State<TutorHomePage> {
                                                   children: [
                                                     Text(
                                                       "Language: " +
-                                                          (listtutor[index]
+                                                          (_tutors?[index]
                                                                   .language ??
                                                               "DEFAULT"),
                                                       style: const TextStyle(
@@ -329,14 +345,14 @@ class _TutorHomePageState extends State<TutorHomePage> {
                                                 Row(
                                                   children: [
                                                     RatingBar(
-                                                      rating: listtutor[index]
+                                                      rating: _tutors?[index]
                                                               .rating ??
                                                           0,
                                                     ),
                                                   ],
                                                 ),
                                                 TagChip(
-                                                  specialties: listtutor[index]
+                                                  specialties: _tutors?[index]
                                                           .specialties
                                                           ?.split(',') ??
                                                       [],
@@ -442,7 +458,7 @@ class _TutorHomePageState extends State<TutorHomePage> {
                                     Container(
                                       margin: EdgeInsets.only(top: 10),
                                       child: Text(
-                                        listtutor[index].bio ?? "NO BIO YET",
+                                        _tutors?[index].bio ?? "NO BIO YET",
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 2,
                                       ),
@@ -474,31 +490,28 @@ class _TutorHomePageState extends State<TutorHomePage> {
       }
       result.add(add_string);
     }
-    print(result);
+    // print(result);
     return result;
   }
 
-  Widget buildSpecial(String text) => Row(
+  Widget buildSpecial(Speciality? special) => Row(
         children: [
           SizedBox(
             width: 15,
           ),
           ActionChip(
             backgroundColor: Colors.lightBlue,
-            label: Text(text),
-            onPressed: () {
-              if (text == "Show Favorite") {
-                setState(() => tutorlist = FavTutor());
-              } else {
-                //print(text);
-                setState(() => listtutor = resetlisttutor);
-                final SearchBySpecial = listtutor.where((tutor) {
-                  final tutorSpecial =
-                      buildSpecialties(tutor.specialties ?? "");
-                  return tutorSpecial.contains(text);
-                }).toList();
-                setState(() => listtutor = SearchBySpecial);
-              }
+            label: Text(special?.name ?? ""),
+            onPressed: () async {
+              await TutorService.getTutorwithFilters(
+                  page: 1,
+                  perPage: 10,
+                  specialties: [special?.key ?? ""],
+                  onSuccess: (tutors) {
+                    _tutors = tutors.toList();
+                    setState(() {});
+                  },
+                  onError: (message) {});
             },
           ),
         ],
