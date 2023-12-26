@@ -58,7 +58,7 @@ class RatingBar extends StatelessWidget {
           children: _starlist,
         ),
         Text(
-          " (" + count + ")",
+          ratingCount != null ? " (" + count + ")" : '',
           style: TextStyle(color: Colors.grey),
         )
       ],

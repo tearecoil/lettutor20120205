@@ -10,6 +10,7 @@ class ReviewUI extends StatelessWidget {
   final Function() ontap;
   final Function() onpress;
   final bool isLess;
+  final int ratingCount = 1;
   const ReviewUI({
     Key? key,
     required this.avatar,
@@ -42,7 +43,7 @@ class ReviewUI extends StatelessWidget {
                 margin: EdgeInsets.only(right: 16),
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage(avatar),
+                    image: NetworkImage(avatar),
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.circular(45),

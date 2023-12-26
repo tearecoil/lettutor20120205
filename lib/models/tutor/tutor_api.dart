@@ -1,4 +1,4 @@
-import 'package:lettutor20120205/models/tutor/tutor_feedback.dart';
+import 'package:lettutor20120205/models/tutor/tutor_review.dart';
 
 class Tutor_api {
   String? level;
@@ -27,7 +27,7 @@ class Tutor_api {
   String? updatedAt;
   String? deletedAt;
   String? studentGroupId;
-  List<TutorFeedback>? feedbacks;
+  List<ReviewTutor>? feedbacks;
   String? id;
   String? userId;
   String? video;
@@ -123,9 +123,9 @@ class Tutor_api {
     deletedAt = json['deletedAt'];
     studentGroupId = json['studentGroupId'];
     if (json['feedbacks'] != null) {
-      feedbacks = <TutorFeedback>[];
+      feedbacks = <ReviewTutor>[];
       json['feedbacks'].forEach((v) {
-        feedbacks!.add(TutorFeedback.fromJson(v));
+        feedbacks!.add(ReviewTutor.fromJson(v));
       });
     }
     id = json['id'];

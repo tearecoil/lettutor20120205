@@ -5,6 +5,7 @@ import 'package:lettutor20120205/components/profile_box.dart';
 import 'package:lettutor20120205/components/rating_bar.dart';
 import 'package:lettutor20120205/components/tag.dart';
 import 'package:lettutor20120205/components/tutor.dart';
+import 'package:lettutor20120205/components/tutor_report.dart';
 import 'package:lettutor20120205/models/tutor/tutor_api.dart';
 import 'package:lettutor20120205/models/tutor/tutor_info.dart';
 import 'package:lettutor20120205/service-api/tutor-services.dart';
@@ -60,7 +61,6 @@ class _ViewProfileState extends State<ViewProfile> {
     await TutorService.getTutorInformation(
         tutorID: widget.id,
         onSuccess: (tutorinfo) {
-          print("OK");
           tutor = tutorinfo;
           _videoPlayerController =
               VideoPlayerController.network(tutorinfo.video ?? '');
@@ -77,6 +77,15 @@ class _ViewProfileState extends State<ViewProfile> {
     // setState(() {
 
     // });
+  }
+
+  Future<void> _showReportDialog() async {
+    await showDialog(
+      context: context,
+      builder: (context) => TutorReportDialog(
+        tutorId: tutor?.user?.id ?? "",
+      ),
+    );
   }
 
   @override
@@ -238,68 +247,19 @@ class _ViewProfileState extends State<ViewProfile> {
                             !checkFavorite(tutor!) ? "Favorite" : "Unfavorite"),
                       ),
                       TextButton.icon(
-                          onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Container(
-                                  padding: EdgeInsets.all(16),
-                                  height: 90,
-                                  decoration: BoxDecoration(
-                                    color: Colors.red,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20)),
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Reported!!",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      Text(
-                                        "Admin will check this account",
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.white,
-                                        ),
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                behavior: SnackBarBehavior.floating,
-                                backgroundColor: Colors.transparent,
-                                elevation: 0,
-                              ),
-                            );
-                          },
+                          onPressed: () => _showReportDialog(),
                           icon: Icon(Icons.heart_broken),
                           label: Text("Report")),
                       TextButton.icon(
                           onPressed: () {
-                            // Navigator.push<void>(
-                            //   context,
-                            //   MaterialPageRoute<void>(
-                            //     builder: (BuildContext context) => Reviews(
-                            //         tutor: Tutor(
-                            //       name: tutor?.name,
-                            //       avatar: tutor?.avatar,
-                            //       quotes: tutor?.quotes,
-                            //       education: tutor?.education,
-                            //       rating: tutor?.rating,
-                            //       rating_count: tutor?.rating_count,
-                            //       language: tutor?.language,
-                            //       skill: tutor?.skill,
-                            //       nationality: tutor?.nationality,
-                            //       favorite: tutor?.favorite,
-                            //     )),
-                            //   ),
-                            // );
+                            Navigator.push<void>(
+                              context,
+                              MaterialPageRoute<void>(
+                                builder: (BuildContext context) => Reviews(
+                                  userID: tutor?.user?.id ?? "",
+                                ),
+                              ),
+                            );
                           },
                           icon: Icon(Icons.star),
                           label: const Text('Reviews')),
