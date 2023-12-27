@@ -26,6 +26,7 @@ class _SchedulePageState extends State<SchedulePage> {
   Map<DateTime, List<Event>> events = {};
   List<String> CourseName = [] ?? ['no one'];
   late final ValueNotifier<List<Event>> _selectedEvents;
+
   @override
   void initState() {
     super.initState();

@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor20120205/service-api/tutor-services.dart';
 
-class TutorReportDialog extends StatefulWidget {
-  const TutorReportDialog({super.key, required this.tutorId});
+class TutorReport extends StatefulWidget {
+  const TutorReport({super.key, required this.tutorId});
 
   final String tutorId;
 
   @override
-  State<TutorReportDialog> createState() => _TutorReportDialogState();
+  State<TutorReport> createState() => _TutorReport();
 }
 
-class _TutorReportDialogState extends State<TutorReportDialog> {
+class _TutorReport extends State<TutorReport> {
   final _reportTextEditingController = TextEditingController();
   final Map<String, bool> _reports = {
-    'This tutor is annoying me': false,
+    'Courses are not as described': false,
     'This profile is pretending be someone or is fake': false,
-    'Inappropriate profile photo': false
+    'Tutor failed as giving courses': false
   };
 
-  void _trackReport() {
+  void trackReport() {
     _reports.updateAll((key, value) => false);
     final data = _reportTextEditingController.text.split('\n');
     for (final report in data) {
@@ -28,12 +28,48 @@ class _TutorReportDialogState extends State<TutorReportDialog> {
     }
   }
 
-  void _handleSubmitted() async {
+  void handleSubmitted() async {
     await TutorService.reportTutor(
       userId: widget.tutorId,
       content: _reportTextEditingController.text,
       onSuccess: () {
         Navigator.pop(context, true);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Container(
+              padding: EdgeInsets.all(16),
+              height: 90,
+              decoration: BoxDecoration(
+                color: Colors.green,
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Report sent successfully",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    "Sorry for your bad experience with Tutor",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.white,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+        );
       },
       onError: (message) {},
     );
@@ -52,7 +88,7 @@ class _TutorReportDialogState extends State<TutorReportDialog> {
       title: Column(
         children: <Widget>[
           Text(
-            'Report tutor',
+            'What was wrong with your experience?',
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           const SizedBox(height: 6),
@@ -67,7 +103,7 @@ class _TutorReportDialogState extends State<TutorReportDialog> {
               Icon(Icons.report_rounded, color: Colors.blue[700]),
               const SizedBox(width: 4),
               const Text(
-                "Help us understand what's happening",
+                "Please state your problems",
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
@@ -93,14 +129,14 @@ class _TutorReportDialogState extends State<TutorReportDialog> {
                     setState(() {
                       _reports.update(
                           _reports.keys.elementAt(index), (value) => !value);
-                      if (_reports.values.elementAt(index)) {
-                        _reportTextEditingController.text =
-                            '${_reportTextEditingController.text}${_reports.keys.elementAt(index)}\n';
-                      } else {
-                        _reportTextEditingController.text =
-                            _reportTextEditingController.text.replaceAll(
-                                '${_reports.keys.elementAt(index)}\n', '');
-                      }
+                      // if (_reports.values.elementAt(index)) {
+                      //   _reportTextEditingController.text =
+                      //       '${_reportTextEditingController.text}${_reports.keys.elementAt(index)}\n';
+                      // } else {
+                      //   _reportTextEditingController.text =
+                      //       _reportTextEditingController.text.replaceAll(
+                      //           '${_reports.keys.elementAt(index)}\n', '');
+                      // }
                     });
                   },
                   side: const BorderSide(width: 0.5, color: Colors.blue),
@@ -118,7 +154,7 @@ class _TutorReportDialogState extends State<TutorReportDialog> {
               keyboardType: TextInputType.multiline,
               controller: _reportTextEditingController,
               onChanged: (value) {
-                _trackReport();
+                trackReport();
               },
               style: const TextStyle(
                 fontSize: 16,
@@ -133,7 +169,7 @@ class _TutorReportDialogState extends State<TutorReportDialog> {
                     color: Colors.grey,
                   ),
                 ),
-                hintText: 'Please let us know details about your problems',
+                hintText: 'Other problems need to be stated',
                 hintStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
@@ -173,7 +209,7 @@ class _TutorReportDialogState extends State<TutorReportDialog> {
           ),
         ),
         TextButton(
-          onPressed: _handleSubmitted,
+          onPressed: handleSubmitted,
           style: TextButton.styleFrom(
             fixedSize: const Size(100, 38),
             shape: RoundedRectangleBorder(

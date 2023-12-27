@@ -71,4 +71,14 @@ class DioService {
       data: data,
     );
   }
+
+  Future<Response> delete(
+    String url, {
+    Map<String, dynamic>? data,
+  }) async {
+    return _dio.delete(
+      url,
+      data: data,
+    );
+  }
 }

@@ -1,6 +1,5 @@
 {
     "cmake.sourceDirectory": "D:/FlutterAdv/LetTutor-20120205/lettutor20120205/linux",
     "editor.formatOnSave": true,
-    "files.autoSave": "afterDelay",
-    "files.autoSaveDelay": 1000,
+    "editor.rulers": [],
 }
