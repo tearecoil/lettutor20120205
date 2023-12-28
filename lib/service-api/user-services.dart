@@ -91,4 +91,37 @@ class UserService {
       onError(e.response?.data['message']);
     }
   }
+
+  static Future<String?> feedbackTutor({
+    required String bookingId,
+    required String content,
+    required int rating,
+    required String userId,
+    required Function() onSuccess,
+    required Function(String) onError,
+  }) async {
+    try {
+      final response = await DioService().post(
+        '/user/feedbackTutor',
+        data: {
+          'bookingId': bookingId,
+          'content': content,
+          'rating': rating,
+          'userId': userId,
+        },
+      );
+
+      final data = response.data;
+
+      if (response.statusCode != 200) {
+        throw Exception(data['message']);
+      }
+
+      return await onSuccess();
+    } on DioException catch (e) {
+      onError(e.response?.data['message']);
+    }
+
+    return null;
+  }
 }

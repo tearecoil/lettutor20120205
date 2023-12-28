@@ -32,26 +32,7 @@ class HistoryCard extends StatelessWidget {
         ),
         elevation: 1,
         child: InkWell(
-          onTap: () {
-            // Navigator.push<void>(
-            //   context,
-            //   MaterialPageRoute<void>(
-            //     builder: (BuildContext context) => TutorProfile(
-            //         tutor: Tutor(
-            //       name: this.name,
-            //       avatar: this.avatar,
-            //       quotes: this.quotes,
-            //       education: this.education,
-            //       rating: this.rating,
-            //       rating_count: this.rating_count,
-            //       language: this.language,
-            //       skill: this.skill,
-            //       nationality: this.nationality,
-            //       favorite: favorite,
-            //     )),
-            //   ),
-            // );
-          },
+          onTap: () {},
           child: Column(
             children: [
               Container(

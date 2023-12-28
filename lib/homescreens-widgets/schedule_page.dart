@@ -6,7 +6,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lettutor20120205/components/course_list.dart';
 import 'package:lettutor20120205/components/event.dart';
-import 'package:lettutor20120205/homescreens-widgets/cancel_dialog.dart';
+import 'package:lettutor20120205/homescreens-widgets/homescreens-widgets-dialog/cancel_dialog.dart';
 import 'package:lettutor20120205/models/schedule/booking_info.dart';
 import 'package:lettutor20120205/service-api/booking-services.dart';
 import 'package:lettutor20120205/utils/time_convert.dart';
