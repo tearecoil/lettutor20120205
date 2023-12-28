@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor20120205/models/schedule/booking_info.dart';
 
 class Event {
-  final String title;
+  final String date;
   final int startHour;
   final String startMinute;
-  final int duration;
-  Event(this.title, this.startHour, this.startMinute, this.duration);
+  final int endHour;
+  final String endMinute;
+  final BookingInfo courseInfo;
+  Event(
+    this.date,
+    this.startHour,
+    this.startMinute,
+    this.endHour,
+    this.endMinute,
+    this.courseInfo,
+  );
 }

@@ -194,7 +194,7 @@ class _ViewProfileState extends State<ViewProfile> {
         );
       },
       onError: (message) {
-        print("error");
+        print("error - $message");
       },
     );
   }
@@ -496,7 +496,7 @@ class _ViewProfileState extends State<ViewProfile> {
                                     // print("Data-$schedulesOfSelectedDate");
                                     for (var schedule
                                         in schedulesOfSelectedDate!) {
-                                      print(schedule.isBooked);
+                                      // print(schedule.isBooked);
                                       if (schedule.isBooked == false) {
                                         if (scheduleHours == null) {
                                           scheduleHours = [];
@@ -522,7 +522,7 @@ class _ViewProfileState extends State<ViewProfile> {
                                     //     );
                                     //   }
                                     // });
-                                    print("Data after-$scheduleHours");
+                                    // print("Data after-$scheduleHours");
                                     // if (scheduleHours!.isEmpty) {
                                     //   scheduleHours = ["null"];
                                     // }
