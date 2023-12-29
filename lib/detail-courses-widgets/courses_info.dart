@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor20120205/components/chapter_card.dart';
 import 'package:lettutor20120205/components/course_card.dart';
+import 'package:lettutor20120205/components/headline_text.dart';
 import 'package:lettutor20120205/detail-courses-widgets/chapter_page.dart';
+import 'package:lettutor20120205/models/course/course.dart';
+import 'package:lettutor20120205/tutor_pages/view_tutor_profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class CourseOverview extends StatefulWidget {
   const CourseOverview({
     Key? key,
-    required this.courseinput,
+    required this.course,
   });
-  final CourseCard courseinput;
+  final Course course;
+
   @override
   State<CourseOverview> createState() => _CourseOverviewState();
 }
@@ -20,42 +24,32 @@ class _CourseOverviewState extends State<CourseOverview> {
   @override
   void initState() {
     super.initState();
-    checkCourseState();
+    // checkCourseState();
   }
 
-  void checkCourseState() async {
-    SharedPreferences sharedpref = await SharedPreferences.getInstance();
-    List<String>? flag = sharedpref.getStringList('schedule') ?? [];
-    if (flag[widget.courseinput.index] == "False") {
-      setState(() {
-        couFlag = false;
-      });
-      //print("$couFlag");
-    } else {
-      setState(() {
-        couFlag = true;
-      });
-      //print("$couFlag");
-    }
+  final coursesLevel = {
+    '0': 'Any Level',
+    '1': 'Beginner',
+    '2': 'Upper-Beginner',
+    '3': 'Pre-Intermediate',
+    '4': 'Intermediate',
+    '5': 'Upper-Intermediate',
+    '6': 'Pre-Advanced',
+    '7': 'Advanced',
+    '8': 'Very Advanced',
+  };
+  String getLevel(String level) {
+    return coursesLevel[level] ?? "";
   }
 
-  Future<void> setCourseState() async {
-    SharedPreferences sharedpref = await SharedPreferences.getInstance();
-    List<String>? flag = sharedpref.getStringList('schedule') ?? [];
-    if (flag[widget.courseinput.index] == "False") {
-      flag[widget.courseinput.index] = "True";
-      sharedpref.setStringList('schedule', flag);
-      //print("$couFlag");
-    } else {
-      flag[widget.courseinput.index] = "False";
-      sharedpref.setStringList('schedule', flag);
-      //print("$couFlag");
-    }
+  String getCreatedAt(String time) {
+    return time.substring(0, 10);
   }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    //return Text("a");
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -68,7 +62,7 @@ class _CourseOverviewState extends State<CourseOverview> {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(widget.courseinput.source),
+                      image: NetworkImage(widget.course.imageUrl ?? ''),
                       fit: BoxFit.fitWidth,
                     ),
                     borderRadius: BorderRadius.only(
@@ -89,23 +83,47 @@ class _CourseOverviewState extends State<CourseOverview> {
                               child: Column(
                                 children: <Widget>[
                                   Text(
-                                    widget.courseinput.title,
+                                    widget.course.name ?? '',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 60,
                                       fontWeight: FontWeight.bold,
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                          offset: Offset(10.0, 10.0),
+                                          blurRadius: 3.0,
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                        ),
+                                        Shadow(
+                                          offset: Offset(10.0, 10.0),
+                                          blurRadius: 8.0,
+                                          color: Color.fromARGB(125, 0, 0, 255),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   SizedBox(
                                     height: 100,
                                   ),
                                   Text(
-                                    "Written in 2023",
+                                    "Written on ${getCreatedAt(widget.course.createdAt ?? '')}",
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 24,
                                       fontWeight: FontWeight.bold,
                                       fontStyle: FontStyle.italic,
+                                      shadows: <Shadow>[
+                                        Shadow(
+                                          offset: Offset(10.0, 10.0),
+                                          blurRadius: 3.0,
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                        ),
+                                        Shadow(
+                                          offset: Offset(10.0, 10.0),
+                                          blurRadius: 8.0,
+                                          color: Color.fromARGB(125, 0, 0, 255),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
@@ -171,7 +189,7 @@ class _CourseOverviewState extends State<CourseOverview> {
                   children: [
                     Flexible(
                       child: Text(
-                        widget.courseinput.overview,
+                        widget.course.description ?? '',
                         style: TextStyle(
                           fontSize: 18,
                         ),
@@ -194,11 +212,11 @@ class _CourseOverviewState extends State<CourseOverview> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
-                            Icons.access_time,
+                            Icons.person,
                             color: Colors.red,
                           ),
                           Text(
-                            "Duration",
+                            "Level",
                             style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
@@ -220,7 +238,7 @@ class _CourseOverviewState extends State<CourseOverview> {
                   children: [
                     Flexible(
                       child: Text(
-                        widget.courseinput.hours.toString() + " hours",
+                        getLevel(widget.course.level ?? ""),
                         style: TextStyle(
                           fontSize: 18,
                         ),
@@ -260,144 +278,89 @@ class _CourseOverviewState extends State<CourseOverview> {
                 ),
               ),
             ),
+            SizedBox(height: 10),
             SizedBox(
               height: 220,
               child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: widget.courseinput.lesson,
-                itemBuilder: (context, index) => ChapterCard(
-                  name: widget.courseinput.chapter[index],
-                  tag: widget.courseinput.tag[index],
-                  chapterNumber: index + 1,
-                  backgroundava: widget.courseinput.source,
-                  onTap: () {
-                    Navigator.push<void>(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) => ChapterPage(
-                            chapterinput: ChapterCard(
-                                name: widget.courseinput.chapter[index],
-                                tag: widget.courseinput.tag[index],
-                                chapterNumber: index,
-                                backgroundava: widget.courseinput.source,
-                                onTap: () {})),
-                      ),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: widget.course.topics?.length,
+                  itemBuilder: (context, index) {
+                    // print(widget.course.topics![index].name);
+                    return ChapterCard(
+                      index: index,
+                      topic: widget.course.topics![index],
+                      course: widget.course,
+                      onTap: () {
+                        Navigator.push<void>(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) => ChapterPage(
+                                chapterinput: ChapterCard(
+                                    index: index,
+                                    course: widget.course,
+                                    topic: widget.course.topics![index],
+                                    onTap: () {})),
+                          ),
+                        );
+                      },
                     );
-                  },
-                ),
-              ),
+                  }),
             ),
-            SizedBox(
-              height: 50,
-              child: Container(
-                margin: const EdgeInsets.only(top: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.person,
-                            color: Colors.red,
-                          ),
-                          Text(
-                            "Experience Level",
+            Column(
+              children: widget.course.users?.map((user) {
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: <Widget>[
+                        Text(
+                          user.name ?? 'No name available',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        const SizedBox(width: 8),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push<void>(
+                              context,
+                              MaterialPageRoute<void>(
+                                builder: (BuildContext context) => ViewProfile(
+                                  id: user.id ??
+                                      "4d54d3d7-d2a9-42e5-97a2-5ed38af5789a",
+                                ),
+                              ),
+                            );
+                            // Navigator.pushNamed(
+                            //   context,
+                            //   Routes.tutorDetail,
+                            //   arguments: user.id,
+                            // );
+                          },
+                          child: const Text(
+                            'More info',
                             style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: Colors.blue,
                             ),
                           ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 50,
-              child: Container(
-                margin: const EdgeInsets.only(top: 20, left: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                      child: Text(
-                        widget.courseinput.level,
-                        style: TextStyle(
-                          fontSize: 18,
                         ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
+                      ],
+                    );
+                  }).toList() ??
+                  [],
             ),
-            SizedBox(
-              height: 55,
-              child: Container(
-                margin: const EdgeInsets.only(top: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.pending_actions_outlined,
-                            color: Colors.red,
-                          ),
-                          Text(
-                            "Time",
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 50,
-              child: Container(
-                margin: const EdgeInsets.only(top: 20, left: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                      child: Text(
-                        '${widget.courseinput.startHour}:${widget.courseinput.startMinute} - ${widget.courseinput.startHour + widget.courseinput.hours}:${widget.courseinput.startMinute}',
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 10),
           ],
         ),
       ),
     );
   }
 
-  MaterialStateProperty<Color> getColor(Color color, Color coloronpress) {
-    final getColor = (Set<MaterialState> states) {
-      if (states.contains(MaterialState.pressed)) {
-        return coloronpress;
-      } else {
-        return color;
-      }
-    };
-    return MaterialStateProperty.resolveWith(getColor);
-  }
+  // MaterialStateProperty<Color> getColor(Color color, Color coloronpress) {
+  //   final getColor = (Set<MaterialState> states) {
+  //     if (states.contains(MaterialState.pressed)) {
+  //       return coloronpress;
+  //     } else {
+  //       return color;
+  //     }
+  //   };
+  //   return MaterialStateProperty.resolveWith(getColor);
+  // }
 }

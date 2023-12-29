@@ -446,14 +446,14 @@ class _ViewProfileState extends State<ViewProfile> {
                               fontSize: 23, fontWeight: FontWeight.bold),
                         ),
                       ),
-                      SizedBox(
-                        height: 220,
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: CourseList().Course_List.length,
-                            itemBuilder: (context, index) =>
-                                CourseList().Course_List[index]),
-                      ),
+                      // SizedBox(
+                      //   height: 220,
+                      //   child: ListView.builder(
+                      //       scrollDirection: Axis.horizontal,
+                      //       itemCount: CourseList().Course_List.length,
+                      //       itemBuilder: (context, index) =>
+                      //           CourseList().Course_List[index]),
+                      // ),
                     ],
                   ),
                   SizedBox(height: 20),

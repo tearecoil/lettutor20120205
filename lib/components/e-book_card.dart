@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:lettutor20120205/components/chapter_card.dart';
 import 'package:lettutor20120205/detail-courses-widgets/courses_info.dart';
 import 'package:lettutor20120205/models/course/course.dart';
+import 'package:lettutor20120205/models/e-book/e-book.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class CourseCard extends StatelessWidget {
-  final Course course;
-  CourseCard({
+class EBookCard extends StatelessWidget {
+  final EBook course;
+  EBookCard({
     required this.course,
   });
 
@@ -25,16 +27,17 @@ class CourseCard extends StatelessWidget {
     return coursesLevel[level] ?? "";
   }
 
+  void _launchEBookUrl(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push<void>(
-          context,
-          MaterialPageRoute<void>(
-            builder: (BuildContext context) => CourseOverview(course: course),
-          ),
-        );
+        _launchEBookUrl(course.fileUrl ?? 'null url');
       },
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.1,
@@ -45,6 +48,8 @@ class CourseCard extends StatelessWidget {
             children: [
               CachedNetworkImage(
                 imageUrl: course.imageUrl ?? '',
+                height: 100,
+                width: 100,
                 fit: BoxFit.cover,
                 errorWidget: (context, url, error) => const Icon(
                   Icons.error_outline_rounded,
@@ -73,11 +78,6 @@ class CourseCard extends StatelessWidget {
                           children: [
                             Text(
                               "Level: " + (getLevel(course.level ?? "")),
-                              style: TextStyle(
-                                  fontSize: 12, color: Colors.grey[800]),
-                            ),
-                            Text(
-                              "${course.topics?.length} Lessons",
                               style: TextStyle(
                                   fontSize: 12, color: Colors.grey[800]),
                             ),

@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lettutor20120205/components/course_list.dart';
 import 'package:lettutor20120205/components/my_button.dart';
 import 'package:lettutor20120205/components/my_profile_box.dart';
@@ -7,6 +10,7 @@ import 'package:lettutor20120205/components/rating_bar.dart';
 import 'package:lettutor20120205/components/tutor.dart';
 import 'package:lettutor20120205/service-api/user-services.dart';
 import 'package:lettutor20120205/tutor_pages/reviews.dart';
+import 'package:lettutor20120205/utils/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lettutor20120205/models/user/User.dart';
 
@@ -41,6 +45,8 @@ class _MyStudentProfileState extends State<MyStudentProfile> {
     "PROFICIENCY",
   ];
   late String chosen;
+  ValueNotifier<String?>? _imageData;
+
   @override
   void initState() {
     super.initState();
@@ -60,6 +66,21 @@ class _MyStudentProfileState extends State<MyStudentProfile> {
     bio = UserLogged.requireNote;
     level = UserLogged.level;
     role = roles?.first;
+    _imageData = ValueNotifier(UserLogged.avatar);
+  }
+
+  void _onAvatarSubmited() async {
+    File? imageData = await pickerImage(ImageSource.gallery);
+    if (imageData != null) {
+      _imageData?.value = imageData.path;
+      await UserService.uploadImage(
+        image: imageData,
+        onSuccess: (user) {
+          _imageData?.value = user.avatar;
+        },
+        onError: (message) {},
+      );
+    }
   }
 
   Future<void> setLevel(String field) async {
@@ -241,6 +262,19 @@ class _MyStudentProfileState extends State<MyStudentProfile> {
                             pressLogOut();
                             // Navigator.popAndPushNamed(context, "/login");
                           },
+                        ),
+                        PopupMenuItem(
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(right: 10),
+                                child: Text("Become a Tutor"),
+                              )
+                            ],
+                          ),
+                          onTap: () {
+                            Navigator.pushNamed(context, "/becometutor");
+                          },
                         )
                       ],
                     ),
@@ -251,20 +285,81 @@ class _MyStudentProfileState extends State<MyStudentProfile> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 100,
-                    width: 100,
-                    //margin: EdgeInsets.only(right: 16),
-                    child: Image.network(avatar_link ?? ""),
-                    // decoration: BoxDecoration(
-                    //   image: DecorationImage(
-                    //     image: AssetImage(avatar ?? ""),
-                    //     fit: BoxFit.cover,
-                    //   ),
-                    //   borderRadius: BorderRadius.circular(100),
-                    // ),
-                  ),
+                  // Container(
+                  //   height: 100,
+                  //   width: 100,
+                  //   //margin: EdgeInsets.only(right: 16),
+                  //   child: GestureDetector(
+                  //     onTap: () => print("Change profile avatar"),
+                  //     child: Row(
+                  //       children: [
+                  //         // Icon(Icons.camera),
+                  //         CircleAvatar(
+                  //           radius: 45,
+                  //           backgroundImage: NetworkImage(avatar_link ??
+                  //               "https://sandbox.api.lettutor.com/avatar/cb9e7deb-3382-48db-b07c-90acf52f541cavatar1686550060378.jpg"),
+                  //           onBackgroundImageError: (exception, stackTrace) =>
+                  //               const Icon(Icons.person_outline_rounded,
+                  //                   size: 62),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //     // child: Image.network(ava_link),
+                  //   ),
+                  //   // child: Image.network(avatar_link ?? ""),
+                  //   // decoration: BoxDecoration(
+                  //   //   image: DecorationImage(
+                  //   //     image: AssetImage(avatar ?? ""),
+                  //   //     fit: BoxFit.cover,
+                  //   //   ),
+                  //   //   borderRadius: BorderRadius.circular(100),
+                  //   // ),
+                  // ),
                 ],
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    ValueListenableBuilder<String?>(
+                      valueListenable: _imageData ?? ValueNotifier(''),
+                      builder: (context, value, child) => Container(
+                        width: 140,
+                        height: 140,
+                        clipBehavior: Clip.hardEdge,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                        ),
+                        child: Image.network(
+                          value ?? '',
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) =>
+                              const Icon(
+                            Icons.person_rounded,
+                            size: 62,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      width: 32,
+                      child: InkWell(
+                        onTap: _onAvatarSubmited,
+                        child: CircleAvatar(
+                          backgroundColor: Theme.of(context).primaryColor,
+                          child: const Icon(
+                            Icons.edit_rounded,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Text(
                 name ?? "",
@@ -328,12 +423,12 @@ class _MyStudentProfileState extends State<MyStudentProfile> {
                   sectionName: "Level",
                   onpress: () => setLevel('level')),
               SizedBox(height: 25),
-              MyButton(
-                text: "Become a Tutor",
-                onTap: () {
-                  setTutor();
-                },
-              ),
+              // MyButton(
+              //   text: "Become a Tutor",
+              //   onTap: () {
+              //     setTutor();
+              //   },
+              // ),
               // Column(
               //   crossAxisAlignment: CrossAxisAlignment.start,
               //   children: [

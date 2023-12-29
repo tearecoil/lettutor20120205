@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:lettutor20120205/components/course_list.dart';
 import 'package:lettutor20120205/components/tutor.dart';
+import 'package:lettutor20120205/homescreens-widgets/e-book_page.dart';
 import 'package:lettutor20120205/models/tutor/tutor_api.dart';
 import 'package:lettutor20120205/models/user/User.dart';
 import 'package:lettutor20120205/service-api/tutor-services.dart';
@@ -26,7 +27,7 @@ class _MainMenuState extends State<MainMenu> {
     "SCHEDULE",
     "HISTORY",
     "COURSES",
-    "MY COURSE",
+    "E-BOOKS",
   ];
 
   /// List of body icon
@@ -43,7 +44,7 @@ class _MainMenuState extends State<MainMenu> {
     SchedulePage(),
     HistoryPage(),
     CoursePage(),
-    MyCoursesPage(),
+    EBookPage(),
   ];
 
   int current = 0;
@@ -64,10 +65,10 @@ class _MainMenuState extends State<MainMenu> {
   void setCourse() async {
     SharedPreferences sharedpref = await SharedPreferences.getInstance();
     List<String> temp = [];
-    for (var course in CourseList().Course_List) {
-      temp.add("False");
-    }
-    sharedpref.setStringList('schedule', temp);
+    // for (var course in CourseList().Course_List) {
+    //   temp.add("False");
+    // }
+    // sharedpref.setStringList('schedule', temp);
   }
 
   @override
@@ -94,7 +95,14 @@ class _MainMenuState extends State<MainMenu> {
                 ]),
                 child: GestureDetector(
                   onTap: () => leadtoProfile(),
-                  child: Image.network(ava_link),
+                  child: CircleAvatar(
+                    radius: 45,
+                    backgroundImage: NetworkImage(ava_link ??
+                        "https://sandbox.api.lettutor.com/avatar/cb9e7deb-3382-48db-b07c-90acf52f541cavatar1686550060378.jpg"),
+                    onBackgroundImageError: (exception, stackTrace) =>
+                        const Icon(Icons.person_outline_rounded, size: 62),
+                  ),
+                  // child: Image.network(ava_link),
                 ),
               ),
               // IconButton(

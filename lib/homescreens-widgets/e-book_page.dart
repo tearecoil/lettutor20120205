@@ -4,16 +4,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:lettutor20120205/components/course_card.dart';
 import 'package:lettutor20120205/components/course_list.dart';
 import 'package:lettutor20120205/components/drop_down.dart';
+import 'package:lettutor20120205/components/e-book_card.dart';
 import 'package:lettutor20120205/components/multi_choice_drop_down.dart';
 import 'package:lettutor20120205/models/course/course.dart';
+import 'package:lettutor20120205/models/e-book/e-book.dart';
 import 'package:lettutor20120205/service-api/courses-services.dart';
 import 'package:lettutor20120205/service-api/misc-services.dart';
 
-class CoursePage extends StatefulWidget {
-  const CoursePage({super.key});
+class EBookPage extends StatefulWidget {
+  const EBookPage({super.key});
 
   @override
-  State<CoursePage> createState() => _CoursePageState();
+  State<EBookPage> createState() => EBookPageState();
 }
 
 final coursesLevel = {
@@ -33,7 +35,7 @@ final coursesLevelSort = {
   'DESC': 'Level descending',
 };
 
-class _CoursePageState extends State<CoursePage> {
+class EBookPageState extends State<EBookPage> {
   Map<String, String>? _categoryList;
   final Map<String, String> _levelList = coursesLevel;
   final Map<String, String> _sortList = coursesLevelSort;
@@ -44,7 +46,7 @@ class _CoursePageState extends State<CoursePage> {
   final TextEditingController _levelController = TextEditingController();
 
   final ValueNotifier<Map<String, dynamic>> _searchList = ValueNotifier({});
-  Future<List<Course>>? _courses;
+  Future<List<EBook>>? _ebooks;
 
   @override
   void initState() {
@@ -106,37 +108,37 @@ class _CoursePageState extends State<CoursePage> {
   }
 
   void _getCourseList() {
-    CoursesService.searchCourse(
+    CoursesService.searchEbook(
       page: 1,
       size: 100,
       search: _searchList.value['search'],
       categoryId: _searchList.value['categoryId'],
       level: _searchList.value['level'],
       orderBy: _searchList.value['orderBy'],
-      onSuccess: (courses) {
-        _sortCourses(courses);
+      onSuccess: (ebooks) {
+        _sortebooks(ebooks);
       },
       onError: (message) {},
     );
   }
 
-  void _sortCourses(List<Course> courses) {
-    Map<String, List<Course>> courseMap = {};
-    for (var course in courses) {
-      final String key = course.categories?.first.key ?? 'null key';
-      if (courseMap.containsKey(key)) {
-        courseMap[key]!.add(course);
+  void _sortebooks(List<EBook> ebooks) {
+    Map<String, List<EBook>> ebookMap = {};
+    for (var ebook in ebooks) {
+      final String key = ebook.categories?.first.key ?? 'null key';
+      if (ebookMap.containsKey(key)) {
+        ebookMap[key]!.add(ebook);
       } else {
-        courseMap[key] = [course];
+        ebookMap[key] = [ebook];
       }
     }
-    final List<Course> sortedCourses = [];
-    courseMap.forEach((key, value) {
-      sortedCourses.addAll(value);
+    final List<EBook> sortedebooks = [];
+    ebookMap.forEach((key, value) {
+      sortedebooks.addAll(value);
     });
 
     setState(() {
-      _courses = Future.value(sortedCourses);
+      _ebooks = Future.value(sortedebooks);
     });
   }
 
@@ -157,7 +159,7 @@ class _CoursePageState extends State<CoursePage> {
             Container(
               margin: const EdgeInsets.only(bottom: 6, top: 10),
               child: const Text(
-                "Courses",
+                "E-books",
                 style: TextStyle(
                     fontSize: 20,
                     color: Colors.black,
@@ -265,11 +267,10 @@ class _CoursePageState extends State<CoursePage> {
                 width: 2000,
                 height: MediaQuery.of(context).size.height * 0.3,
                 child: FutureBuilder(
-                  future: _courses,
+                  future: _ebooks,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      final List<Course> courses =
-                          snapshot.data as List<Course>;
+                      final List<EBook> ebooks = snapshot.data as List<EBook>;
                       return Container(
                         padding: const EdgeInsets.symmetric(
                           vertical: 8,
@@ -277,10 +278,10 @@ class _CoursePageState extends State<CoursePage> {
                         ),
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: courses.length,
+                          itemCount: ebooks.length,
                           shrinkWrap: true,
                           itemBuilder: (context, index) =>
-                              CourseCard(course: courses[index]),
+                              EBookCard(course: ebooks[index]),
                         ),
                       );
                     } else {
