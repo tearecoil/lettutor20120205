@@ -62,6 +62,8 @@ class _SchedulePageState extends State<SchedulePage> {
         perPage: 10,
         onSuccess: (bookings) {
           setState(() {
+            totalhours = 0;
+            totalminutes = 0;
             _bookings = bookings;
             // print(_bookings);
             getCourseInfo(_bookings!);
