@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:lettutor20120205/models/user/User.dart';
+import 'package:lettutor20120205/models/user/tokens.dart';
 import 'package:lettutor20120205/service-api/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -123,6 +124,38 @@ class AuthService {
           "https://sandbox.api.lettutor.com/avatar/cb9e7deb-3382-48db-b07c-90acf52f541cavatar1686550060378.jpg";
       //print(UserLogged.name);
       //print(data);
+      await onSuccess();
+    } on DioException catch (e) {
+      onError(e.response?.data['message']);
+    }
+  }
+
+  static loginByFacebook({
+    required String accessToken,
+    required Function() onSuccess,
+    required Function(String) onError,
+  }) async {
+    try {
+      final response = await DioService().post(
+        '/auth/facebook',
+        data: {
+          'access_token': accessToken,
+        },
+      );
+
+      final data = response.data;
+      if (response.statusCode != 200) {
+        throw Exception(data['message']);
+      }
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('access_token', data['tokens']['access']['token']);
+
+      final user = User.fromJson(data['user']);
+      UserLogged = user;
+      UserLogged.avatar =
+          "https://sandbox.api.lettutor.com/avatar/cb9e7deb-3382-48db-b07c-90acf52f541cavatar1686550060378.jpg";
+
       await onSuccess();
     } on DioException catch (e) {
       onError(e.response?.data['message']);

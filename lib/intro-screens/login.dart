@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:lettutor20120205/components/my_button.dart';
 import 'package:lettutor20120205/components/my_textfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -350,6 +351,62 @@ class _MainLoginState extends State<MainLogin> {
     }
   }
 
+  void FacebookLogin() async {
+    SharedPreferences sharedpref = await SharedPreferences.getInstance();
+    sharedpref.clear();
+    final result = await FacebookAuth.instance.login(
+      permissions: ['email', 'public_profile'],
+    );
+
+    if (result.status == LoginStatus.success) {
+      final String accessToken = result.accessToken!.token;
+      await AuthService.loginByFacebook(
+        accessToken: accessToken,
+        onSuccess: () async {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Container(
+                padding: EdgeInsets.all(16),
+                height: 90,
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Log in successfully",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      "Welcome to LetTutor",
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.white,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+            ),
+          );
+          sharedpref.setString('accountType', "/studentprofile");
+          Navigator.popAndPushNamed(context, "/home");
+        },
+        onError: (message) {},
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -467,10 +524,18 @@ class _MainLoginState extends State<MainLogin> {
                 children: [
                   //SizedBox(width: 25),
                   IconButton(
-                      onPressed: () {
-                        GoogleLogin();
-                      },
-                      icon: Image.asset('assets/images/ic-google.png'))
+                    onPressed: () {
+                      GoogleLogin();
+                    },
+                    icon: Image.asset('assets/images/ic-google.png'),
+                  ),
+                  SizedBox(width: 25),
+                  IconButton(
+                    onPressed: () {
+                      FacebookLogin();
+                    },
+                    icon: Image.asset('assets/images/ic-facebook.png'),
+                  )
                 ],
               ),
 
