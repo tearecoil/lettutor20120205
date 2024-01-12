@@ -536,6 +536,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.18.1"
+  jitsi_meet_flutter_sdk:
+    dependency: "direct main"
+    description:
+      name: jitsi_meet_flutter_sdk
+      sha256: "78455757568bd12341d403014945d225b5cfd23eb4bfd057632ed2f916662c15"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.9"
   js:
     dependency: transitive
     description:
@@ -544,6 +552,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.7"
+  jwt_decoder:
+    dependency: "direct main"
+    description:
+      name: jwt_decoder
+      sha256: "54774aebf83f2923b99e6416b4ea915d47af3bde56884eb622de85feabbc559f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   leak_tracker:
     dependency: transitive
     description:
@@ -737,7 +753,7 @@ packages:
     source: hosted
     version: "2.1.7"
   provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: provider
       sha256: "9a96a0a19b594dbc5bf0f1f27d2bc67d5f95957359b461cd9feb44ed6ae75096"

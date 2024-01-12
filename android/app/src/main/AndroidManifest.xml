@@ -25,6 +25,7 @@
     </queries>
 
     <application
+        tools:replace="android:label"
         android:label="lettutor20120205"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">

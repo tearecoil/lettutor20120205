@@ -72,7 +72,7 @@ class _MainLoginState extends State<MainLogin> {
             sharedpref.setString('email', savedUsername);
             sharedpref.setString('password', savedPassword);
             sharedpref.setString('accountType', "/studentprofile");
-
+            sharedpref.setString('mode', 'light');
             Navigator.popAndPushNamed(context, "/home");
           },
           onError: () {});

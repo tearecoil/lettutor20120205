@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:lettutor20120205/components/rating_bar.dart';
 import 'package:lettutor20120205/components/tag.dart';
 import 'package:lettutor20120205/components/tutor.dart';
+import 'package:lettutor20120205/homescreens-widgets/homescreen_header.dart';
 import 'package:lettutor20120205/models/course-topic/speciality.dart';
 import 'package:lettutor20120205/models/course-topic/speciality.dart';
 import 'package:lettutor20120205/models/course-topic/speciality.dart';
@@ -115,42 +116,44 @@ class _TutorHomePageState extends State<TutorHomePage> {
         ? const Center(child: CircularProgressIndicator())
         : Column(
             children: [
-              Container(
-                height: 200,
-                width: MediaQuery.of(context).size.width,
-                color: Colors.blue,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Upcoming lesson",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.white),
-                    ),
-                    Text(convertedDateTime,
-                        style: TextStyle(color: Colors.white)),
-                    Container(
-                      margin: EdgeInsets.only(top: 10),
-                      child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, "/video");
-                          },
-                          child: Container(
-                            padding: EdgeInsets.only(top: 10, bottom: 10),
-                            child: Text(
-                              "Enter lesson room",
-                              style: TextStyle(color: Colors.blue),
-                            ),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(150))))),
-                    ),
-                  ],
-                ),
-              ),
+              // Container(
+              //   height: 200,
+              //   width: MediaQuery.of(context).size.width,
+              //   color: Colors.blue,
+              //   child: Column(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       Text(
+              //         "LetTutor Video Lesson",
+              //         style: TextStyle(
+              //             fontWeight: FontWeight.bold, color: Colors.white),
+              //       ),
+              //       Text(
+              //           "Press below button to join call, course information would be shown",
+              //           style: TextStyle(color: Colors.white)),
+              //       Container(
+              //         margin: EdgeInsets.only(top: 10),
+              //         child: ElevatedButton(
+              //             onPressed: () {
+              //               Navigator.pushNamed(context, "/video");
+              //             },
+              //             child: Container(
+              //               padding: EdgeInsets.only(top: 10, bottom: 10),
+              //               child: Text(
+              //                 "Enter lesson room",
+              //                 style: TextStyle(color: Colors.blue),
+              //               ),
+              //             ),
+              //             style: ElevatedButton.styleFrom(
+              //                 primary: Colors.white,
+              //                 shape: RoundedRectangleBorder(
+              //                     borderRadius:
+              //                         BorderRadius.all(Radius.circular(150))))),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              HomeHeader(),
               Container(
                 margin: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
                 child: Row(

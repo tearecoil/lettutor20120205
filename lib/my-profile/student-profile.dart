@@ -8,9 +8,11 @@ import 'package:lettutor20120205/components/my_profile_box.dart';
 import 'package:lettutor20120205/components/profile_box.dart';
 import 'package:lettutor20120205/components/rating_bar.dart';
 import 'package:lettutor20120205/components/tutor.dart';
+import 'package:lettutor20120205/providers/theme/theme_provider.dart';
 import 'package:lettutor20120205/service-api/user-services.dart';
 import 'package:lettutor20120205/tutor_pages/reviews.dart';
 import 'package:lettutor20120205/utils/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lettutor20120205/models/user/User.dart';
 
@@ -227,230 +229,263 @@ class _MyStudentProfileState extends State<MyStudentProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        //backgroundColor: Colors.blue,
         body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              AppBar(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                leading: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back_ios,
-                    color: Colors.black,
-                  ),
-                ),
-                actions: [
-                  Padding(
-                    padding: EdgeInsets.only(right: 10),
-                    child: PopupMenuButton(
-                      itemBuilder: (context) => [
-                        PopupMenuItem(
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(right: 10),
-                                child: Text("Log Out"),
-                              )
-                            ],
-                          ),
-                          onTap: () {
-                            pressLogOut();
-                            // Navigator.popAndPushNamed(context, "/login");
-                          },
-                        ),
-                        PopupMenuItem(
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(right: 10),
-                                child: Text("Become a Tutor"),
-                              )
-                            ],
-                          ),
-                          onTap: () {
-                            Navigator.pushNamed(context, "/becometutor");
-                          },
-                        )
-                      ],
-                    ),
-                  ),
-                ],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                //color: Colors.black,
               ),
-              const SizedBox(height: 50),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Container(
-                  //   height: 100,
-                  //   width: 100,
-                  //   //margin: EdgeInsets.only(right: 16),
-                  //   child: GestureDetector(
-                  //     onTap: () => print("Change profile avatar"),
-                  //     child: Row(
-                  //       children: [
-                  //         // Icon(Icons.camera),
-                  //         CircleAvatar(
-                  //           radius: 45,
-                  //           backgroundImage: NetworkImage(avatar_link ??
-                  //               "https://sandbox.api.lettutor.com/avatar/cb9e7deb-3382-48db-b07c-90acf52f541cavatar1686550060378.jpg"),
-                  //           onBackgroundImageError: (exception, stackTrace) =>
-                  //               const Icon(Icons.person_outline_rounded,
-                  //                   size: 62),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //     // child: Image.network(ava_link),
-                  //   ),
-                  //   // child: Image.network(avatar_link ?? ""),
-                  //   // decoration: BoxDecoration(
-                  //   //   image: DecorationImage(
-                  //   //     image: AssetImage(avatar ?? ""),
-                  //   //     fit: BoxFit.cover,
-                  //   //   ),
-                  //   //   borderRadius: BorderRadius.circular(100),
-                  //   // ),
-                  // ),
-                ],
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    ValueListenableBuilder<String?>(
-                      valueListenable: _imageData ?? ValueNotifier(''),
-                      builder: (context, value, child) => Container(
-                        width: 140,
-                        height: 140,
-                        clipBehavior: Clip.hardEdge,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                        ),
-                        child: Image.network(
-                          value ?? '',
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) =>
-                              const Icon(
-                            Icons.person_rounded,
-                            size: 62,
-                          ),
-                        ),
+            ),
+            actions: [
+              Padding(
+                padding: EdgeInsets.only(right: 10),
+                child: PopupMenuButton(
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(right: 10),
+                            child: Text("Log Out"),
+                          )
+                        ],
                       ),
+                      onTap: () {
+                        pressLogOut();
+                        // Navigator.popAndPushNamed(context, "/login");
+                      },
                     ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      width: 32,
-                      child: InkWell(
-                        onTap: _onAvatarSubmited,
-                        child: CircleAvatar(
-                          backgroundColor: Theme.of(context).primaryColor,
-                          child: const Icon(
-                            Icons.edit_rounded,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                        ),
+                    PopupMenuItem(
+                      child: Row(
+                        children: [
+                          Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: Text("Dark mode")
+                              //     child: Text(
+                              // checkMode() ? "Favorite" : "Unfavorite"),,
+                              )
+                        ],
                       ),
+                      onTap: () {
+                        Provider.of<ThemeProvider>(context, listen: false)
+                            .toggleTheme(true);
+                        // Navigator.popAndPushNamed(context, "/login");
+                      },
                     ),
+                    PopupMenuItem(
+                      child: Row(
+                        children: [
+                          Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: Text("Light mode")
+                              //     child: Text(
+                              // checkMode() ? "Favorite" : "Unfavorite"),,
+                              )
+                        ],
+                      ),
+                      onTap: () {
+                        Provider.of<ThemeProvider>(context, listen: false)
+                            .toggleTheme(false);
+                        // Navigator.popAndPushNamed(context, "/login");
+                      },
+                    ),
+                    PopupMenuItem(
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(right: 10),
+                            child: Text("Become a Tutor"),
+                          )
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, "/becometutor");
+                      },
+                    )
                   ],
                 ),
               ),
-              Text(
-                name ?? "",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-              Text(
-                email ?? "",
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.grey, fontSize: 10),
-              ),
-              Text(
-                role ?? "",
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.grey, fontSize: 10),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                      child: Text(
-                        country ?? "COUNTRY NOT DEFINED, CLICK TO EDIT",
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10,
-                          decoration: TextDecoration.underline,
-                          decorationThickness: 0.2,
-                        ),
-                      ),
-                      onTap: () => setField('country')),
-                ],
-              ),
-              // Text(
-              //   country ?? "",
-              //   textAlign: TextAlign.center,
-              // ),
-              const SizedBox(height: 50),
-              MyProfileBox(
-                  text: name ?? "Default Name",
-                  sectionName: "My Name",
-                  onpress: () => setField('name')),
-              SizedBox(height: 5),
-              MyProfileBox(
-                  text: bio ?? "Null",
-                  sectionName: "About me",
-                  onpress: () => setField('aboutMe')),
-              SizedBox(height: 5),
-              MyProfileBox(
-                  text: birthday ?? "Null",
-                  sectionName: "Birthday",
-                  onpress: () => setField('birthday')),
-              SizedBox(height: 5),
-              MyProfileBox(
-                  text: language ?? "Null",
-                  sectionName: "Language",
-                  onpress: () => setField('language')),
-              SizedBox(height: 5),
-              MyProfileBox(
-                  text: level ?? "BEGINNER",
-                  sectionName: "Level",
-                  onpress: () => setLevel('level')),
-              SizedBox(height: 25),
-              // MyButton(
-              //   text: "Become a Tutor",
-              //   onTap: () {
-              //     setTutor();
-              //   },
-              // ),
-              // Column(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: [
-              //     Container(
-              //       margin: const EdgeInsets.only(bottom: 6, top: 10),
-              //       child: const Text(
-              //         "Courses",
-              //         style: TextStyle(fontSize: 17, color: Colors.blue),
-              //       ),
+            ],
+          ),
+          const SizedBox(height: 50),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Container(
+              //   height: 100,
+              //   width: 100,
+              //   //margin: EdgeInsets.only(right: 16),
+              //   child: GestureDetector(
+              //     onTap: () => print("Change profile avatar"),
+              //     child: Row(
+              //       children: [
+              //         // Icon(Icons.camera),
+              //         CircleAvatar(
+              //           radius: 45,
+              //           backgroundImage: NetworkImage(avatar_link ??
+              //               "https://sandbox.api.lettutor.com/avatar/cb9e7deb-3382-48db-b07c-90acf52f541cavatar1686550060378.jpg"),
+              //           onBackgroundImageError: (exception, stackTrace) =>
+              //               const Icon(Icons.person_outline_rounded,
+              //                   size: 62),
+              //         ),
+              //       ],
               //     ),
-              //     SizedBox(
-              //       height: 220,
-              //       child: ListView.builder(
-              //           scrollDirection: Axis.horizontal,
-              //           itemCount: CourseList().Course_List.length,
-              //           itemBuilder: (context, index) =>
-              //               CourseList().Course_List[index]),
-              //     ),
-              //   ],
+              //     // child: Image.network(ava_link),
+              //   ),
+              //   // child: Image.network(avatar_link ?? ""),
+              //   // decoration: BoxDecoration(
+              //   //   image: DecorationImage(
+              //   //     image: AssetImage(avatar ?? ""),
+              //   //     fit: BoxFit.cover,
+              //   //   ),
+              //   //   borderRadius: BorderRadius.circular(100),
+              //   // ),
               // ),
             ],
           ),
-        ));
+          Align(
+            alignment: Alignment.center,
+            child: Stack(
+              alignment: Alignment.center,
+              children: <Widget>[
+                ValueListenableBuilder<String?>(
+                  valueListenable: _imageData ?? ValueNotifier(''),
+                  builder: (context, value, child) => Container(
+                    width: 140,
+                    height: 140,
+                    clipBehavior: Clip.hardEdge,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: Image.network(
+                      value ?? '',
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => const Icon(
+                        Icons.person_rounded,
+                        size: 62,
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  width: 32,
+                  child: InkWell(
+                    onTap: _onAvatarSubmited,
+                    child: CircleAvatar(
+                      backgroundColor: Theme.of(context).primaryColor,
+                      child: const Icon(
+                        Icons.edit_rounded,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Text(
+            name ?? "",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
+          Text(
+            email ?? "",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.grey, fontSize: 10),
+          ),
+          Text(
+            role ?? "",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.grey, fontSize: 10),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                  child: Text(
+                    country ?? "COUNTRY NOT DEFINED, CLICK TO EDIT",
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 10,
+                      decoration: TextDecoration.underline,
+                      decorationThickness: 0.2,
+                    ),
+                  ),
+                  onTap: () => setField('country')),
+            ],
+          ),
+          // Text(
+          //   country ?? "",
+          //   textAlign: TextAlign.center,
+          // ),
+          const SizedBox(height: 50),
+          MyProfileBox(
+              text: name ?? "Default Name",
+              sectionName: "My Name",
+              onpress: () => setField('name')),
+          SizedBox(height: 5),
+          MyProfileBox(
+              text: bio ?? "Null",
+              sectionName: "About me",
+              onpress: () => setField('aboutMe')),
+          SizedBox(height: 5),
+          MyProfileBox(
+              text: birthday ?? "Null",
+              sectionName: "Birthday",
+              onpress: () => setField('birthday')),
+          SizedBox(height: 5),
+          MyProfileBox(
+              text: language ?? "Null",
+              sectionName: "Language",
+              onpress: () => setField('language')),
+          SizedBox(height: 5),
+          MyProfileBox(
+              text: level ?? "BEGINNER",
+              sectionName: "Level",
+              onpress: () => setLevel('level')),
+          SizedBox(height: 25),
+          // MyButton(
+          //   text: "Become a Tutor",
+          //   onTap: () {
+          //     setTutor();
+          //   },
+          // ),
+          // Column(
+          //   crossAxisAlignment: CrossAxisAlignment.start,
+          //   children: [
+          //     Container(
+          //       margin: const EdgeInsets.only(bottom: 6, top: 10),
+          //       child: const Text(
+          //         "Courses",
+          //         style: TextStyle(fontSize: 17, color: Colors.blue),
+          //       ),
+          //     ),
+          //     SizedBox(
+          //       height: 220,
+          //       child: ListView.builder(
+          //           scrollDirection: Axis.horizontal,
+          //           itemCount: CourseList().Course_List.length,
+          //           itemBuilder: (context, index) =>
+          //               CourseList().Course_List[index]),
+          //     ),
+          //   ],
+          // ),
+        ],
+      ),
+    ));
   }
 }

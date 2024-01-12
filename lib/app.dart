@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:lettutor20120205/detail-courses-widgets/courses_info.dart';
 import 'package:lettutor20120205/my-profile/become_tutor.dart';
 import 'package:lettutor20120205/my-profile/student-profile.dart';
+import 'package:lettutor20120205/providers/theme/theme_provider.dart';
 import 'package:lettutor20120205/tutor_pages/reviews.dart';
 // import 'package:lettutor20120205/tutor_pages/view_tutor_profile.dart';
 import 'package:lettutor20120205/intro-screens/forgot_password.dart';
@@ -10,6 +11,7 @@ import 'package:lettutor20120205/intro-screens/login.dart';
 import 'package:lettutor20120205/intro-screens/menu.dart';
 import 'package:lettutor20120205/intro-screens/signup.dart';
 import 'package:lettutor20120205/video-call/video_call.dart';
+import 'package:provider/provider.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -18,6 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
+        theme: Provider.of<ThemeProvider>(context).getThemeMode(),
         onGenerateRoute: (settings) {
           switch (settings.name) {
             case "/login":
@@ -51,8 +54,6 @@ class MyApp extends StatelessWidget {
           }
         },
         title: 'Flutter Demo',
-        theme: ThemeData(
-            primarySwatch: Colors.blue, primaryColor: const Color(0xff007CFF)),
         home: MainLogin());
   }
 }
