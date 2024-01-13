@@ -13,6 +13,7 @@ import 'package:lettutor20120205/models/tutor/tutor_api.dart';
 import 'package:lettutor20120205/models/tutor/tutor_info.dart';
 import 'package:lettutor20120205/service-api/booking-services.dart';
 import 'package:lettutor20120205/service-api/tutor-services.dart';
+import 'package:lettutor20120205/tutor_pages/chat_page.dart';
 import 'package:lettutor20120205/tutor_pages/reviews.dart';
 import 'package:lettutor20120205/utils/time_convert.dart';
 import 'package:video_player/video_player.dart';
@@ -374,6 +375,34 @@ class _ViewProfileState extends State<ViewProfile> {
                           },
                           icon: Icon(Icons.star),
                           label: const Text('Reviews')),
+                      TextButton.icon(
+                          onPressed: () {
+                            Navigator.push<void>(
+                              context,
+                              MaterialPageRoute<void>(
+                                builder: (BuildContext context) =>
+                                    ChatPage(name: name),
+                              ),
+                            );
+                          },
+                          icon: Icon(Icons.message),
+                          label: const Text('Messages')),
+                      // TextButton.icon(
+                      //     onPressed: () {
+                      //       Navigator.push<void>(
+                      //         context,
+                      //         MaterialPageRoute<void>(
+                      //           builder: (BuildContext (context) => ChatPage())
+                      //         ),
+                      //         // MaterialPageRoute<void>(
+                      //         //   builder: (BuildContext context) => Reviews(
+                      //         //     userID: tutor?.user?.id ?? "",
+                      //         //   ),
+                      //         // ),
+                      //       );
+                      //     },
+                      //     icon: Icon(Icons.message),
+                      //     label: Text("Message")),
                     ],
                   ),
                   const SizedBox(height: 50),
