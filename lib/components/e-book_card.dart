@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor20120205/components/chapter_card.dart';
-import 'package:lettutor20120205/detail-courses-widgets/courses_info.dart';
+import 'package:lettutor20120205/widgets/detail-courses-widgets/courses_info.dart';
 import 'package:lettutor20120205/models/course/course.dart';
 import 'package:lettutor20120205/models/e-book/e-book.dart';
 import 'package:url_launcher/url_launcher.dart';

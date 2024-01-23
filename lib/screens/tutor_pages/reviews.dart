@@ -5,7 +5,7 @@ import 'package:lettutor20120205/components/rating_bar.dart';
 import 'package:lettutor20120205/components/reviewUI.dart';
 import 'package:lettutor20120205/components/review_list.dart';
 import 'package:lettutor20120205/components/tutor.dart';
-import 'package:lettutor20120205/mechanic/diff_time.dart';
+import 'package:lettutor20120205/utils/mechanic/diff_time.dart';
 import 'package:lettutor20120205/models/tutor/tutor_info.dart';
 import 'package:lettutor20120205/models/tutor/tutor_review.dart';
 import 'package:lettutor20120205/service-api/tutor-services.dart';

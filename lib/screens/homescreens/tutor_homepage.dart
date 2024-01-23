@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:lettutor20120205/components/rating_bar.dart';
 import 'package:lettutor20120205/components/tag.dart';
 import 'package:lettutor20120205/components/tutor.dart';
-import 'package:lettutor20120205/homescreens-widgets/call_header.dart';
+import 'package:lettutor20120205/widgets/homescreens-widgets/call_header.dart';
 import 'package:lettutor20120205/models/course-topic/speciality.dart';
 import 'package:lettutor20120205/models/course-topic/speciality.dart';
 import 'package:lettutor20120205/models/course-topic/speciality.dart';
@@ -12,8 +12,8 @@ import 'package:lettutor20120205/models/data/data_service.dart';
 import 'package:lettutor20120205/models/tutor/tutor_api.dart';
 import 'package:lettutor20120205/models/tutor/tutor_info.dart';
 import 'package:lettutor20120205/service-api/tutor-services.dart';
-import 'package:lettutor20120205/tutor_pages/view_tutor_profile.dart';
-import '../components/tutor_list.dart';
+import 'package:lettutor20120205/screens/tutor_pages/view_tutor_profile.dart';
+import '../../components/tutor_list.dart';
 
 class TutorHomePage extends StatefulWidget {
   const TutorHomePage({super.key});

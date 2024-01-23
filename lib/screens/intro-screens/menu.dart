@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:lettutor20120205/components/course_list.dart';
 import 'package:lettutor20120205/components/tutor.dart';
-import 'package:lettutor20120205/homescreens-widgets/e-book_page.dart';
+import 'package:lettutor20120205/screens/homescreens/e-book_page.dart';
 import 'package:lettutor20120205/models/tutor/tutor_api.dart';
 import 'package:lettutor20120205/models/user/User.dart';
 import 'package:lettutor20120205/service-api/tutor-services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:lettutor20120205/homescreens-widgets/course_page.dart';
-import 'package:lettutor20120205/homescreens-widgets/my_courses_page.dart';
-import 'package:lettutor20120205/homescreens-widgets/schedule_page.dart';
-import 'package:lettutor20120205/homescreens-widgets/tutor_homepage.dart';
-import 'package:lettutor20120205/homescreens-widgets/history_page.dart';
+import 'package:lettutor20120205/screens/homescreens/course_page.dart';
+import 'package:lettutor20120205/screens/homescreens/my_courses_page.dart';
+import 'package:lettutor20120205/screens/homescreens/schedule_page.dart';
+import 'package:lettutor20120205/screens/homescreens/tutor_homepage.dart';
+import 'package:lettutor20120205/screens/homescreens/history_page.dart';
 
 class MainMenu extends StatefulWidget {
   const MainMenu({Key? key}) : super(key: key);

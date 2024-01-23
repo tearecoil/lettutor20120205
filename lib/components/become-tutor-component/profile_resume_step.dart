@@ -6,8 +6,8 @@ import 'package:lettutor20120205/components/headline_text.dart';
 import 'package:lettutor20120205/components/helper_text.dart';
 import 'package:lettutor20120205/components/input_decoration.dart';
 import 'package:lettutor20120205/components/text_input.dart';
-import 'package:lettutor20120205/my-profile/become-tutor-component/certificate_dialog.dart';
-import 'package:lettutor20120205/my-profile/become-tutor-component/specialties.dart';
+import 'package:lettutor20120205/components/become-tutor-component/certificate_dialog.dart';
+import 'package:lettutor20120205/components/become-tutor-component/specialties.dart';
 
 class ProfileResumeStep extends StatefulWidget {
   const ProfileResumeStep({

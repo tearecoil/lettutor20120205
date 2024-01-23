@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor20120205/components/horizontal_stepper.dart';
-import 'package:lettutor20120205/my-profile/become-tutor-component/approval_step.dart';
-import 'package:lettutor20120205/my-profile/become-tutor-component/profile_resume_step.dart';
-import 'package:lettutor20120205/my-profile/become-tutor-component/video_instruction.dart';
+import 'package:lettutor20120205/components/become-tutor-component/approval_step.dart';
+import 'package:lettutor20120205/components/become-tutor-component/profile_resume_step.dart';
+import 'package:lettutor20120205/components/become-tutor-component/video_instruction.dart';
 
 class BecomeTutorScreen extends StatefulWidget {
   const BecomeTutorScreen({super.key});

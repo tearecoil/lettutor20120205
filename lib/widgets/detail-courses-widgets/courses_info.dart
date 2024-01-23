@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:lettutor20120205/components/chapter_card.dart';
 import 'package:lettutor20120205/components/course_card.dart';
 import 'package:lettutor20120205/components/headline_text.dart';
-import 'package:lettutor20120205/detail-courses-widgets/chapter_page.dart';
+import 'package:lettutor20120205/widgets/detail-courses-widgets/chapter_page.dart';
 import 'package:lettutor20120205/models/course/course.dart';
-import 'package:lettutor20120205/tutor_pages/view_tutor_profile.dart';
+import 'package:lettutor20120205/screens/tutor_pages/view_tutor_profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 

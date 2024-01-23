@@ -10,7 +10,7 @@ import 'package:lettutor20120205/components/rating_bar.dart';
 import 'package:lettutor20120205/components/tutor.dart';
 import 'package:lettutor20120205/providers/theme/theme_provider.dart';
 import 'package:lettutor20120205/service-api/user-services.dart';
-import 'package:lettutor20120205/tutor_pages/reviews.dart';
+import 'package:lettutor20120205/screens/tutor_pages/reviews.dart';
 import 'package:lettutor20120205/utils/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
