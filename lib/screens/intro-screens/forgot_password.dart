@@ -303,84 +303,83 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/login_bg.png',
-                width: 250,
-                height: 250,
-                fit: BoxFit.cover,
-              ),
-              const SizedBox(height: 20),
-              const Text('Say hello to your English tutors',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 36,
-                      color: Colors.blue)),
-              const Text(
-                  'Become fluent faster through one on one video chat lessons tailored to your goals.',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: Colors.black)),
-              const SizedBox(height: 20),
-              MyTextField(
-                controller: usernameController,
-                hintText: 'Insert your username',
-                obscureText: false,
-              ),
-              // const SizedBox(height: 10),
-              // MyTextField(
-              //   controller: passwordController,
-              //   hintText: 'Insert New Password',
-              //   obscureText: true,
-              // ),
-              // const SizedBox(
-              //   height: 10,
-              // ),
-              // MyTextField(
-              //   controller: confirmpassController,
-              //   hintText: 'Confirm your password',
-              //   obscureText: true,
-              // ),
-              const SizedBox(height: 25),
-              MyButton(
-                text: "RESET PASSWORD",
-                onTap: () {
-                  checkReset();
-                },
-              ),
-              const SizedBox(height: 50),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Suddenly remeber your password? ',
-                    style: TextStyle(color: Colors.grey[700]),
-                  ),
-                  const SizedBox(width: 4),
-                  GestureDetector(
-                      child: Text(
-                        "Back to Login",
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/login_bg.png',
+                  width: 250,
+                  height: 250,
+                  fit: BoxFit.cover,
+                ),
+                const SizedBox(height: 20),
+                const Text('Say hello to your English tutors',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 36,
+                        color: Colors.blue)),
+                const Text(
+                    'Become fluent faster through one on one video chat lessons tailored to your goals.',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Colors.black)),
+                const SizedBox(height: 20),
+                MyTextField(
+                  controller: usernameController,
+                  hintText: 'Insert your username',
+                  obscureText: false,
+                ),
+                // const SizedBox(height: 10),
+                // MyTextField(
+                //   controller: passwordController,
+                //   hintText: 'Insert New Password',
+                //   obscureText: true,
+                // ),
+                // const SizedBox(
+                //   height: 10,
+                // ),
+                // MyTextField(
+                //   controller: confirmpassController,
+                //   hintText: 'Confirm your password',
+                //   obscureText: true,
+                // ),
+                const SizedBox(height: 25),
+                MyButton(
+                  text: "RESET PASSWORD",
+                  onTap: () {
+                    checkReset();
+                  },
+                ),
+                const SizedBox(height: 50),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Suddenly remeber your password? ',
+                      style: TextStyle(color: Colors.grey[700]),
+                    ),
+                    const SizedBox(width: 4),
+                    GestureDetector(
+                        child: Text(
+                          "Back to Login",
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      onTap: () {
-                        Navigator.popAndPushNamed(context, "/Login");
-                      }),
-                ],
-              )
-            ],
+                        onTap: () {
+                          Navigator.popAndPushNamed(context, "/Login");
+                        }),
+                  ],
+                )
+              ],
+            ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

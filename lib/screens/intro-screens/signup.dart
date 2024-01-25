@@ -359,88 +359,87 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/login_bg.png',
-                width: 250,
-                height: 250,
-                fit: BoxFit.cover,
-              ),
-              const SizedBox(height: 20),
-              const Text('Say hello to your English tutors',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 36,
-                      color: Colors.blue)),
-              const Text(
-                  'Become fluent faster through one on one video chat lessons tailored to your goals.',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: Colors.black)),
-              const SizedBox(height: 20),
-              MyTextField(
-                controller: usernameController,
-                hintText: 'Username - eg: abc@gmail.com',
-                obscureText: false,
-              ),
-              const SizedBox(height: 10),
-              MyTextField(
-                controller: passwordController,
-                hintText: 'Password',
-                obscureText: true,
-              ),
-              const SizedBox(height: 10),
-              MyTextField(
-                controller: confirmpassController,
-                hintText: 'Confirm your password',
-                obscureText: true,
-              ),
-              const SizedBox(height: 25),
-              MyButton(
-                text: "SIGN UP",
-                onTap: () {
-                  signupCheck();
-                },
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Already got an account? ',
-                    style: TextStyle(color: Colors.grey[700]),
-                  ),
-                  const SizedBox(width: 4),
-                  GestureDetector(
-                      child: Text(
-                        "Back to Login",
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/login_bg.png',
+                  width: 250,
+                  height: 250,
+                  fit: BoxFit.cover,
+                ),
+                const SizedBox(height: 20),
+                const Text('Say hello to your English tutors',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 36,
+                        color: Colors.blue)),
+                const Text(
+                    'Become fluent faster through one on one video chat lessons tailored to your goals.',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Colors.black)),
+                const SizedBox(height: 20),
+                MyTextField(
+                  controller: usernameController,
+                  hintText: 'Username - eg: abc@gmail.com',
+                  obscureText: false,
+                ),
+                const SizedBox(height: 10),
+                MyTextField(
+                  controller: passwordController,
+                  hintText: 'Password',
+                  obscureText: true,
+                ),
+                const SizedBox(height: 10),
+                MyTextField(
+                  controller: confirmpassController,
+                  hintText: 'Confirm your password',
+                  obscureText: true,
+                ),
+                const SizedBox(height: 25),
+                MyButton(
+                  text: "SIGN UP",
+                  onTap: () {
+                    signupCheck();
+                  },
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Already got an account? ',
+                      style: TextStyle(color: Colors.grey[700]),
+                    ),
+                    const SizedBox(width: 4),
+                    GestureDetector(
+                        child: Text(
+                          "Back to Login",
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      onTap: () {
-                        Navigator.popAndPushNamed(context, "/login");
-                      }),
-                  // const Text(
-                  //   'Sign up',
-                  //   style: TextStyle(
-                  //     color: Colors.blue,
-                  //     fontWeight: FontWeight.bold,
-                  //   ),
-                  // ),
-                ],
-              )
-            ],
+                        onTap: () {
+                          Navigator.popAndPushNamed(context, "/login");
+                        }),
+                    // const Text(
+                    //   'Sign up',
+                    //   style: TextStyle(
+                    //     color: Colors.blue,
+                    //     fontWeight: FontWeight.bold,
+                    //   ),
+                    // ),
+                  ],
+                )
+              ],
+            ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }
