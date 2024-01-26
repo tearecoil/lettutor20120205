@@ -1,0 +1,26 @@
+push:
+    branches:
+      - 'milestone-4-online-app'
+      - 'main'
+
+jobs:
+  build_and_push:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure Git
+        run: |
+          git config user.name "tearecoil"
+          git config user.email "ldthuc0605@gmail.com"
+
+      - name: Create and checkout master branch
+        run: |
+          git checkout -b main
+
+      - name: Push changes
+        run: |
+          git push origin main milestone-4-online-app --force
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
