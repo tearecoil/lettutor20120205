@@ -15,7 +15,7 @@ jobs:
           git config user.name "tearecoil"
           git config user.email "ldthuc0605@gmail.com"
 
-      - name: Create and checkout master branch
+      - name: Create and checkout main branch
         run: |
           git checkout -b main
 
